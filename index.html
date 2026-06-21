@@ -12,6 +12,9 @@
 <meta property="og:type" content="website" />
 <meta name="theme-color" content="#ccff1a" />
 
+<!-- Inline SVG favicon (no external file) -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%230c0c0e'/%3E%3Ctext%20x='32'%20y='45'%20text-anchor='middle'%20font-family='Arial,sans-serif'%20font-weight='800'%20font-size='40'%20fill='%23ccff1a'%3EK%3C/text%3E%3C/svg%3E" />
+
 <!-- Fonts: Syne (display), Space Grotesk (body/UI), Space Mono (data/labels) -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -110,8 +113,8 @@
   .brand .dot{color:var(--pink);}
   .nav-links{display:flex;align-items:center;gap:1.5rem;}
   .nav-links a{font-weight:700;font-size:.92rem;position:relative;}
-  .nav-links a::after{content:"";position:absolute;left:0;bottom:-5px;height:3px;width:0;background:var(--blue);transition:width .25s var(--ease);}
-  .nav-links a:hover::after{width:100%;}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-5px;height:3px;width:100%;background:var(--blue);transform:scaleX(0);transform-origin:0 50%;transition:transform .25s var(--ease);}
+  .nav-links a:hover::after{transform:scaleX(1);}
   .nav-cta{display:flex;align-items:center;gap:.7rem;}
   .nav-toggle{display:none;background:none;border:2.5px solid var(--ink);border-radius:9px;padding:.45rem .55rem;cursor:pointer;}
   .nav-toggle span{display:block;width:20px;height:2.5px;background:var(--ink);margin:4px 0;border-radius:2px;}
@@ -120,10 +123,6 @@
   .hero{padding-top:clamp(40px,6vw,72px);padding-bottom:clamp(48px,7vw,88px);overflow:hidden;}
   .live{display:inline-flex;align-items:center;gap:.5rem;font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.16em;
     text-transform:uppercase;border:2.5px solid var(--ink);border-radius:999px;padding:.4rem .85rem;background:var(--white);}
-  .live .pulse{position:relative;width:9px;height:9px;border-radius:50%;background:var(--blue);flex:0 0 auto;}
-  .live .pulse::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--blue);
-    transform:scale(1);opacity:.55;animation:pulse 2.2s var(--ease) infinite;}
-  @keyframes pulse{0%{transform:scale(1);opacity:.55;}70%,100%{transform:scale(3.4);opacity:0;}}
   .hero h1{font-size:clamp(2.9rem,9vw,6rem);margin:1.2rem 0 0;line-height:.95;text-transform:uppercase;}
   .hero h1 .line{display:block;}
   .hero .sub{margin-top:1.6rem;font-size:clamp(1.05rem,1.6vw,1.3rem);max-width:50ch;color:rgba(0,0,0,.7);}
@@ -321,7 +320,7 @@
 <section class="sec hero">
   <div class="wrap">
     <div class="reveal">
-      <span class="live"><span class="pulse" aria-hidden="true"></span>Web3 Social · X &amp; LinkedIn</span>
+      <span class="live">Web3 Social · X &amp; LinkedIn</span>
       <h1>
         <span class="line">I turn crypto</span>
         <span class="line">brands into brands</span>
