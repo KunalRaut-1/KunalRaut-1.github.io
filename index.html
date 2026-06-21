@@ -80,6 +80,8 @@
   .sec.pink{--bg:var(--pink);--fg:var(--ink);--bd:var(--ink);--mut:rgba(0,0,0,.66);}
   .sec.lime{--bg:var(--lime);--fg:var(--ink);--bd:var(--ink);--mut:rgba(0,0,0,.66);}
   .sec.orange{--bg:var(--orange);--fg:var(--ink);--bd:var(--ink);--mut:rgba(0,0,0,.66);}
+  .embed-grid{columns:340px;column-gap:18px;}
+  .embed-grid .twitter-tweet{break-inside:avoid;margin:0 0 18px!important;}
   .sec-head{max-width:780px;margin-bottom:clamp(34px,5vw,60px);}
   .sec-head .lede{margin-top:1.1rem;color:var(--mut);font-size:clamp(1.02rem,1.4vw,1.18rem);max-width:62ch;}
   .label{font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;display:inline-block;
@@ -657,10 +659,10 @@
 </section>
 
 <!-- ============================================================ PERSONAL (@DementorHere) ============================================================
-     Personal X. Each card is built from the REAL post embed the user
-     provides, so the copy is the actual tweet text (no fabrication, no
-     external widgets.js). To add more: paste the X embed, drop another
-     .tweet card here, link href = the real status URL.
+     Personal X. Real tweets rendered natively via X's widgets.js
+     (loaded once before </body>). To add more: paste the tweet's
+     <blockquote class="twitter-tweet"> embed below; drop the per-embed
+     <script> (the global one renders them all).
      ============================================================ -->
 <section class="sec orange" id="personal">
   <div class="wrap">
@@ -669,88 +671,16 @@
       <h2>My own timeline.</h2>
       <p class="lede">Personal X, <strong>@DementorHere</strong>. Hooks and memes I write for fun and for brands, in the same voice I bring to client work.</p>
     </div>
-    <div class="quotes reveal">
-      <a class="card tweet" href="https://x.com/DementorHere/status/1872280910508486862" target="_blank" rel="noopener">
-        <div class="t-head">
-          <div class="logo-tile" aria-hidden="true">M</div>
-          <div class="t-id"><span class="t-name">Martian</span><span class="t-handle">@DementorHere</span></div>
-          <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </div>
-        <p class="t-text">If you’re tired of RPGs calling basic combat “tactical”… I found something that humbled me in 10 minutes. How to experience battles that punish every mistake:</p>
-        <div class="t-foot"><span>Dec 26, 2024</span><span class="t-plat">X</span></div>
-      </a>
-      <a class="card tweet" href="https://x.com/DementorHere/status/1893651255576100982" target="_blank" rel="noopener">
-        <div class="t-head">
-          <div class="logo-tile" aria-hidden="true">M</div>
-          <div class="t-id"><span class="t-name">Martian</span><span class="t-handle">@DementorHere</span></div>
-          <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </div>
-        <p class="t-text">Last time I made like 50 bucks off $KAITO for literally doing nothing. Didn’t even bother saying a word about it. Big L on my part. But this time? Nah, I’m locked in.</p>
-        <div class="t-foot"><span>Feb 23, 2025</span><span class="t-plat">X</span></div>
-      </a>
-      <a class="card tweet" href="https://x.com/DementorHere/status/1871846400125972777" target="_blank" rel="noopener">
-        <div class="t-head">
-          <div class="logo-tile" aria-hidden="true">M</div>
-          <div class="t-id"><span class="t-name">Martian</span><span class="t-handle">@DementorHere</span></div>
-          <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </div>
-        <p class="t-text">Easy gaming revolution. Free-to-play + no wallet needed = mass adoption.</p>
-        <div class="t-foot"><span>Dec 25, 2024</span><span class="t-plat">X</span></div>
-      </a>
-      <a class="card tweet" href="https://x.com/DementorHere/status/1870099082540130626" target="_blank" rel="noopener">
-        <div class="t-head">
-          <div class="logo-tile" aria-hidden="true">M</div>
-          <div class="t-id"><span class="t-name">Martian</span><span class="t-handle">@DementorHere</span></div>
-          <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </div>
-        <p class="t-text">$XBG holders have the power to shape @XBorgHQ’s future, but many don’t know where to start. A guide to making your vote count:</p>
-        <div class="t-foot"><span>Dec 20, 2024</span><span class="t-plat">X</span></div>
-      </a>
-      <a class="card tweet" href="https://x.com/DementorHere/status/1869332504617848946" target="_blank" rel="noopener">
-        <div class="t-head">
-          <div class="logo-tile" aria-hidden="true">M</div>
-          <div class="t-id"><span class="t-name">Martian</span><span class="t-handle">@DementorHere</span></div>
-          <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </div>
-        <p class="t-text">I don’t think the gaming world has realized the force that @XBorgHQ is becoming.</p>
-        <div class="t-foot"><span>Dec 18, 2024</span><span class="t-plat">X</span></div>
-      </a>
-      <a class="card tweet" href="https://x.com/DementorHere/status/1864606217995251798" target="_blank" rel="noopener">
-        <div class="t-head">
-          <div class="logo-tile" aria-hidden="true">M</div>
-          <div class="t-id"><span class="t-name">Martian</span><span class="t-handle">@DementorHere</span></div>
-          <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </div>
-        <p class="t-text">Every time I open Twitter there’s a new cryptocurrency, and I see them ignoring their community. But @XBorgHQ is different, they think about community first.</p>
-        <div class="t-foot"><span>Dec 5, 2024</span><span class="t-plat">X</span></div>
-      </a>
-      <a class="card tweet" href="https://x.com/DementorHere/status/1847304893251424359" target="_blank" rel="noopener">
-        <div class="t-head">
-          <div class="logo-tile" aria-hidden="true">M</div>
-          <div class="t-id"><span class="t-name">Martian</span><span class="t-handle">@DementorHere</span></div>
-          <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </div>
-        <p class="t-text">You get tested the most when it’s time to rise. Stay strong.</p>
-        <div class="t-foot"><span>Oct 18, 2024</span><span class="t-plat">X</span></div>
-      </a>
-      <a class="card tweet" href="https://x.com/DementorHere/status/1846489364236304420" target="_blank" rel="noopener">
-        <div class="t-head">
-          <div class="logo-tile" aria-hidden="true">M</div>
-          <div class="t-id"><span class="t-name">Martian</span><span class="t-handle">@DementorHere</span></div>
-          <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </div>
-        <p class="t-text">Born too late to witness the dawn of gaming. Born too early to see virtual reality become the norm. Born just in time to watch $XBG redefine the future of gaming with @XBorgHQ.</p>
-        <div class="t-foot"><span>Oct 16, 2024</span><span class="t-plat">X</span></div>
-      </a>
-      <a class="card tweet" href="https://x.com/DementorHere/status/1843660749282894325" target="_blank" rel="noopener">
-        <div class="t-head">
-          <div class="logo-tile" aria-hidden="true">M</div>
-          <div class="t-id"><span class="t-name">Martian</span><span class="t-handle">@DementorHere</span></div>
-          <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </div>
-        <p class="t-text">The $NOOB Challenge is ON. Join my 7-day journey collecting $NOOB daily in @Blastroyale’s Loot to Airdrop campaign.</p>
-        <div class="t-foot"><span>Oct 8, 2024</span><span class="t-plat">X</span></div>
-      </a>
+    <div class="embed-grid reveal">
+      <blockquote class="twitter-tweet"><p lang="en" dir="ltr">If you&#39;re tired of RPGs calling basic combat &#39;tactical&#39;...<br><br>I found something that humbled me in 10 minutes. <br><br>How to experience battles that punish every mistake: <a href="https://t.co/6WwNk79O1e">pic.twitter.com/6WwNk79O1e</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1872280910508486862?ref_src=twsrc%5Etfw">December 26, 2024</a></blockquote>
+      <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Last time I made like 50 bucks off <a href="https://x.com/search?q=%24KAITO&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$KAITO</a> for literally doing nothing. <br><br>Didn’t even bother saying a word about it. <br><br>Big L on my part.<br><br>But this time? Nah, I’m locked in. <br><br>Hub’s out here building the FIRST AI layer that hooks up brands, creators, and their communities. <br><br>And… <a href="https://t.co/8LoPCJpqZt">pic.twitter.com/8LoPCJpqZt</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1893651255576100982?ref_src=twsrc%5Etfw">February 23, 2025</a></blockquote>
+      <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Easy gaming revolution<br><br>Free-to-play + No wallet needed = Mass adoption<br><br>Thread👇 <a href="https://t.co/0Oxmu0CZ2C">pic.twitter.com/0Oxmu0CZ2C</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1871846400125972777?ref_src=twsrc%5Etfw">December 25, 2024</a></blockquote>
+      <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://x.com/search?q=%24XBG&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$XBG</a> holders have the power to shape <a href="https://x.com/XBorgHQ?ref_src=twsrc%5Etfw">@XBorgHQ</a>&#39;s future <br><br>But many don&#39;t know where to start<br><br> A guide to making your vote count: <a href="https://t.co/CIkynG1JpO">pic.twitter.com/CIkynG1JpO</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1870099082540130626?ref_src=twsrc%5Etfw">December 20, 2024</a></blockquote>
+      <blockquote class="twitter-tweet"><p lang="en" dir="ltr">I don&#39;t think the gaming world<br><br>has realized the force that <a href="https://x.com/XBorgHQ?ref_src=twsrc%5Etfw">@XBorgHQ</a> is becoming.<br><br>from Team Liquid partnership &amp; MyBlue, <br><br>to 5 new esports apps + SwissBorg listing,<br><br>from Fan SDK to NFT Paris IRL event,<br><br>from creator tools to on-chain esports teams,<br><br>from AI products to Player… <a href="https://t.co/vj43qqMGuT">pic.twitter.com/vj43qqMGuT</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1869332504617848946?ref_src=twsrc%5Etfw">December 18, 2024</a></blockquote>
+      <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Every time I open twitter there&#39;s a new cryptocurrency<br><br>And I see them ignoring their community<br><br>But <a href="https://x.com/XBorgHQ?ref_src=twsrc%5Etfw">@XBorgHQ</a> is different,<br><br>They always think about community First: <br><br>-Only 5% token increase (protecting your value)<br>-$4M liquidity locked (your funds are safe)<br>-YOU vote on… <a href="https://t.co/NPwYDlI3NK">pic.twitter.com/NPwYDlI3NK</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1864606217995251798?ref_src=twsrc%5Etfw">December 5, 2024</a></blockquote>
+      <blockquote class="twitter-tweet"><p lang="en" dir="ltr">You get tested the most when it&#39;s time to rise.<br><br>Stay strong.<br><br>In @Blastroyale&#39;s Loot to Airdrop Final Season:<br>-SILVER <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a> = 10 <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a><br>-GOLDEN <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a> = 50 <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a><br><br>No need for endless grinding—just one lucky drop can change everything.<br><br>Day 11 Update:<br>-Total <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a>: 1472<br>-Playtime:… <a href="https://t.co/oAj8fEmkTR">https://t.co/oAj8fEmkTR</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1847304893251424359?ref_src=twsrc%5Etfw">October 18, 2024</a></blockquote>
+      <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Born too late to witness the dawn of gaming.<br><br>Born too early to see virtual reality become the norm.<br><br>Born just in time to watch <a href="https://x.com/search?q=%24XBG&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$XBG</a> redefine the future of gaming with <a href="https://x.com/XBorgHQ?ref_src=twsrc%5Etfw">@XBorgHQ</a>.<a href="https://x.com/hashtag/XBorgCreator?src=hash&amp;ref_src=twsrc%5Etfw">#XBorgCreator</a> <a href="https://t.co/41WGlbl6jH">pic.twitter.com/41WGlbl6jH</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1846489364236304420?ref_src=twsrc%5Etfw">October 16, 2024</a></blockquote>
+      <blockquote class="twitter-tweet"><p lang="en" dir="ltr">The <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a> Challenge is ON!<br><br>Join my 7-day journey collecting <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a> daily until October 14th in @Blastroyale&#39;s Loot to Airdrop Campaign<br><br>PLUS<br><br>Day 1: Earned 116 <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a> in 3.5 hours without using Corpos (100% boost) or Plague Doctor (20% boost) NFTs.<br><br>PLUS<br><br>Achieved a personal best… <a href="https://t.co/XwYQc6keAu">https://t.co/XwYQc6keAu</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1843660749282894325?ref_src=twsrc%5Etfw">October 8, 2024</a></blockquote>
     </div>
   </div>
 </section>
@@ -962,5 +892,7 @@
   }
 })();
 </script>
+<!-- X (Twitter) embed widgets — renders the native tweet cards in the Personal section -->
+<script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
 </body>
 </html>
