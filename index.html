@@ -100,7 +100,7 @@
   .embed-grid .twitter-tweet{break-inside:avoid;margin:0 0 18px!important;}
 
   /* ---------- RESULTS (receipts) ---------- */
-  .results{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  .results{display:grid;grid-template-columns:repeat(auto-fit,minmax(216px,1fr));gap:20px;}
   .rcard{padding:1.3rem;display:flex;flex-direction:column;gap:1rem;}
   .r-head{display:flex;align-items:center;gap:.7rem;}
   .r-name{font-family:"Syne",sans-serif;font-weight:800;font-size:1.02rem;line-height:1.05;}
@@ -335,6 +335,20 @@
     .reveal{opacity:1;transform:none;}
     .progress{display:none;}
   }
+  /* ---------- SCREENSHOT PROOF + LIGHTBOX ---------- */
+  .r-shot{margin-top:.2rem;display:block;width:100%;padding:0;border:2px solid var(--ink);border-radius:12px;overflow:hidden;position:relative;cursor:zoom-in;background:#0c0c0e;line-height:0;}
+  .r-shot img{width:100%;height:118px;object-fit:cover;object-position:top;display:block;opacity:.96;transition:transform .35s var(--ease),opacity .2s;}
+  .r-shot:hover img{transform:scale(1.04);opacity:1;}
+  .r-shot .r-shot-cap{position:absolute;right:.5rem;bottom:.5rem;font-family:"Space Mono",monospace;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;background:var(--lime);color:var(--ink);padding:.25rem .5rem;border-radius:999px;line-height:1;}
+  .q-shot{margin-top:.2rem;align-self:flex-start;display:inline-flex;align-items:center;gap:.4rem;font-family:"Space Mono",monospace;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:var(--lime);border:none;padding:.42rem .62rem;border-radius:999px;cursor:zoom-in;}
+  .q-shot:hover{background:var(--blue);color:#fff;}
+  .lb{position:fixed;inset:0;z-index:200;background:rgba(6,6,10,.9);display:flex;align-items:center;justify-content:center;padding:4vmin;opacity:0;transition:opacity .2s ease;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);}
+  .lb[hidden]{display:none;}
+  .lb.open{opacity:1;}
+  .lb-img{max-width:min(1000px,94vw);max-height:90vh;border-radius:14px;border:3px solid #fff;box-shadow:0 30px 90px rgba(0,0,0,.6);background:#0c0c0e;}
+  .lb-close{position:absolute;top:max(3vmin,14px);right:max(3vmin,14px);width:44px;height:44px;border-radius:50%;border:2.5px solid #fff;background:var(--ink);color:#fff;font-size:1.5rem;line-height:1;cursor:pointer;display:grid;place-items:center;}
+  .lb-close:hover{background:var(--pink);}
+  @media (prefers-reduced-motion: reduce){.r-shot img{transition:none;}.lb{transition:none;}}
 </style>
 <noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
 </head>
@@ -532,11 +546,11 @@
         <div><h3>GTC <span class="arr">↗</span></h3><div class="plat">X</div></div></div>
         <p>GTA-themed memecoin. High-energy degen voice + meme engine.</p>
       </a>
-      <article class="card brand-card archived">
+      <a class="card brand-card archived" href="https://x.com/lfg_land" target="_blank" rel="noopener">
         <div class="bc-top"><div class="logo-tile" aria-hidden="true">LF<img src="assets/lfg.png" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div><h3>LFG</h3><div class="plat">X · archived</div></div></div>
+        <div><h3>LFG <span class="arr">↗</span></h3><div class="plat">X · archived</div></div></div>
         <p>Decentralized quant terminal by Oraichain. Trader-native memes.</p>
-      </article>
+      </a>
       <a class="card brand-card" href="https://x.com/impaktofficial" target="_blank" rel="noopener">
         <div class="bc-top"><div class="logo-tile" aria-hidden="true">IM<img src="assets/impakt.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
         <div><h3>IMPAKT <span class="arr">↗</span></h3><div class="plat">X</div></div></div>
@@ -704,7 +718,7 @@
       </article>
       <article class="card case">
         <div class="kick">Trading · X</div>
-        <h3>LFG</h3>
+        <h3><a href="https://x.com/lfg_land" target="_blank" rel="noopener">LFG <span class="arr">↗</span></a></h3>
         <div class="role">Decentralized quant terminal</div>
         <div class="blk"><div class="lbl">The brand</div><p>A decentralized quant terminal built by Oraichain, needing a trader-native voice, not a marketer's.</p></div>
         <div class="blk"><div class="lbl">What I did</div><p>Wrote campaign updates, community messages and GM content tuned to the quant and perps crowd.</p></div>
@@ -761,17 +775,6 @@
     <div class="results stagger reveal">
       <div class="card rcard">
         <div class="r-head">
-          <div class="logo-tile" aria-hidden="true">F3<img src="assets/film3.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div><div class="r-name">FFG / FameWeaver</div><div class="r-handle">@FFGcoin</div></div>
-        </div>
-        <div class="r-hero">
-          <div class="r-line"><span class="r-from">372</span><span class="r-arr">&rarr;</span><span class="r-to">22.3K</span></div>
-          <div class="r-cap">followers</div>
-        </div>
-        <div class="r-rows"><div><b>604.7K</b> impressions</div><div><b>34.9%</b> engagement rate</div><div><b>120.7K</b> likes</div></div>
-      </div>
-      <div class="card rcard">
-        <div class="r-head">
           <div class="logo-tile" aria-hidden="true">IC<img src="assets/iced.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
           <div><div class="r-name">ICED</div><div class="r-handle">@ICEDCoin</div></div>
         </div>
@@ -780,6 +783,10 @@
           <div class="r-cap">impressions</div>
         </div>
         <div class="r-rows"><div><b>+61.8K</b> follows driven</div><div><b>190.9K</b> likes</div><div><b>11.1K</b> community</div></div>
+        <button class="r-shot" type="button" data-full="assets/rec-iced.jpg" data-alt="ICED (@ICEDCoin) X analytics: 7M impressions, 61.8K new follows, 190.9K likes">
+          <img src="assets/rec-iced.jpg" alt="ICED X analytics screenshot showing 7M impressions" loading="lazy" />
+          <span class="r-shot-cap">View proof &#8599;</span>
+        </button>
       </div>
       <div class="card rcard">
         <div class="r-head">
@@ -791,6 +798,40 @@
           <div class="r-cap">impressions</div>
         </div>
         <div class="r-rows"><div><b>69.4%</b> engagement rate</div><div><b>152K</b> new follows</div><div><b>213.2K</b> likes</div></div>
+        <button class="r-shot" type="button" data-full="assets/rec-americanfortress.jpg" data-alt="American Fortress (@Americanfort_io) X analytics: 1.4M impressions, 69.4% engagement, 152K new follows">
+          <img src="assets/rec-americanfortress.jpg" alt="American Fortress X analytics screenshot showing 1.4M impressions and 69.4% engagement" loading="lazy" />
+          <span class="r-shot-cap">View proof &#8599;</span>
+        </button>
+      </div>
+      <div class="card rcard">
+        <div class="r-head">
+          <div class="logo-tile" aria-hidden="true">F3<img src="assets/film3.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+          <div><div class="r-name">FFG / FameWeaver</div><div class="r-handle">@FFGcoin</div></div>
+        </div>
+        <div class="r-hero">
+          <div class="r-line"><span class="r-from">372</span><span class="r-arr">&rarr;</span><span class="r-to">26.6K</span></div>
+          <div class="r-cap">followers</div>
+        </div>
+        <div class="r-rows"><div><b>604.7K</b> impressions</div><div><b>34.9%</b> engagement rate</div><div><b>120.7K</b> likes</div></div>
+        <button class="r-shot" type="button" data-full="assets/rec-ffg.jpg" data-alt="FFG (@FFGcoin) profile before and after: 372 followers grew to 26.6K">
+          <img src="assets/rec-ffg.jpg" alt="FFG profile before and after screenshot: 372 followers grew to 26.6K" loading="lazy" />
+          <span class="r-shot-cap">Before &rarr; after &#8599;</span>
+        </button>
+      </div>
+      <div class="card rcard">
+        <div class="r-head">
+          <div class="logo-tile" aria-hidden="true">5K<img src="assets/5th-kingdom.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+          <div><div class="r-name">5th Kingdom</div><div class="r-handle">@5th_Kingdom</div></div>
+        </div>
+        <div class="r-hero">
+          <div class="r-line"><span class="r-solo">788.7K</span></div>
+          <div class="r-cap">impressions</div>
+        </div>
+        <div class="r-rows"><div><b>+28K</b> new follows</div><div><b>6.4K</b> likes</div><div><b>+228%</b> impressions</div></div>
+        <button class="r-shot" type="button" data-full="assets/rec-5thkingdom.jpg" data-alt="5th Kingdom (@5th_Kingdom) X analytics: 788.7K impressions, 28K new follows">
+          <img src="assets/rec-5thkingdom.jpg" alt="5th Kingdom X analytics screenshot showing 788.7K impressions" loading="lazy" />
+          <span class="r-shot-cap">View proof &#8599;</span>
+        </button>
       </div>
       <div class="card rcard">
         <div class="r-head">
@@ -802,6 +843,10 @@
           <div class="r-cap">impressions</div>
         </div>
         <div class="r-rows"><div><b>20.2%</b> engagement rate</div><div><b>84.5K</b> engagements</div><div><b>22.1K</b> community</div></div>
+        <button class="r-shot" type="button" data-full="assets/rec-whalesquares.jpg" data-alt="Whale Squares (@WhaleSquares) X analytics: 416.8K impressions, 20.2% engagement, 84.5K engagements">
+          <img src="assets/rec-whalesquares.jpg" alt="Whale Squares X analytics screenshot showing 416.8K impressions and 20.2% engagement" loading="lazy" />
+          <span class="r-shot-cap">View proof &#8599;</span>
+        </button>
       </div>
     </div>
     <p class="r-note">Source: account-level X analytics &amp; Fedica reports. Reporting windows vary by account.</p>
@@ -930,7 +975,7 @@
       <div class="about-copy reveal">
         <span class="label">// about</span>
         <h2>Part strategist, <span class="c-pink">part memelord.</span></h2>
-        <p>I run social for <strong>18 Web3 brands</strong> across X and LinkedIn, building the
+        <p>I run social for <strong>19 Web3 brands</strong> across X and LinkedIn, building the
           <strong>brand platform &amp; voice</strong>, the <strong>content strategy</strong>, and the
           <strong>bucket systems</strong> that keep feeds sharp, then wiring up
           <strong>reactive engagement</strong> and <strong>targeted growth</strong> on top.</p>
@@ -978,31 +1023,37 @@
         <div class="qm" aria-hidden="true">&ldquo;</div>
         <p>These are great &mdash; you nailed the messaging shift.</p>
         <figcaption class="qwho"><b>Paragon Exchange</b></figcaption>
+        <button class="q-shot" type="button" data-full="assets/feedback-paragon.jpg" data-alt="Client message from Paragon Exchange praising the content calendar and messaging shift">View proof &#8599;</button>
       </figure>
       <figure class="card quote">
         <div class="qm" aria-hidden="true">&ldquo;</div>
         <p>Who is singing? The voice is fantastic!</p>
         <figcaption class="qwho"><b>FFG</b> &middot; on a produced anthem</figcaption>
+        <button class="q-shot" type="button" data-full="assets/feedback-ffg.jpg" data-alt="Client message from FFG praising a produced anthem">View proof &#8599;</button>
       </figure>
       <figure class="card quote">
         <div class="qm" aria-hidden="true">&ldquo;</div>
         <p>Whoever created that content is a really smart person.</p>
         <figcaption class="qwho"><b>Client, via Vis IBC</b></figcaption>
+        <button class="q-shot" type="button" data-full="assets/feedback-visibc.jpg" data-alt="Client message relayed via Vis IBC praising the content">View proof &#8599;</button>
       </figure>
       <figure class="card quote">
         <div class="qm" aria-hidden="true">&ldquo;</div>
-        <p>Very funny stuff &mdash; some of these crack me up. All good.</p>
+        <p>Very funny stuff &mdash; yes, it&rsquo;s good to go.</p>
         <figcaption class="qwho"><b>Whale Squares</b></figcaption>
+        <button class="q-shot" type="button" data-full="assets/feedback-whale.jpg" data-alt="Client message from Whale Squares approving the content">View proof &#8599;</button>
       </figure>
       <figure class="card quote">
         <div class="qm" aria-hidden="true">&ldquo;</div>
         <p>Is perfect &mdash; please go ahead.</p>
         <figcaption class="qwho"><b>Cocos</b></figcaption>
+        <button class="q-shot" type="button" data-full="assets/feedback-cocos.jpg" data-alt="Client message from Cocos approving the work">View proof &#8599;</button>
       </figure>
       <figure class="card quote">
         <div class="qm" aria-hidden="true">&ldquo;</div>
         <p>Looks good.</p>
         <figcaption class="qwho"><b>5th Kingdom</b> &middot; calendar approved</figcaption>
+        <button class="q-shot" type="button" data-full="assets/feedback-5thkingdom.jpg" data-alt="Client message from 5th Kingdom approving the content calendar">View proof &#8599;</button>
       </figure>
     </div>
   </div>
@@ -1033,6 +1084,12 @@
     <span>© <span id="year"></span> Kunal Raut · Built and hosted on GitHub Pages</span>
   </div>
 </footer>
+
+<!-- Lightbox overlay for screenshot proof (analytics + client feedback) -->
+<div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot viewer" hidden>
+  <button class="lb-close" id="lbClose" type="button" aria-label="Close screenshot">&times;</button>
+  <img class="lb-img" id="lbImg" src="" alt="" />
+</div>
 
 <script>
 /* Vanilla JS, no libraries:
@@ -1172,6 +1229,36 @@
       });
       btn.addEventListener("pointerleave", function(){ btn.style.transform = ""; });
     });
+  }
+
+  // 8. Lightbox for screenshot proof (analytics + client feedback)
+  var lb = document.getElementById("lightbox");
+  if (lb){
+    var lbImg = document.getElementById("lbImg");
+    var lbClose = document.getElementById("lbClose");
+    var lastFocus = null;
+    function lbOpen(src, alt){
+      lastFocus = document.activeElement;
+      lbImg.src = src; lbImg.alt = alt || "";
+      lb.hidden = false;
+      requestAnimationFrame(function(){ lb.classList.add("open"); });
+      document.body.style.overflow = "hidden";
+      lbClose.focus();
+    }
+    function lbCloseFn(){
+      lb.classList.remove("open");
+      document.body.style.overflow = "";
+      var done = function(){ lb.hidden = true; lbImg.src = ""; lb.removeEventListener("transitionend", done); };
+      if (reduce){ done(); } else { lb.addEventListener("transitionend", done); }
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+    document.addEventListener("click", function(e){
+      var trigger = e.target.closest && e.target.closest("[data-full]");
+      if (trigger){ e.preventDefault(); lbOpen(trigger.getAttribute("data-full"), trigger.getAttribute("data-alt")); }
+    });
+    lbClose.addEventListener("click", lbCloseFn);
+    lb.addEventListener("click", function(e){ if (e.target === lb) lbCloseFn(); });
+    document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !lb.hidden) lbCloseFn(); });
   }
 })();
 </script>
