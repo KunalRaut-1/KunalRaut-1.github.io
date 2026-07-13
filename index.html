@@ -98,6 +98,30 @@
   .sec.orange{--bg:var(--orange);--fg:var(--ink);--bd:var(--ink);--mut:rgba(0,0,0,.66);}
   .embed-grid{columns:340px;column-gap:18px;}
   .embed-grid .twitter-tweet{break-inside:avoid;margin:0 0 18px!important;}
+
+  /* ---------- RESULTS (receipts) ---------- */
+  .results{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  .rcard{padding:1.3rem;display:flex;flex-direction:column;gap:1rem;}
+  .r-head{display:flex;align-items:center;gap:.7rem;}
+  .r-name{font-family:"Syne",sans-serif;font-weight:800;font-size:1.02rem;line-height:1.05;}
+  .r-handle{font-family:"Space Mono",monospace;font-size:.68rem;color:rgba(0,0,0,.55);}
+  .r-hero{padding:.75rem 0;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);}
+  .r-line{display:flex;align-items:baseline;gap:.4rem;flex-wrap:wrap;}
+  .r-from{font-family:"Space Mono",monospace;font-size:1rem;color:rgba(0,0,0,.55);}
+  .r-arr{font-weight:800;color:var(--pink);}
+  .r-to,.r-solo{font-family:"Syne",sans-serif;font-weight:800;font-size:2.1rem;line-height:.9;color:var(--blue);}
+  .r-cap{font-family:"Space Mono",monospace;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(0,0,0,.55);margin-top:.35rem;}
+  .r-rows{display:flex;flex-direction:column;gap:.4rem;font-family:"Space Mono",monospace;font-size:.82rem;color:rgba(0,0,0,.82);}
+  .r-rows b{color:var(--ink);font-weight:700;}
+  .r-note{margin-top:1.5rem;font-family:"Space Mono",monospace;font-size:.7rem;color:rgba(255,255,255,.75);}
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testis{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .quote{padding:1.5rem;display:flex;flex-direction:column;gap:.9rem;}
+  .quote .qm{font-family:"Syne",sans-serif;font-weight:800;font-size:2.6rem;line-height:.5;color:var(--pink);height:1.1rem;}
+  .quote p{font-size:1.06rem;line-height:1.4;color:var(--ink);font-weight:500;}
+  .quote .qwho{margin-top:auto;font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;color:rgba(0,0,0,.6);}
+  .quote .qwho b{color:var(--blue);}
   .sec-head{max-width:780px;margin-bottom:clamp(34px,5vw,60px);}
   .sec-head .lede{margin-top:1.1rem;color:var(--mut);font-size:clamp(1.02rem,1.4vw,1.18rem);max-width:62ch;}
   .label{font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;display:inline-block;
@@ -288,6 +312,8 @@
     .work{grid-template-columns:1fr;}
     .pillars{grid-template-columns:repeat(2,1fr);}
     .about{grid-template-columns:1fr;}
+    .results{grid-template-columns:repeat(2,1fr);}
+    .testis{grid-template-columns:1fr;}
   }
   @media(max-width:640px){
     .nav-links,.nav-cta .btn-ghost{display:none;}
@@ -295,6 +321,7 @@
     .nav-links.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:var(--paper);
       border-bottom:3px solid var(--ink);padding:1rem 1.2rem 1.4rem;gap:1rem;}
     .pillars{grid-template-columns:1fr;}
+    .results{grid-template-columns:1fr;}
   }
 
   /* ---------- TOUCH: no sticky hover lifts ---------- */
@@ -321,9 +348,11 @@
     <nav class="nav-links" id="navLinks" aria-label="Primary">
       <a href="#clients">Clients</a>
       <a href="#work">Work</a>
+      <a href="#results">Results</a>
       <a href="#what">What I do</a>
       <a href="#posts">Posts</a>
       <a href="#personal">Personal</a>
+      <a href="#words">Words</a>
     </nav>
     <div class="nav-cta">
       <a class="btn btn-primary magnetic" href="#contact">Work with me</a>
@@ -412,15 +441,17 @@
         <span class="tg real">real</span>
       </div>
       <div class="stat">
-        <!-- Combined audience = sum of the 16 managed accounts' followers -->
-        <div class="num pop" data-placeholder="TBD">TBD</div>
-        <div class="lab">Combined audience</div>
-        <span class="tg ph">[sum] · fill in</span>
+        <!-- Impressions across the 5 accounts with screenshot-backed X analytics:
+             FFG 604.7K + ICED 7M + 5th Kingdom 788.7K + American Fortress 1.4M + Whale Squares 416.8K ≈ 10.2M -->
+        <div class="num pop" data-count="10" data-suffix="M+">0</div>
+        <div class="lab">Impressions driven</div>
+        <span class="tg real">across documented clients</span>
       </div>
       <div class="stat">
-        <div class="num pop" data-placeholder="TBD">TBD</div>
-        <div class="lab">Posts shipped</div>
-        <span class="tg ph">[X] · fill in</span>
+        <!-- Net new followers, before→after: FFG 372→26.6K (+26.2K) and ICED 8,678→33.1K (+24.4K) ≈ 50K -->
+        <div class="num pop" data-count="50" data-suffix="K+">0</div>
+        <div class="lab">Followers grown</div>
+        <span class="tg real">FFG + ICED, verified</span>
       </div>
       <div class="stat">
         <div class="num pop" data-count="2">0</div>
@@ -545,7 +576,7 @@
     <div class="sec-head reveal">
       <span class="label">// selected work</span>
       <h2>How I move the numbers.</h2>
-      <p class="lede">Four builds across the spectrum: the brand, what I actually did, and the result. Metrics shown as <span class="c-lime">[X]</span> placeholders to fill with real figures.</p>
+      <p class="lede">Four builds across the spectrum: the brand, what I actually did, and how I approached it. Hard numbers where I can show the receipts.</p>
     </div>
     <div class="work stagger reveal">
       <article class="card case">
@@ -554,7 +585,7 @@
         <div class="role">Rare-earth &amp; defense magnets</div>
         <div class="blk"><div class="lbl">The brand</div><p>An institutional rare-earth &amp; defense magnet maker that needed a credible, founder-forward voice in a noisy geopolitical moment.</p></div>
         <div class="blk"><div class="lbl">What I did</div><p>Built a B2B thought-leadership engine, ghostwrote the CEO on LinkedIn &amp; X, and ran reactive content on supply-chain &amp; policy news.</p></div>
-        <div class="pills"><span class="pill"><b>[X]</b>% follower growth</span><span class="pill"><b>[X]</b> CEO posts shipped</span><span class="pill"><b>[X]</b> inbound leads</span></div>
+        <div class="pills"><span class="pill"><b>CEO</b> ghostwriting</span><span class="pill">LinkedIn <b>+</b> X</span><span class="pill">Reactive on <b>policy</b></span></div>
       </article>
       <article class="card case">
         <div class="kick">SocialFi · X</div>
@@ -562,7 +593,7 @@
         <div class="role">Tap-to-earn “Generosity Economy”</div>
         <div class="blk"><div class="lbl">The brand</div><p>A tap-to-earn app built on a “generosity economy” idea that needed a repeatable content system, not one-off posts.</p></div>
         <div class="blk"><div class="lbl">What I did</div><p>Designed a 4-layer content-bucket system (narrative, product, community, and meme) so the feed stayed varied, on-brand, and easy to scale.</p></div>
-        <div class="pills"><span class="pill"><b>4</b>-layer bucket system</span><span class="pill"><b>[X]</b>% engagement lift</span><span class="pill"><b>[X]</b> impressions</span></div>
+        <div class="pills"><span class="pill"><b>4</b>-layer bucket system</span><span class="pill">Narrative <b>+</b> meme mix</span><span class="pill">SocialFi <b>engine</b></span></div>
       </article>
       <article class="card case">
         <div class="kick">Security infra · X</div>
@@ -570,7 +601,7 @@
         <div class="role">Crypto privacy &amp; security infra</div>
         <div class="blk"><div class="lbl">The brand</div><p>Privacy &amp; security infrastructure where relevance is measured in hours. The news cycle moves, the brand has to move with it.</p></div>
         <div class="blk"><div class="lbl">What I did</div><p>Stood up a same-day reactive newsjacking engine: threat-intel monitoring → on-brand take → published while the story was still hot.</p></div>
-        <div class="pills"><span class="pill"><b>Same-day</b> turnaround</span><span class="pill"><b>[X]</b> viral reactions</span><span class="pill"><b>[X]</b>% reach growth</span></div>
+        <div class="pills"><span class="pill"><b>Same-day</b> turnaround</span><span class="pill"><b>1.4M</b> impressions</span><span class="pill"><b>69.4%</b> engagement rate</span></div>
       </article>
       <article class="card case">
         <div class="kick">Structured products · X</div>
@@ -578,9 +609,71 @@
         <div class="role">Structured token products</div>
         <div class="blk"><div class="lbl">The brand</div><p>A structured-products platform mid-rebrand that needed continuity of audience through the transition, without losing momentum.</p></div>
         <div class="blk"><div class="lbl">What I did</div><p>Ran the brand transition on a 10-bucket content platform and built a teaser → reveal arc that turned the rebrand into an event.</p></div>
-        <div class="pills"><span class="pill"><b>10</b>-bucket platform</span><span class="pill"><b>[X]</b>% retained audience</span><span class="pill"><b>[X]</b> reveal-day reach</span></div>
+        <div class="pills"><span class="pill"><b>10</b>-bucket platform</span><span class="pill">Teaser <b>→</b> reveal arc</span><span class="pill">Rebrand <b>continuity</b></span></div>
       </article>
     </div>
+  </div>
+</section>
+
+<!-- ============================================================ RESULTS / RECEIPTS ============================================================
+     Real X analytics from accounts Kunal runs. Numbers are transcribed from
+     account-level X analytics + Fedica reports (screenshots on file).
+     Before→after shown where both snapshots exist; headline metric otherwise.
+     ============================================================ -->
+<section class="sec blue" id="results">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="label">// receipts</span>
+      <h2>Numbers, with the screenshots to back them.</h2>
+      <p class="lede">Real X analytics from accounts I run. Before&rarr;after where I have both snapshots; strongest headline metric otherwise.</p>
+    </div>
+    <div class="results stagger reveal">
+      <div class="card rcard">
+        <div class="r-head">
+          <div class="logo-tile" aria-hidden="true">F3<img src="assets/film3.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+          <div><div class="r-name">FFG / Film3</div><div class="r-handle">@FFGcoin</div></div>
+        </div>
+        <div class="r-hero">
+          <div class="r-line"><span class="r-from">372</span><span class="r-arr">&rarr;</span><span class="r-to">26.6K</span></div>
+          <div class="r-cap">followers</div>
+        </div>
+        <div class="r-rows"><div><b>604.7K</b> impressions</div><div><b>34.9%</b> engagement rate</div><div><b>120.7K</b> likes</div></div>
+      </div>
+      <div class="card rcard">
+        <div class="r-head">
+          <div class="logo-tile" aria-hidden="true">IC<img src="assets/iced.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+          <div><div class="r-name">ICED</div><div class="r-handle">@ICEDCoin</div></div>
+        </div>
+        <div class="r-hero">
+          <div class="r-line"><span class="r-from">8,678</span><span class="r-arr">&rarr;</span><span class="r-to">33.1K</span></div>
+          <div class="r-cap">followers</div>
+        </div>
+        <div class="r-rows"><div><b>7M</b> impressions</div><div><b>61.8K</b> new follows</div><div><b>190.9K</b> likes</div></div>
+      </div>
+      <div class="card rcard">
+        <div class="r-head">
+          <div class="logo-tile" aria-hidden="true">AF<img src="assets/american-fortress.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+          <div><div class="r-name">American Fortress</div><div class="r-handle">@Americanfort_io</div></div>
+        </div>
+        <div class="r-hero">
+          <div class="r-line"><span class="r-solo">1.4M</span></div>
+          <div class="r-cap">impressions</div>
+        </div>
+        <div class="r-rows"><div><b>69.4%</b> engagement rate</div><div><b>152K</b> new follows</div><div><b>213.2K</b> likes</div></div>
+      </div>
+      <div class="card rcard">
+        <div class="r-head">
+          <div class="logo-tile" aria-hidden="true">WS<img src="assets/whalesquares.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+          <div><div class="r-name">Whale Squares</div><div class="r-handle">@WhaleSquares</div></div>
+        </div>
+        <div class="r-hero">
+          <div class="r-line"><span class="r-solo">41.6K</span></div>
+          <div class="r-cap">followers</div>
+        </div>
+        <div class="r-rows"><div><b>416.8K</b> impressions</div><div><b>20.2%</b> engagement rate</div><div><b>84.5K</b> engagements</div></div>
+      </div>
+    </div>
+    <p class="r-note">Source: account-level X analytics &amp; Fedica reports. Reporting windows vary by account.</p>
   </div>
 </section>
 
@@ -603,10 +696,8 @@
 </section>
 
 <!-- ============================================================ LINES THAT LANDED ============================================================
-     TWEET CARDS: fill in the [bracketed] fields with real data:
-       href       = full permalink to the real post (https://x.com/handle/status/123...)
-       @handle    = the brand's real X/LinkedIn handle
-       tweet date = the real post date (e.g. Apr 18, 2025)
+     Real hooks from client posts. To link a card to its exact post,
+     set href to the full permalink (https://x.com/handle/status/123...).
      ============================================================ -->
 <section class="sec lime" id="posts">
   <div class="wrap">
@@ -623,7 +714,7 @@
           <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </div>
         <p class="t-text">The deposits get the headlines. The midstream gets the contracts.</p>
-        <div class="t-foot"><span>[date]</span><span class="t-plat">LinkedIn</span></div>
+        <div class="t-foot"><span class="t-plat">LinkedIn</span></div>
       </a>
       <a class="card tweet" href="https://x.com/LauncherEco" target="_blank" rel="noopener">
         <div class="t-head">
@@ -632,7 +723,7 @@
           <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </div>
         <p class="t-text">If insiders got a better price than you, it wasn’t a launch. It was a heist.</p>
-        <div class="t-foot"><span>[date]</span><span class="t-plat">X</span></div>
+        <div class="t-foot"><span class="t-plat">X</span></div>
       </a>
       <a class="card tweet" href="https://x.com/FindTheParagon" target="_blank" rel="noopener">
         <div class="t-head">
@@ -641,7 +732,7 @@
           <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </div>
         <p class="t-text">Crypto doesn’t need more tokens. It needs more ___.</p>
-        <div class="t-foot"><span>[date]</span><span class="t-plat">X</span></div>
+        <div class="t-foot"><span class="t-plat">X</span></div>
       </a>
       <a class="card tweet" href="https://x.com/gifthorse_hub" target="_blank" rel="noopener">
         <div class="t-head">
@@ -650,7 +741,7 @@
           <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </div>
         <p class="t-text">The oldest currency in the world wasn’t gold. It was kindness.</p>
-        <div class="t-foot"><span>[date]</span><span class="t-plat">X</span></div>
+        <div class="t-foot"><span class="t-plat">X</span></div>
       </a>
       <a class="card tweet" href="https://x.com/FFGcoin" target="_blank" rel="noopener">
         <div class="t-head">
@@ -659,7 +750,7 @@
           <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </div>
         <p class="t-text">Crypto broke the banks. Now we’re breaking Hollywood.</p>
-        <div class="t-foot"><span>[date]</span><span class="t-plat">X</span></div>
+        <div class="t-foot"><span class="t-plat">X</span></div>
       </a>
       <a class="card tweet" href="https://x.com/Americanfort_io" target="_blank" rel="noopener">
         <div class="t-head">
@@ -668,7 +759,7 @@
           <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </div>
         <p class="t-text">Sending money still doesn’t feel like sending money. The infrastructure that fixes that wins.</p>
-        <div class="t-foot"><span>[date]</span><span class="t-plat">X</span></div>
+        <div class="t-foot"><span class="t-plat">X</span></div>
       </a>
     </div>
   </div>
@@ -736,6 +827,52 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ TESTIMONIALS ============================================================
+     Real client feedback (Telegram). Attributed by brand only, no personal
+     names, per Kunal's instruction. Quotes trimmed for length, meaning intact.
+     ============================================================ -->
+<section class="sec" id="words" style="--pop:var(--pink);">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="label">// what clients say</span>
+      <h2>Signed off, in their words.</h2>
+      <p class="lede">Straight from the client chats. Brand names only.</p>
+    </div>
+    <div class="testis stagger reveal">
+      <figure class="card quote">
+        <div class="qm" aria-hidden="true">&ldquo;</div>
+        <p>These are great &mdash; you nailed the messaging shift.</p>
+        <figcaption class="qwho"><b>Paragon Exchange</b></figcaption>
+      </figure>
+      <figure class="card quote">
+        <div class="qm" aria-hidden="true">&ldquo;</div>
+        <p>Who is singing? The voice is fantastic!</p>
+        <figcaption class="qwho"><b>FFG</b> &middot; on a produced anthem</figcaption>
+      </figure>
+      <figure class="card quote">
+        <div class="qm" aria-hidden="true">&ldquo;</div>
+        <p>Whoever created that content is a really smart person.</p>
+        <figcaption class="qwho"><b>Client, via Vis IBC</b></figcaption>
+      </figure>
+      <figure class="card quote">
+        <div class="qm" aria-hidden="true">&ldquo;</div>
+        <p>Very funny stuff &mdash; some of these crack me up. All good.</p>
+        <figcaption class="qwho"><b>Whale Squares</b></figcaption>
+      </figure>
+      <figure class="card quote">
+        <div class="qm" aria-hidden="true">&ldquo;</div>
+        <p>Is perfect &mdash; please go ahead.</p>
+        <figcaption class="qwho"><b>Cocos</b></figcaption>
+      </figure>
+      <figure class="card quote">
+        <div class="qm" aria-hidden="true">&ldquo;</div>
+        <p>Looks good.</p>
+        <figcaption class="qwho"><b>5th Kingdom</b> &middot; calendar approved</figcaption>
+      </figure>
     </div>
   </div>
 </section>
