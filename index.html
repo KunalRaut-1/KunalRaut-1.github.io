@@ -1322,15 +1322,17 @@
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var fine   = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
-  // 0. Intro preloader: cover the page, then reveal once loaded
+  // 0. Intro preloader: hold the page until fonts + images are ready, then reveal
   (function(){
     var pre = document.getElementById("preloader");
     if (!pre) return;
     document.body.classList.add("pl-lock");
     var start = Date.now();
-    var MIN = reduce ? 0 : 900; // hold long enough to avoid a flash
+    var MIN = reduce ? 0 : 600; // brief floor so it doesn't flash on instant loads
+    var done = false;
     function remove(){ if (pre && pre.parentNode) pre.parentNode.removeChild(pre); }
     function dismiss(){
+      if (done) return; done = true;
       var wait = Math.max(0, MIN - (Date.now() - start));
       setTimeout(function(){
         pre.classList.add("pl-done");
@@ -1340,8 +1342,23 @@
         setTimeout(remove, 800); // fallback if transitionend never fires
       }, wait);
     }
-    if (document.readyState === "complete") dismiss();
-    else window.addEventListener("load", dismiss);
+    // Wait for whatever readiness signals exist, but never hang past the cap.
+    var waits = [];
+    if (document.readyState !== "complete"){
+      waits.push(new Promise(function(res){ window.addEventListener("load", res, { once:true }); }));
+    }
+    if (document.fonts && document.fonts.ready && typeof document.fonts.ready.then === "function"){
+      waits.push(document.fonts.ready);
+    }
+    if (window.Promise){
+      var cap = new Promise(function(res){ setTimeout(res, 4000); }); // safety: never wait forever
+      Promise.race([Promise.all(waits), cap]).then(dismiss);
+    } else {
+      // Legacy fallback: dismiss on load (or now, if already loaded)
+      if (document.readyState === "complete") dismiss();
+      else window.addEventListener("load", dismiss);
+    }
+    setTimeout(dismiss, 6000); // absolute hard stop
   })();
 
   // 1. Mobile nav
