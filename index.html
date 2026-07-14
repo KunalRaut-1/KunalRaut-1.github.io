@@ -350,6 +350,55 @@
   .lb-close{position:absolute;top:max(3vmin,14px);right:max(3vmin,14px);width:44px;height:44px;border-radius:50%;border:2.5px solid #fff;background:var(--ink);color:#fff;font-size:1.5rem;line-height:1;cursor:pointer;display:grid;place-items:center;}
   .lb-close:hover{background:var(--pink);}
   @media (prefers-reduced-motion: reduce){.r-shot img{transition:none;}.lb{transition:none;}}
+
+  /* ---------- GROWTH ARC (featured before→after) ---------- */
+  .growth{grid-column:1/-1;padding:clamp(1.5rem,3.4vw,2.6rem);display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(1.4rem,3vw,2.8rem);align-items:center;}
+  .g-brand{display:flex;align-items:center;gap:.7rem;margin-bottom:1.1rem;}
+  .g-name{font-family:"Syne",sans-serif;font-weight:800;font-size:1.1rem;line-height:1.05;}
+  .g-handle{font-family:"Space Mono",monospace;font-size:.7rem;color:rgba(0,0,0,.55);}
+  .g-arc{display:flex;align-items:center;gap:clamp(.7rem,2.2vw,1.5rem);flex-wrap:wrap;}
+  .g-node{display:flex;flex-direction:column;gap:.15rem;}
+  .g-node .g-lbl{font-family:"Space Mono",monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(0,0,0,.55);}
+  .g-node .g-val{font-family:"Syne",sans-serif;font-weight:800;line-height:.82;}
+  .g-node.start .g-val{font-size:clamp(1.5rem,4vw,2.3rem);color:rgba(0,0,0,.5);}
+  .g-node.now .g-val{font-size:clamp(3rem,9vw,5.2rem);color:var(--blue);}
+  .g-rise{width:clamp(34px,5vw,58px);height:auto;color:var(--pink);flex:0 0 auto;}
+  .g-mult{font-family:"Syne",sans-serif;font-weight:800;font-size:.86rem;background:var(--lime);color:var(--ink);border:2.5px solid var(--ink);border-radius:999px;padding:.3rem .75rem;box-shadow:3px 3px 0 var(--ink);}
+  .g-cap{font-family:"Space Mono",monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(0,0,0,.55);margin-top:.9rem;}
+  .g-right{display:flex;flex-direction:column;gap:1rem;}
+  .g-pills{display:flex;flex-wrap:wrap;gap:.5rem;}
+
+  /* ---------- PROCESS (how we'd work) ---------- */
+  .process{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;}
+  .pstep{padding:1.5rem;display:flex;flex-direction:column;gap:.55rem;}
+  .pstep .p-num{font-family:"Syne",sans-serif;font-weight:800;font-size:2.3rem;line-height:.8;color:var(--pop,var(--ink));}
+  .pstep h3{font-size:1.1rem;text-transform:uppercase;}
+  .pstep p{color:rgba(0,0,0,.74);font-size:.92rem;line-height:1.5;}
+  .pstep .p-meta{margin-top:auto;font-family:"Space Mono",monospace;font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;color:var(--pink);font-weight:700;padding-top:.7rem;}
+
+  /* ---------- CONTACT GRID + INTAKE FORM ---------- */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4rem);align-items:start;max-width:1120px;margin:0 auto;}
+  .contact-copy h2{font-size:clamp(2.2rem,5.5vw,4.2rem);}
+  .contact-copy .lede{color:rgba(255,255,255,.76);margin-top:1.1rem;font-size:1.1rem;}
+  .contact-copy .contact-btns{margin-top:2rem;display:flex;flex-wrap:wrap;gap:.7rem;justify-content:flex-start;}
+  .contact-copy .btn-ghost{color:#fff;border-color:rgba(255,255,255,.55);}
+  .intake{background:var(--white);border:2.5px solid #fff;border-radius:20px;box-shadow:7px 7px 0 var(--lime);padding:clamp(1.4rem,3vw,2rem);display:flex;flex-direction:column;gap:1rem;}
+  .field{display:flex;flex-direction:column;gap:.4rem;}
+  .field label{font-family:"Space Mono",monospace;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);font-weight:700;}
+  .field label span{color:rgba(0,0,0,.5);text-transform:none;letter-spacing:0;font-weight:400;}
+  .field input,.field select,.field textarea{font-family:"Space Grotesk",sans-serif;font-size:.98rem;color:var(--ink);background:var(--paper);border:2.5px solid var(--ink);border-radius:12px;padding:.7rem .85rem;width:100%;box-sizing:border-box;}
+  .field textarea{resize:vertical;min-height:104px;}
+  .field input::placeholder,.field textarea::placeholder{color:rgba(0,0,0,.45);}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:3px solid var(--blue);outline-offset:2px;}
+  .intake .btn-primary{align-self:flex-start;margin-top:.2rem;}
+  .intake-alt{font-family:"Space Mono",monospace;font-size:.72rem;color:rgba(0,0,0,.6);line-height:1.6;margin:0;}
+  .intake-alt a{color:var(--blue);font-weight:700;text-decoration:underline;text-underline-offset:2px;}
+  .form-status{font-family:"Space Mono",monospace;font-size:.76rem;font-weight:700;color:var(--ink);background:var(--lime);border:2px solid var(--ink);border-radius:10px;padding:.55rem .75rem;margin:0;}
+  @media(max-width:860px){
+    .contact-grid{grid-template-columns:1fr;}
+    .growth{grid-template-columns:1fr;}
+    .contact-copy{text-align:left;}
+  }
 </style>
 <noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
 </head>
@@ -368,6 +417,7 @@
       <a href="#posts">Posts</a>
       <a href="#personal">Personal</a>
       <a href="#words">Words</a>
+      <a href="#process">Process</a>
     </nav>
     <div class="nav-cta">
       <a class="btn btn-primary magnetic" href="#contact">Work with me</a>
@@ -774,6 +824,32 @@
       <p class="lede">Real X analytics from accounts I've run. Before&rarr;after where I have both snapshots; strongest headline metric otherwise.</p>
     </div>
     <div class="results stagger reveal">
+      <div class="card growth">
+        <div class="g-left">
+          <div class="g-brand">
+            <div class="logo-tile" aria-hidden="true">F3<img src="assets/film3.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+            <div><div class="g-name">FFG / FameWeaver</div><div class="g-handle">@FFGcoin</div></div>
+          </div>
+          <div class="g-arc">
+            <div class="g-node start"><span class="g-lbl">When I started</span><span class="g-val">372</span></div>
+            <svg class="g-rise" viewBox="0 0 60 44" fill="none" aria-hidden="true"><path d="M4 40 L54 7" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M39 6 H55 V22" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="g-node now"><span class="g-lbl">Latest</span><span class="g-val">26.6K</span></div>
+            <span class="g-mult">72× growth</span>
+          </div>
+          <div class="g-cap">followers · one account, in-account growth</div>
+        </div>
+        <div class="g-right">
+          <div class="g-pills">
+            <span class="pill"><b>604.7K</b> impressions</span>
+            <span class="pill"><b>34.9%</b> engagement</span>
+            <span class="pill"><b>120.7K</b> likes</span>
+          </div>
+          <button class="r-shot" type="button" data-full="assets/rec-ffg.jpg" data-alt="FFG (@FFGcoin) profile before and after: 372 followers grew to 26.6K">
+            <img src="assets/rec-ffg.jpg" alt="FFG profile before and after screenshot: 372 followers grew to 26.6K" loading="lazy" />
+            <span class="r-shot-cap">Before &rarr; after &#8599;</span>
+          </button>
+        </div>
+      </div>
       <div class="card rcard">
         <div class="r-head">
           <div class="logo-tile" aria-hidden="true">IC<img src="assets/iced.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
@@ -802,21 +878,6 @@
         <button class="r-shot" type="button" data-full="assets/rec-americanfortress.jpg" data-alt="American Fortress (@Americanfort_io) X analytics: 1.4M impressions, 69.4% engagement, 152K new follows">
           <img src="assets/rec-americanfortress.jpg" alt="American Fortress X analytics screenshot showing 1.4M impressions and 69.4% engagement" loading="lazy" />
           <span class="r-shot-cap">View proof &#8599;</span>
-        </button>
-      </div>
-      <div class="card rcard">
-        <div class="r-head">
-          <div class="logo-tile" aria-hidden="true">F3<img src="assets/film3.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div><div class="r-name">FFG / FameWeaver</div><div class="r-handle">@FFGcoin</div></div>
-        </div>
-        <div class="r-hero">
-          <div class="r-line"><span class="r-from">372</span><span class="r-arr">&rarr;</span><span class="r-to">26.6K</span></div>
-          <div class="r-cap">followers</div>
-        </div>
-        <div class="r-rows"><div><b>604.7K</b> impressions</div><div><b>34.9%</b> engagement rate</div><div><b>120.7K</b> likes</div></div>
-        <button class="r-shot" type="button" data-full="assets/rec-ffg.jpg" data-alt="FFG (@FFGcoin) profile before and after: 372 followers grew to 26.6K">
-          <img src="assets/rec-ffg.jpg" alt="FFG profile before and after screenshot: 372 followers grew to 26.6K" loading="lazy" />
-          <span class="r-shot-cap">Before &rarr; after &#8599;</span>
         </button>
       </div>
       <div class="card rcard">
@@ -1054,18 +1115,82 @@
   </div>
 </section>
 
+<!-- ============================================================ PROCESS ============================================================ -->
+<section class="sec blue" id="process">
+  <div class="wrap">
+    <span class="label reveal">// how we'd work</span>
+    <h2 class="reveal">What working with me looks like.</h2>
+    <p class="lede reveal">No long onboarding, no lock-in. Here is the shape of it, from first call to you owning everything I make.</p>
+    <div class="process stagger reveal">
+      <div class="card pstep">
+        <span class="p-num">01</span>
+        <h3>Call &amp; audit</h3>
+        <p>We hop on a call. I look at your current account, your goals, and who you are actually trying to reach, then tell you straight what is working and what is not.</p>
+        <span class="p-meta">Week 1</span>
+      </div>
+      <div class="card pstep">
+        <span class="p-num">02</span>
+        <h3>Strategy &amp; voice</h3>
+        <p>I lock the voice, the pillars, and a content plan you sign off on. You always see the direction before anything ships. Nothing goes live without your yes.</p>
+        <span class="p-meta">You approve</span>
+      </div>
+      <div class="card pstep">
+        <span class="p-num">03</span>
+        <h3>I run it</h3>
+        <p>Writing, posting, replies, the daily grind. You get drafts and updates, I handle the volume. Most turnarounds land in a day, urgent stuff faster.</p>
+        <span class="p-meta">24&ndash;48h turnaround</span>
+      </div>
+      <div class="card pstep">
+        <span class="p-num">04</span>
+        <h3>You own it all</h3>
+        <p>The account, the audience, the content, all yours. Month to month, no long contract trapping you. If it is working you stay because you want to.</p>
+        <span class="p-meta">No lock-in</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============================================================ CONTACT ============================================================ -->
 <section class="sec dark" id="contact">
   <div class="wrap">
-    <div class="contact-inner reveal">
-      <span class="label">// work with me</span>
-      <h2>Let’s grow your <span class="c-lime">Web3 brand.</span></h2>
-      <p class="lede">Founders &amp; hiring managers: if you want your brand to be one people actually follow, let’s talk.</p>
-      <div class="contact-btns">
-        <a class="btn btn-primary magnetic" href="mailto:kunalvijayraut@gmail.com">Email me</a>
-        <a class="btn btn-ghost magnetic" href="https://x.com/DementorHere" target="_blank" rel="noopener">X / Twitter</a>
-        <a class="btn btn-ghost magnetic" href="https://t.me/martiandementor" target="_blank" rel="noopener">Telegram</a>
+    <div class="contact-grid">
+      <div class="contact-copy reveal">
+        <span class="label">// work with me</span>
+        <h2>Let’s grow your <span class="c-lime">Web3 brand.</span></h2>
+        <p class="lede">Founders &amp; hiring managers: if you want your brand to be one people actually follow, tell me a bit about it. I read every message and reply myself, usually within a day.</p>
+        <div class="contact-btns">
+          <a class="btn btn-ghost magnetic" href="mailto:kunalvijayraut@gmail.com">Or just email me</a>
+          <a class="btn btn-ghost magnetic" href="https://x.com/DementorHere" target="_blank" rel="noopener">X / Twitter</a>
+          <a class="btn btn-ghost magnetic" href="https://t.me/martiandementor" target="_blank" rel="noopener">Telegram</a>
+        </div>
       </div>
+      <form class="intake reveal" id="intakeForm" novalidate>
+        <div class="field">
+          <label for="f-name">Your name</label>
+          <input type="text" id="f-name" name="name" autocomplete="name" placeholder="Kunal" required />
+        </div>
+        <div class="field">
+          <label for="f-brand">Brand / project <span>+ link if you have one</span></label>
+          <input type="text" id="f-brand" name="brand" placeholder="e.g. FameWeaver — x.com/FFGcoin" required />
+        </div>
+        <div class="field">
+          <label for="f-stage">Where are you now?</label>
+          <select id="f-stage" name="stage" required>
+            <option value="" disabled selected>Pick one</option>
+            <option value="Pre-launch, building from zero">Pre-launch, building from zero</option>
+            <option value="Live but the account is quiet">Live but the account is quiet</option>
+            <option value="Growing, want to move faster">Growing, want to move faster</option>
+            <option value="Established, need a steady hand">Established, need a steady hand</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-need">What do you need? <span>a line or two is fine</span></label>
+          <textarea id="f-need" name="need" placeholder="Full-time social, a content overhaul, help with launch week..." required></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">Send it my way</button>
+        <p class="form-status" id="formStatus" role="status" hidden></p>
+        <p class="intake-alt">Prefer to skip the form? Email <a href="mailto:kunalvijayraut@gmail.com">kunalvijayraut@gmail.com</a> directly.</p>
+      </form>
     </div>
   </div>
 </section>
@@ -1254,6 +1379,36 @@
     lbClose.addEventListener("click", lbCloseFn);
     lb.addEventListener("click", function(e){ if (e.target === lb) lbCloseFn(); });
     document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !lb.hidden) lbCloseFn(); });
+  }
+
+  // 9. Intake form -> compose an email (no backend on GitHub Pages)
+  var intake = document.getElementById("intakeForm");
+  if (intake){
+    var status = document.getElementById("formStatus");
+    intake.addEventListener("submit", function(e){
+      e.preventDefault();
+      var els = intake.elements;
+      var elName = els.namedItem("name"), elBrand = els.namedItem("brand"),
+          elStage = els.namedItem("stage"), elNeed = els.namedItem("need");
+      var name  = (elName  && elName.value  || "").trim();
+      var brand = (elBrand && elBrand.value || "").trim();
+      var stage = (elStage && elStage.value || "").trim();
+      var need  = (elNeed  && elNeed.value  || "").trim();
+      if (!name || !brand || !stage || !need){
+        if (status){ status.hidden = false; status.textContent = "Fill in every field and I'll have the whole picture."; }
+        var firstEmpty = [elName, elBrand, elStage, elNeed].filter(function(el){ return el && !el.value.trim(); })[0];
+        if (firstEmpty && firstEmpty.focus) firstEmpty.focus();
+        return;
+      }
+      var subject = "Web3 social — " + brand;
+      var body = "Name: " + name + "\n" +
+                 "Brand / project: " + brand + "\n" +
+                 "Stage: " + stage + "\n\n" +
+                 "What they need:\n" + need + "\n";
+      var href = "mailto:kunalvijayraut@gmail.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+      if (status){ status.hidden = false; status.textContent = "Opening your email to send it over. If nothing pops up, email kunalvijayraut@gmail.com."; }
+      window.location.href = href;
+    });
   }
 })();
 </script>
