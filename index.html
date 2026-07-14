@@ -26,1105 +26,1064 @@
 <meta name="twitter:image" content="https://kunalraut-1.github.io/assets/og.png" />
 <meta name="twitter:image:alt" content="Kunal Raut, Web3 Social Media Manager for X and LinkedIn." />
 
-<meta name="theme-color" content="#000000" />
+<meta name="theme-color" content="#ccff1a" />
 
 <!-- Inline SVG favicon (no external file) -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%23000000'/%3E%3Cpath%20d='M43.6%2013h5.5l-12%2013.7L51.3%2051h-11l-8.7-11.3L21.7%2051h-5.5l12.9-14.7L14.1%2013h11.4l7.9%2010.4z'%20fill='%23fff'/%3E%3C/svg%3E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%230c0c0e'/%3E%3Ctext%20x='32'%20y='45'%20text-anchor='middle'%20font-family='Arial,sans-serif'%20font-weight='800'%20font-size='40'%20fill='%23ccff1a'%3EK%3C/text%3E%3C/svg%3E" />
 
-<!-- Font: Inter (Chirp analog for the X interface) -->
+<!-- Fonts: Syne (display), Space Grotesk (body/UI), Space Mono (data/labels) -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 
 <style>
   /* ============================================================
-     DESIGN SYSTEM: X (Twitter) native — "Lights out"
-     3-column app shell, true-black canvas, Chirp-like Inter type.
-     Content is a portfolio rendered as a live X profile + timeline.
+     DESIGN SYSTEM: "Loud Desk" (kinetic maximal)
+     Pop / riso full palette. Energy comes from COLOR-BLOCKED
+     sections + chunky sticker cards + scroll-reactive marquees.
+     Boldness is spread on purpose: this is the memelord turned up,
+     held in line by a strict grid, AA contrast, and one type system.
      ============================================================ */
   :root{
-    --bg:#000000;
-    --elev:#16181c;      /* hover / raised panels */
-    --elev-2:#1d1f23;    /* pressed / deeper panels */
-    --border:#2f3336;
-    --text:#e7e9ea;
-    --muted:#71767b;
-    --blue:#1d9bf0;
-    --blue-hover:#1a8cd8;
-    --blue-tint:rgba(29,155,240,.1);
-    --white:#eff3f4;      /* primary button */
-    --white-hover:#d7dbdc;
-    --like:#f91880;
-    --repost:#00ba7c;
-    --shell:1265px;
-    --ease:cubic-bezier(.22,.61,.36,1);
+    --paper:#f0f1f3;   /* cool light canvas (not cream) */
+    --ink:#0c0c0e;     /* near-black */
+    --blue:#2b27ff;    /* electric */
+    --pink:#ff2e87;    /* hot magenta */
+    --lime:#ccff1a;    /* acid */
+    --orange:#ff5a1f;  /* tangerine */
+    --white:#ffffff;
+
+    --maxw:1240px;
+    --ease:cubic-bezier(.22,.61,.36,1);            /* strong ease-out */
+    --ease-io:cubic-bezier(.77,0,.175,1);          /* on-screen movement */
+
+    /* per-section roles, overridden by .sec.* */
+    --bg:var(--paper); --fg:var(--ink); --bd:var(--ink); --mut:rgba(0,0,0,.62);
   }
 
+  /* ---------- RESET / BASE ---------- */
   *,*::before,*::after{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
-    margin:0;background:var(--bg);color:var(--text);
-    font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    font-size:15px;line-height:1.4;
-    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Space Grotesk",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    font-size:clamp(16px,1.05vw,17px);line-height:1.55;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden;
   }
   img{max-width:100%;display:block;}
   a{color:inherit;text-decoration:none;}
-  ::selection{background:rgba(29,155,240,.35);color:#fff;}
-  h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.01em;line-height:1.15;}
-  p{margin:0;}
-  strong{font-weight:700;color:var(--text);}
-  :focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px;}
+  ::selection{background:var(--lime);color:var(--ink);}
 
-  .verified{width:1.05em;height:1.05em;color:var(--blue);flex:0 0 auto;vertical-align:-2px;}
+  h1,h2,h3{font-family:"Syne",sans-serif;margin:0;font-weight:800;line-height:.98;letter-spacing:-.02em;text-wrap:balance;}
+  h2{font-size:clamp(2.2rem,6vw,4.4rem);text-transform:uppercase;}
+  h3{font-size:1.2rem;letter-spacing:-.01em;}
+  p{margin:0;text-wrap:pretty;}
+  strong{font-weight:700;}
 
-  /* ---------- APP SHELL ---------- */
-  .app{max-width:var(--shell);margin:0 auto;display:grid;grid-template-columns:minmax(88px,275px) minmax(0,600px) minmax(0,350px);align-items:start;}
+  .mono{font-family:"Space Mono",monospace;}
 
-  /* ---------- LEFT SIDEBAR ---------- */
-  .side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:0 8px;border-right:1px solid var(--border);}
-  .side-logo{display:flex;align-items:center;justify-content:flex-start;width:52px;height:52px;margin:4px 0 2px;border-radius:50%;padding:12px;transition:background .2s;}
-  .side-logo:hover{background:var(--elev);}
-  .side-logo svg{width:28px;height:28px;color:var(--text);}
-  .nav{display:flex;flex-direction:column;gap:2px;margin-top:2px;}
-  .nav a{display:flex;align-items:center;gap:18px;padding:11px 12px;border-radius:999px;font-size:1.15rem;font-weight:500;color:var(--text);width:max-content;max-width:100%;transition:background .2s;}
-  .nav a:hover{background:var(--elev);}
-  .nav a.active{font-weight:800;}
-  .nav a svg{width:26px;height:26px;flex:0 0 auto;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-  .nav a .lab{white-space:nowrap;}
-  .post-btn{margin:16px 4px 0;background:var(--white);color:#0f1419;font-weight:800;font-size:1.02rem;border:none;border-radius:999px;padding:15px 0;text-align:center;cursor:pointer;transition:background .2s;box-shadow:0 0 0 0 transparent;}
-  .post-btn:hover{background:var(--white-hover);}
-  .side-me{margin-top:auto;margin-bottom:12px;display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:999px;transition:background .2s;cursor:pointer;}
-  .side-me:hover{background:var(--elev);}
-  .side-me .av{width:40px;height:40px;border-radius:50%;flex:0 0 auto;}
-  .side-me .mi{min-width:0;line-height:1.25;}
-  .side-me .mi .n{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .side-me .mi .h{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .side-me .dots{margin-left:auto;color:var(--text);font-weight:700;}
+  /* solid emphasis colors (NO gradient text) */
+  .c-blue{color:var(--blue);}
+  .c-pink{color:var(--pink);}
+  .c-lime{color:var(--lime);}
+  .c-orange{color:var(--orange);}
 
-  /* ---------- AVATAR / MONOGRAM TILE ---------- */
-  .tile{position:relative;overflow:hidden;display:grid;place-items:center;background:var(--elev-2);color:var(--text);
-    font-weight:800;font-size:.9em;letter-spacing:-.02em;border-radius:50%;}
-  .tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;}
+  /* ---------- LAYOUT / SECTION SYSTEM ---------- */
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,4vw,44px);position:relative;z-index:1;}
+  .sec{background:var(--bg);color:var(--fg);padding:clamp(64px,9vw,128px) 0;position:relative;border-bottom:3px solid var(--ink);}
+  .sec.dark{--bg:var(--ink);--fg:#fff;--bd:#fff;--mut:rgba(255,255,255,.68);}
+  .sec.blue{--bg:var(--blue);--fg:#fff;--bd:#fff;--mut:rgba(255,255,255,.82);}
+  .sec.pink{--bg:var(--pink);--fg:var(--ink);--bd:var(--ink);--mut:rgba(0,0,0,.66);}
+  .sec.lime{--bg:var(--lime);--fg:var(--ink);--bd:var(--ink);--mut:rgba(0,0,0,.66);}
+  .sec.orange{--bg:var(--orange);--fg:var(--ink);--bd:var(--ink);--mut:rgba(0,0,0,.66);}
+  .embed-grid{columns:340px;column-gap:18px;}
+  .embed-grid .twitter-tweet{break-inside:avoid;margin:0 0 18px!important;}
 
-  /* ---------- CENTER COLUMN ---------- */
-  .main{min-height:100vh;border-right:1px solid var(--border);}
-  .col-head{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:18px;padding:0 16px;height:53px;
-    background:rgba(0,0,0,.65);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
-  .col-head .back{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:var(--text);transition:background .2s;}
-  .col-head .back:hover{background:var(--elev);}
-  .col-head .back svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
-  .col-head .ch-name{font-size:1.25rem;font-weight:800;line-height:1.1;}
-  .col-head .ch-sub{font-size:.8rem;color:var(--muted);font-weight:500;}
+  /* ---------- RESULTS (receipts) ---------- */
+  .results{display:grid;grid-template-columns:repeat(auto-fit,minmax(216px,1fr));gap:20px;}
+  .rcard{padding:1.3rem;display:flex;flex-direction:column;gap:1rem;}
+  .r-head{display:flex;align-items:center;gap:.7rem;}
+  .r-name{font-family:"Syne",sans-serif;font-weight:800;font-size:1.02rem;line-height:1.05;}
+  .r-handle{font-family:"Space Mono",monospace;font-size:.68rem;color:rgba(0,0,0,.55);}
+  .r-hero{padding:.75rem 0;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);}
+  .r-line{display:flex;align-items:baseline;gap:.4rem;flex-wrap:wrap;}
+  .r-from{font-family:"Space Mono",monospace;font-size:1rem;color:rgba(0,0,0,.55);}
+  .r-arr{font-weight:800;color:var(--pink);}
+  .r-to,.r-solo{font-family:"Syne",sans-serif;font-weight:800;font-size:2.1rem;line-height:.9;color:var(--blue);}
+  .r-cap{font-family:"Space Mono",monospace;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(0,0,0,.55);margin-top:.35rem;}
+  .r-rows{display:flex;flex-direction:column;gap:.4rem;font-family:"Space Mono",monospace;font-size:.82rem;color:rgba(0,0,0,.82);}
+  .r-rows b{color:var(--ink);font-weight:700;}
+  .r-note{margin-top:1.5rem;font-family:"Space Mono",monospace;font-size:.7rem;color:rgba(255,255,255,.75);}
 
-  /* ---------- PROFILE HEADER ---------- */
-  .banner{position:relative;aspect-ratio:3/1;background:
-      radial-gradient(120% 140% at 15% 10%, rgba(29,155,240,.55), transparent 55%),
-      radial-gradient(120% 140% at 85% 30%, rgba(120,86,255,.45), transparent 55%),
-      linear-gradient(120deg,#0a2540,#000 70%);
-    overflow:hidden;}
-  .banner::after{content:"";position:absolute;inset:0;background-image:
-      linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
-    background-size:34px 34px;mask-image:radial-gradient(120% 120% at 50% 0%,#000,transparent 75%);}
-  .p-top{position:relative;padding:0 16px 12px;}
-  .p-avatar{position:absolute;top:calc(-1 * clamp(42px,12vw,66px));width:clamp(84px,24vw,134px);height:clamp(84px,24vw,134px);
-    border-radius:50%;border:4px solid #000;background:var(--blue);color:#fff;font-size:clamp(2.2rem,8vw,3.6rem);}
-  .p-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px;padding-top:12px;min-height:64px;}
-  .p-btn{border:1px solid var(--border);background:transparent;color:var(--text);font-weight:700;font-size:.95rem;
-    border-radius:999px;padding:8px 16px;cursor:pointer;transition:background .2s,border-color .2s;}
-  .p-btn:hover{background:var(--elev);}
-  .p-btn.solid{background:var(--white);color:#0f1419;border-color:var(--white);}
-  .p-btn.solid:hover{background:var(--white-hover);}
-  .p-btn.icon{padding:8px;width:38px;height:38px;display:grid;place-items:center;}
-  .p-btn.icon svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-  .p-id{margin-top:6px;}
-  .p-id .nm{display:flex;align-items:center;gap:5px;font-size:1.35rem;font-weight:800;line-height:1.2;}
-  .p-id .hd{color:var(--muted);font-size:.98rem;margin-top:1px;}
-  .p-bio{margin-top:12px;font-size:.98rem;line-height:1.45;color:var(--text);}
-  .p-meta{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:12px;color:var(--muted);font-size:.95rem;}
-  .p-meta span{display:inline-flex;align-items:center;gap:5px;}
-  .p-meta svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-  .p-meta a{color:var(--blue);}
-  .p-meta a:hover{text-decoration:underline;}
-  .p-counts{display:flex;gap:18px;margin-top:12px;font-size:.95rem;color:var(--muted);}
-  .p-counts b{color:var(--text);font-weight:700;}
-  .p-counts span:hover b, .p-counts span:hover{color:var(--text);}
+  /* ---------- TESTIMONIALS ---------- */
+  .testis{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .quote{padding:1.5rem;display:flex;flex-direction:column;gap:.9rem;}
+  .quote .qm{font-family:"Syne",sans-serif;font-weight:800;font-size:2.6rem;line-height:.5;color:var(--pink);height:1.1rem;}
+  .quote p{font-size:1.06rem;line-height:1.4;color:var(--ink);font-weight:500;}
+  .quote .qwho{margin-top:auto;font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;color:rgba(0,0,0,.6);}
+  .quote .qwho b{color:var(--blue);}
+  .sec-head{max-width:780px;margin-bottom:clamp(34px,5vw,60px);}
+  .sec-head .lede{margin-top:1.1rem;color:var(--mut);font-size:clamp(1.02rem,1.4vw,1.18rem);max-width:62ch;}
+  .label{font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;display:inline-block;
+    background:var(--ink);color:var(--lime);padding:.4rem .7rem;border-radius:999px;margin-bottom:1.1rem;}
+  .sec.dark .label,.sec.blue .label{background:var(--lime);color:var(--ink);}
 
-  /* ---------- TABS ---------- */
-  .tabs{position:sticky;top:53px;z-index:15;display:flex;overflow-x:auto;scrollbar-width:none;
-    background:rgba(0,0,0,.65);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
-  .tabs::-webkit-scrollbar{display:none;}
-  .tab{position:relative;flex:1 0 auto;min-width:64px;padding:16px 18px 15px;text-align:center;color:var(--muted);
-    font-weight:600;font-size:.95rem;white-space:nowrap;transition:background .2s,color .2s;}
-  .tab:hover{background:var(--elev);color:var(--text);}
-  .tab.active{color:var(--text);font-weight:800;}
-  .tab.active::after{content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:56px;max-width:70%;height:4px;border-radius:999px;background:var(--blue);}
+  /* ---------- BUTTONS (sticker + magnetic) ---------- */
+  .btn{
+    display:inline-flex;align-items:center;gap:.5rem;font-family:"Syne",sans-serif;font-weight:800;font-size:.98rem;
+    letter-spacing:-.01em;padding:.85rem 1.5rem;border-radius:999px;border:2.5px solid var(--ink);cursor:pointer;
+    background:transparent;color:inherit;will-change:transform;
+    transition:transform .16s var(--ease),box-shadow .2s var(--ease),background .2s,color .2s;
+  }
+  .btn-primary{background:var(--lime);color:var(--ink);box-shadow:5px 5px 0 var(--ink);}
+  .btn-ghost{background:transparent;color:inherit;border-color:currentColor;}
+  .btn:active{transform:scale(.97);}
+  @media(hover:hover){
+    .btn-primary:hover{box-shadow:8px 8px 0 var(--pink);}
+    .btn-ghost:hover{background:var(--ink);color:var(--lime);border-color:var(--ink);}
+  }
+  a:focus-visible,button:focus-visible{outline:3px solid var(--blue);outline-offset:3px;}
+  .sec.blue a:focus-visible,.sec.blue button:focus-visible{outline-color:var(--lime);}
 
-  /* ---------- POST ---------- */
-  .post{display:grid;grid-template-columns:auto 1fr;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);
-    transition:background .15s;}
-  .post:hover{background:rgba(255,255,255,.03);}
-  .post > .p-av{width:44px;height:44px;flex:0 0 auto;}
-  .post.pinned{position:relative;}
-  .p-pin{grid-column:1/-1;display:flex;align-items:center;gap:12px;color:var(--muted);font-size:.8rem;font-weight:700;margin:-2px 0 0 32px;}
-  .p-pin svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;}
-  .p-body{min-width:0;}
-  .p-head{display:flex;align-items:center;gap:5px;flex-wrap:wrap;line-height:1.3;}
-  .p-head .nm{font-weight:700;color:var(--text);}
-  .p-head .nm:hover{text-decoration:underline;}
-  .p-head .hd,.p-head .dot,.p-head .tm{color:var(--muted);font-weight:400;font-size:.95rem;}
-  .p-head .hd{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;}
-  .p-head .grow{flex:1 1 auto;}
-  .p-head .more{color:var(--muted);padding:2px 6px;border-radius:50%;font-weight:700;}
-  .p-head .more:hover{background:var(--blue-tint);color:var(--blue);}
-  .p-kicker{margin-top:2px;color:var(--muted);font-size:.82rem;font-weight:600;letter-spacing:.02em;text-transform:uppercase;}
-  .p-text{margin-top:4px;font-size:1.02rem;line-height:1.45;color:var(--text);white-space:pre-wrap;}
-  .p-text + .p-text{margin-top:10px;}
-  .p-text.big{font-size:1.45rem;font-weight:700;letter-spacing:-.01em;line-height:1.3;}
-  .p-lede{margin-top:4px;color:var(--muted);font-size:1.02rem;line-height:1.45;}
+  /* ---------- SCROLL PROGRESS ---------- */
+  .progress{position:fixed;top:0;left:0;height:5px;width:100%;transform:scaleX(0);transform-origin:0 50%;
+    background:var(--pink);z-index:60;will-change:transform;}
 
-  /* chips (metrics / tags) */
-  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
-  .chip{font-size:.85rem;font-weight:600;color:var(--text);background:var(--elev);border:1px solid var(--border);
-    border-radius:999px;padding:6px 12px;}
-  .chip b{color:var(--blue);font-weight:800;}
-  .chip.hero{font-size:1.05rem;}
-  .chip.hero b{font-size:1.15rem;}
+  /* ============================================================ NAV ============================================================ */
+  header.nav{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:3px solid var(--ink);}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;height:64px;}
+  .brand{font-family:"Syne",sans-serif;font-weight:800;font-size:1.2rem;letter-spacing:-.02em;}
+  .brand .dot{color:var(--pink);}
+  .nav-links{display:flex;align-items:center;gap:1.5rem;}
+  .nav-links a{font-weight:700;font-size:.92rem;position:relative;}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-5px;height:3px;width:100%;background:var(--blue);transform:scaleX(0);transform-origin:0 50%;transition:transform .25s var(--ease);}
+  .nav-links a:hover::after{transform:scaleX(1);}
+  .nav-cta{display:flex;align-items:center;gap:.7rem;}
+  .nav-toggle{display:none;background:none;border:2.5px solid var(--ink);border-radius:9px;padding:.45rem .55rem;cursor:pointer;}
+  .nav-toggle span{display:block;width:20px;height:2.5px;background:var(--ink);margin:4px 0;border-radius:2px;}
 
-  /* stat quote-card inside a post */
-  .qcard{margin-top:12px;border:1px solid var(--border);border-radius:16px;overflow:hidden;}
-  .qcard .qc-grid{display:grid;grid-template-columns:repeat(2,1fr);}
-  .qc-stat{padding:16px 18px;border-top:1px solid var(--border);border-right:1px solid var(--border);}
-  .qc-stat:nth-child(-n+2){border-top:0;}
-  .qc-stat:nth-child(2n){border-right:0;}
-  .qc-num{font-size:2rem;font-weight:800;line-height:1;letter-spacing:-.02em;}
-  .qc-lab{margin-top:6px;color:var(--muted);font-size:.85rem;font-weight:600;}
-  .qc-tag{display:inline-block;margin-top:6px;color:var(--blue);font-size:.72rem;font-weight:700;}
+  /* ============================================================ HERO ============================================================ */
+  .hero{padding-top:clamp(40px,6vw,72px);padding-bottom:clamp(48px,7vw,88px);overflow:hidden;}
+  .live{display:inline-flex;align-items:center;gap:.5rem;font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.16em;
+    text-transform:uppercase;border:2.5px solid var(--ink);border-radius:999px;padding:.4rem .85rem;background:var(--white);}
+  .hero h1{font-size:clamp(2.9rem,9vw,6rem);margin:1.2rem 0 0;line-height:.95;text-transform:uppercase;}
+  .hero h1 .line{display:block;}
+  .hero .sub{margin-top:1.6rem;font-size:clamp(1.05rem,1.6vw,1.3rem);max-width:50ch;color:rgba(0,0,0,.7);}
+  .hero .sub strong{color:var(--ink);}
+  .cta-row{margin-top:2rem;display:flex;flex-wrap:wrap;gap:.8rem;}
+  .stickers{margin-top:2.4rem;display:flex;flex-wrap:wrap;gap:.7rem;}
+  .sticker{font-family:"Space Mono",monospace;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    border:2.5px solid var(--ink);border-radius:999px;padding:.5rem .9rem;background:var(--white);box-shadow:3px 3px 0 var(--ink);
+    transition:transform .2s var(--ease);}
+  .sticker:nth-child(1){--r:-3deg;background:var(--lime);}
+  .sticker:nth-child(2){--r:2deg;background:var(--pink);color:var(--ink);}
+  .sticker:nth-child(3){--r:-2deg;background:var(--blue);color:#fff;box-shadow:3px 3px 0 var(--ink);}
+  .sticker:nth-child(4){--r:3deg;background:var(--orange);color:var(--ink);}
+  .sticker{transform:rotate(var(--r,0deg));}
+  @media(hover:hover){.sticker:hover{transform:rotate(0deg) translateY(-3px) scale(1.04);}}
 
-  /* media (screenshot proof) */
-  .p-media{margin-top:12px;border:1px solid var(--border);border-radius:16px;overflow:hidden;position:relative;cursor:zoom-in;background:#000;line-height:0;width:100%;padding:0;display:block;}
-  .p-media img{width:100%;height:auto;max-height:340px;object-fit:cover;object-position:top;display:block;transition:opacity .2s;}
-  .p-media:hover img{opacity:.9;}
-  .p-media .cap{position:absolute;left:12px;bottom:12px;font-size:.72rem;font-weight:700;background:rgba(0,0,0,.75);
-    color:#fff;padding:4px 9px;border-radius:6px;line-height:1;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);}
+  /* ============================================================ MARQUEE BANDS ============================================================ */
+  .mq{overflow:hidden;padding:1.5rem 0;border-bottom:3px solid var(--ink);background:var(--ink);color:#fff;}
+  .mq + .mq{border-top:0;}
+  .mq-row{overflow:hidden;}
+  .mq-row + .mq-row{margin-top:.4rem;}
+  .mq-track{display:flex;align-items:center;width:max-content;will-change:transform;}
+  .mq-item{font-family:"Syne",sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:-.01em;
+    font-size:clamp(1.6rem,4vw,3rem);padding:0 1.4rem;white-space:nowrap;}
+  .mq-row.alt .mq-item{font-family:"Space Mono",monospace;font-weight:700;font-size:clamp(1rem,2vw,1.5rem);
+    -webkit-text-stroke:1px #fff;color:transparent;}
+  .mq-sep{color:var(--lime);padding:0 .2rem;}
+  .mq-row.alt .mq-sep{color:var(--pink);-webkit-text-stroke:0;}
 
-  /* action bar */
-  .p-act{display:flex;justify-content:space-between;max-width:440px;margin-top:12px;color:var(--muted);}
-  .p-act button{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:inherit;cursor:pointer;
-    font-size:.82rem;font-family:inherit;padding:0;transition:color .2s;}
-  .p-act .ic{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;margin:-8px;transition:background .2s,color .2s;}
-  .p-act svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-  .p-act .reply:hover{color:var(--blue);}
-  .p-act .reply:hover .ic{background:var(--blue-tint);}
-  .p-act .rt:hover{color:var(--repost);}
-  .p-act .rt:hover .ic{background:rgba(0,186,124,.1);}
-  .p-act .lk:hover{color:var(--like);}
-  .p-act .lk:hover .ic{background:rgba(249,24,128,.1);}
-  .p-act .vw:hover,.p-act .sh:hover{color:var(--blue);}
-  .p-act .vw:hover .ic,.p-act .sh:hover .ic{background:var(--blue-tint);}
+  /* ============================================================ STATS ============================================================ */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,3vw,40px);}
+  .stat .num{font-family:"Syne",sans-serif;font-weight:800;font-size:clamp(2.8rem,6vw,4.6rem);line-height:.9;}
+  .stat .num.pop{color:var(--lime);}
+  .stat .lab{margin-top:.7rem;font-family:"Space Mono",monospace;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);}
+  .stat .tg{display:inline-block;margin-top:.55rem;font-family:"Space Mono",monospace;font-size:.68rem;font-weight:700;
+    padding:.18rem .55rem;border-radius:999px;border:2px solid currentColor;}
+  .stat .tg.real{color:var(--lime);}
+  .stat .tg.ph{color:rgba(255,255,255,.8);}
 
-  /* section intro post (header rows in the feed) */
-  .feed-head{padding:14px 16px;border-bottom:1px solid var(--border);}
-  .feed-head h2{font-size:1.15rem;font-weight:800;}
-  .feed-head p{margin-top:4px;color:var(--muted);font-size:.95rem;line-height:1.45;}
+  /* ============================================================ STICKER CARDS (shared) ============================================================ */
+  .card{
+    position:relative;background:var(--white);color:var(--ink);border:2.5px solid var(--ink);border-radius:20px;
+    box-shadow:6px 6px 0 var(--pop,var(--ink));will-change:transform;
+    transition:transform .18s var(--ease),box-shadow .18s var(--ease);
+  }
+  .card:nth-child(4n+1){--pop:var(--blue);}
+  .card:nth-child(4n+2){--pop:var(--pink);}
+  .card:nth-child(4n+3){--pop:var(--orange);}
+  .card:nth-child(4n+4){--pop:var(--ink);}
+  @media(hover:hover){
+    .card:hover{box-shadow:11px 11px 0 var(--pop,var(--ink));}
+  }
+  a.card:active{transform:scale(.99);}
 
-  /* follow-list (client roster) */
-  .follow-row{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:12px 16px;border-bottom:1px solid var(--border);transition:background .15s;}
-  .follow-row:hover{background:rgba(255,255,255,.03);}
-  .follow-row .fr-av{width:44px;height:44px;flex:0 0 auto;}
-  .fr-id{min-width:0;}
-  .fr-top{display:flex;align-items:center;gap:5px;}
-  .fr-name{font-weight:700;color:var(--text);}
-  .follow-row:hover .fr-name{text-decoration:underline;}
-  .fr-handle{color:var(--muted);font-size:.92rem;}
-  .fr-bio{margin-top:3px;color:var(--text);font-size:.95rem;line-height:1.4;}
-  .fr-btn{align-self:center;background:var(--white);color:#0f1419;font-weight:800;font-size:.9rem;border:none;
-    border-radius:999px;padding:8px 16px;white-space:nowrap;transition:background .2s;}
-  .fr-btn:hover{background:var(--white-hover);}
-  .fr-btn.archived{background:transparent;color:var(--text);border:1px solid var(--border);}
-  .fr-badge{font-size:.7rem;font-weight:700;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:1px 7px;margin-left:2px;}
+  /* ---------- ROSTER ---------- */
+  .roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;}
+  .brand-card{padding:1.2rem;display:flex;flex-direction:column;gap:.7rem;}
+  .bc-top{display:flex;align-items:center;gap:.85rem;}
+  .logo-tile{position:relative;width:52px;height:52px;flex:0 0 auto;border-radius:13px;overflow:hidden;display:grid;place-items:center;
+    color:#fff;background:var(--pop,var(--ink));border:2.5px solid var(--ink);
+    font-family:"Syne",sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em;}
+  .card:nth-child(4n+3) .logo-tile{color:var(--ink);}   /* orange tile: dark glyph */
+  .logo-tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#fff;}
+  .brand-card h3{display:inline-flex;align-items:center;gap:.3rem;font-size:1.05rem;}
+  .brand-card h3 .arr{font-size:.78em;opacity:0;transform:translate(-3px,3px);transition:opacity .2s,transform .2s;}
+  .brand-card .plat{font-family:"Space Mono",monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(0,0,0,.55);margin-top:.15rem;}
+  .brand-card p{color:rgba(0,0,0,.7);font-size:.9rem;line-height:1.45;}
+  @media(hover:hover){.brand-card:hover h3 .arr{opacity:1;transform:none;color:var(--pink);}}
+  .brand-card.archived{opacity:.92;}
+  .brand-card.archived .plat{color:var(--orange);}
 
-  /* embeds section */
-  .embed-wrap{padding:8px 16px 20px;}
-  .embed-grid{columns:1;}
-  .embed-grid .twitter-tweet{margin:0 auto 14px!important;max-width:100%;}
+  /* ---------- WORK ---------- */
+  .work{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
+  .case{padding:clamp(1.5rem,2.6vw,2.1rem);}
+  .case .kick{font-family:"Space Mono",monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);font-weight:700;}
+  .case h3{font-size:clamp(1.5rem,2.6vw,2rem);margin:.5rem 0 .2rem;text-transform:uppercase;}
+  .case .role{font-family:"Space Mono",monospace;color:rgba(0,0,0,.6);font-size:.82rem;margin-bottom:1rem;}
+  .case .blk{margin-top:1rem;}
+  .case .blk .lbl{font-family:"Space Mono",monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--pink);font-weight:700;}
+  .case .blk p{margin-top:.3rem;font-size:.94rem;color:rgba(0,0,0,.82);}
+  .pills{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.2rem;}
+  .pill{font-family:"Space Mono",monospace;font-size:.74rem;font-weight:700;padding:.42rem .8rem;border-radius:999px;border:2px solid var(--ink);background:var(--paper);}
+  .pill b{color:var(--blue);}
 
-  /* ---------- RIGHT ASIDE ---------- */
-  .aside{position:sticky;top:0;height:100vh;overflow-y:auto;scrollbar-width:none;padding:0 16px 40px;display:flex;flex-direction:column;gap:16px;}
-  .aside::-webkit-scrollbar{display:none;}
-  .search{position:sticky;top:0;z-index:5;padding:8px 0;background:var(--bg);}
-  .search .box{display:flex;align-items:center;gap:12px;background:var(--elev);border:1px solid transparent;border-radius:999px;padding:11px 16px;color:var(--muted);transition:background .2s,border-color .2s;}
-  .search .box:focus-within{background:transparent;border-color:var(--blue);color:var(--text);}
-  .search svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto;}
-  .search input{flex:1;background:none;border:none;outline:none;color:var(--text);font-family:inherit;font-size:.95rem;}
-  .search input::placeholder{color:var(--muted);}
-  .box-card{background:var(--elev);border-radius:16px;overflow:hidden;}
-  .box-card h3{font-size:1.25rem;font-weight:800;padding:12px 16px 4px;}
-  .box-card .bc-sub{padding:0 16px 12px;color:var(--muted);font-size:.9rem;}
-  .wtf-row{display:grid;grid-template-columns:auto 1fr auto;gap:11px;align-items:center;padding:11px 16px;transition:background .2s;}
-  .wtf-row:hover{background:rgba(255,255,255,.03);}
-  .wtf-row .wa{width:40px;height:40px;flex:0 0 auto;}
-  .wtf-id{min-width:0;line-height:1.3;}
-  .wtf-id .wn{display:flex;align-items:center;gap:4px;font-weight:700;font-size:.95rem;}
-  .wtf-id .wn span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .wtf-id .wh{color:var(--muted);font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .wtf-btn{background:var(--white);color:#0f1419;font-weight:800;font-size:.88rem;border:none;border-radius:999px;padding:7px 15px;transition:background .2s;}
-  .wtf-btn:hover{background:var(--white-hover);}
-  .box-more{display:block;padding:14px 16px;color:var(--blue);font-size:.95rem;}
-  .box-more:hover{background:rgba(255,255,255,.03);}
-  .trend{padding:11px 16px;transition:background .2s;}
-  .trend:hover{background:rgba(255,255,255,.03);}
-  .trend .tc{color:var(--muted);font-size:.78rem;}
-  .trend .tt{font-weight:700;font-size:.98rem;margin:1px 0;}
-  .trend .tv{color:var(--muted);font-size:.8rem;}
-  .aside-foot{display:flex;flex-wrap:wrap;gap:6px 12px;padding:0 16px;color:var(--muted);font-size:.8rem;}
-  .aside-foot a:hover{text-decoration:underline;}
+  /* ---------- WHAT I DO (pink section) ---------- */
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .pillar{padding:1.5rem;}
+  .pillar .tg{font-family:"Space Mono",monospace;font-weight:700;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);}
+  .pillar h3{margin:.7rem 0 .5rem;font-size:1.2rem;text-transform:uppercase;}
+  .pillar p{color:rgba(0,0,0,.72);font-size:.92rem;}
 
-  /* ---------- MOBILE BOTTOM BAR ---------- */
-  .botbar{display:none;}
+  /* ---------- POSTS (lime section) ---------- */
+  .quotes{columns:2;column-gap:22px;}
+  @media(max-width:760px){.quotes{columns:1;}}
+  .tweet{display:block;break-inside:avoid;margin:0 0 22px;padding:1.3rem 1.4rem;}
+  .tweet .t-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.9rem;}
+  .tweet .logo-tile{width:44px;height:44px;border-radius:50%;font-size:.9rem;}
+  .t-id{display:flex;flex-direction:column;min-width:0;line-height:1.25;}
+  .t-name{font-family:"Syne",sans-serif;font-weight:800;font-size:.92rem;}
+  .t-handle{font-family:"Space Mono",monospace;font-size:.76rem;color:rgba(0,0,0,.55);}
+  .t-x{width:19px;height:19px;margin-left:auto;flex:0 0 auto;}
+  .t-text{font-family:"Syne",sans-serif;font-weight:700;font-size:1.14rem;letter-spacing:-.01em;line-height:1.32;margin:0 0 1rem;}
+  .t-foot{display:flex;align-items:center;justify-content:space-between;gap:.6rem;font-family:"Space Mono",monospace;font-size:.66rem;
+    letter-spacing:.05em;text-transform:uppercase;color:rgba(0,0,0,.55);}
+  .t-plat{padding:.22rem .6rem;border:2px solid var(--ink);border-radius:999px;}
+
+  /* ---------- ABOUT ---------- */
+  .about{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(28px,5vw,56px);align-items:start;}
+  .about-copy h2{margin-bottom:1rem;}
+  .about-copy p{color:rgba(0,0,0,.74);font-size:1.05rem;margin-top:1rem;}
+  .about-copy p strong{color:var(--ink);}
+  .tagrows{display:flex;flex-direction:column;gap:1.4rem;}
+  .tagrow .lbl{font-family:"Space Mono",monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);font-weight:700;margin-bottom:.6rem;}
+  .tags{display:flex;flex-wrap:wrap;gap:.5rem;}
+  .tag-item{font-family:"Space Mono",monospace;font-size:.78rem;font-weight:700;padding:.4rem .8rem;border-radius:999px;border:2px solid var(--ink);background:var(--white);}
+
+  /* ---------- CONTACT (dark finale) ---------- */
+  .contact-inner{text-align:center;max-width:760px;margin:0 auto;}
+  .contact-inner h2{font-size:clamp(2.4rem,7vw,5rem);}
+  .contact-inner .lede{color:rgba(255,255,255,.74);margin-top:1.1rem;font-size:1.12rem;}
+  .contact-btns{margin-top:2.2rem;display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center;}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--ink);color:#fff;padding:2.4rem 0;}
+  .foot-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:"Space Mono",monospace;font-size:.8rem;color:rgba(255,255,255,.6);}
+  .foot-inner .brand{font-family:"Syne",sans-serif;font-size:1.05rem;color:#fff;}
+  .foot-inner .dot{color:var(--lime);}
 
   /* ---------- SCROLL REVEAL ---------- */
-  .reveal{opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease),transform .5s var(--ease);}
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
   .reveal.in{opacity:1;transform:none;}
+  .stagger.reveal{transform:none;}     /* container only fades; children carry the rise (no compounded translate) */
+  .stagger.in > *{animation:rise .6s var(--ease) both;}
+  .stagger.in > *:nth-child(2){animation-delay:.05s;}
+  .stagger.in > *:nth-child(3){animation-delay:.10s;}
+  .stagger.in > *:nth-child(4){animation-delay:.15s;}
+  .stagger.in > *:nth-child(5){animation-delay:.20s;}
+  .stagger.in > *:nth-child(6){animation-delay:.25s;}
+  @keyframes rise{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
 
   /* ---------- RESPONSIVE ---------- */
-  @media(max-width:1100px){
-    .app{grid-template-columns:minmax(88px,275px) minmax(0,1fr);}
-    .aside{display:none;}
+  @media(max-width:960px){
+    .stats{grid-template-columns:repeat(2,1fr);row-gap:38px;}
+    .work{grid-template-columns:1fr;}
+    .pillars{grid-template-columns:repeat(2,1fr);}
+    .about{grid-template-columns:1fr;}
+    .results{grid-template-columns:repeat(2,1fr);}
+    .testis{grid-template-columns:1fr;}
   }
-  @media(max-width:1000px){
-    .app{grid-template-columns:88px minmax(0,1fr);}
-    .nav a .lab,.side-me .mi,.side-me .dots,.post-btn .pb-lab{display:none;}
-    .nav a{width:auto;justify-content:center;padding:12px;}
-    .post-btn{width:52px;height:52px;padding:0;margin:16px auto 0;display:grid;place-items:center;border-radius:50%;}
-    .post-btn .pb-ic{display:block;}
-    .side-me{justify-content:center;padding:11px;}
+  @media(max-width:640px){
+    .nav-links,.nav-cta .btn-ghost{display:none;}
+    .nav-toggle{display:block;}
+    .nav-links.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:var(--paper);
+      border-bottom:3px solid var(--ink);padding:1rem 1.2rem 1.4rem;gap:1rem;}
+    .pillars{grid-template-columns:1fr;}
+    .results{grid-template-columns:1fr;}
   }
-  @media(min-width:1001px){ .post-btn .pb-ic{display:none;} }
-  @media(max-width:700px){
-    .app{grid-template-columns:minmax(0,1fr);}
-    .side{display:none;}
-    .main{border-right:0;padding-bottom:56px;}
-    .col-head{padding:0 12px;}
-    .qc-num{font-size:1.7rem;}
-    .botbar{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:40;height:53px;align-items:stretch;justify-content:space-around;
-      background:rgba(0,0,0,.85);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--border);}
-    .botbar a{flex:1;display:grid;place-items:center;color:var(--text);}
-    .botbar a svg{width:25px;height:25px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-    .botbar a.active svg{stroke-width:2.6;}
-    .fab{display:grid;position:fixed;right:16px;bottom:70px;z-index:41;width:56px;height:56px;place-items:center;border-radius:50%;
-      background:var(--blue);color:#fff;box-shadow:0 4px 16px rgba(29,155,240,.4);}
-    .fab svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-  }
-  @media(min-width:701px){ .fab{display:none;} }
 
-  /* ---------- LIGHTBOX ---------- */
-  .lb{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;padding:4vmin;opacity:0;transition:opacity .2s ease;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);}
-  .lb[hidden]{display:none;}
-  .lb.open{opacity:1;}
-  .lb-img{max-width:min(1100px,94vw);max-height:90vh;border-radius:14px;border:1px solid var(--border);box-shadow:0 30px 90px rgba(0,0,0,.8);background:#000;}
-  .lb-close{position:absolute;top:max(3vmin,14px);left:max(3vmin,14px);width:40px;height:40px;border-radius:50%;border:none;background:rgba(15,20,25,.75);color:#fff;font-size:1.4rem;line-height:1;cursor:pointer;display:grid;place-items:center;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);}
-  .lb-close:hover{background:var(--elev);}
+  /* ---------- TOUCH: no sticky hover lifts ---------- */
+  @media(hover:none){
+    .card:hover,.sticker:hover{transform:none;}
+  }
 
   /* ---------- REDUCED MOTION ---------- */
   @media(prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important;scroll-behavior:auto!important;}
     .reveal{opacity:1;transform:none;}
+    .progress{display:none;}
   }
+  /* ---------- SCREENSHOT PROOF + LIGHTBOX ---------- */
+  .r-shot{margin-top:.2rem;display:block;width:100%;padding:0;border:2px solid var(--ink);border-radius:12px;overflow:hidden;position:relative;cursor:zoom-in;background:#0c0c0e;line-height:0;}
+  .r-shot img{width:100%;height:118px;object-fit:cover;object-position:top;display:block;opacity:.96;transition:transform .35s var(--ease),opacity .2s;}
+  .r-shot:hover img{transform:scale(1.04);opacity:1;}
+  .r-shot .r-shot-cap{position:absolute;right:.5rem;bottom:.5rem;font-family:"Space Mono",monospace;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;background:var(--lime);color:var(--ink);padding:.25rem .5rem;border-radius:999px;line-height:1;}
+  .q-shot{margin-top:.2rem;align-self:flex-start;display:inline-flex;align-items:center;gap:.4rem;font-family:"Space Mono",monospace;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:var(--lime);border:none;padding:.42rem .62rem;border-radius:999px;cursor:zoom-in;}
+  .q-shot:hover{background:var(--blue);color:#fff;}
+  .lb{position:fixed;inset:0;z-index:200;background:rgba(6,6,10,.9);display:flex;align-items:center;justify-content:center;padding:4vmin;opacity:0;transition:opacity .2s ease;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);}
+  .lb[hidden]{display:none;}
+  .lb.open{opacity:1;}
+  .lb-img{max-width:min(1000px,94vw);max-height:90vh;border-radius:14px;border:3px solid #fff;box-shadow:0 30px 90px rgba(0,0,0,.6);background:#0c0c0e;}
+  .lb-close{position:absolute;top:max(3vmin,14px);right:max(3vmin,14px);width:44px;height:44px;border-radius:50%;border:2.5px solid #fff;background:var(--ink);color:#fff;font-size:1.5rem;line-height:1;cursor:pointer;display:grid;place-items:center;}
+  .lb-close:hover{background:var(--pink);}
+  @media (prefers-reduced-motion: reduce){.r-shot img{transition:none;}.lb{transition:none;}}
 </style>
 <noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
 </head>
 <body>
-<div class="app" id="top">
+<div class="progress" id="progress" aria-hidden="true"></div>
 
-  <!-- ============================================================ LEFT SIDEBAR ============================================================ -->
-  <header class="side">
-    <a class="side-logo" href="#top" aria-label="Home">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-    </a>
-    <nav class="nav" id="nav" aria-label="Primary">
-      <a href="#top" class="active" data-sec="top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z"/></svg><span class="lab">Home</span></a>
-      <a href="#clients" data-sec="clients"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0M16 5.5a3 3 0 0 1 0 5.8M17 14.5a5.2 5.2 0 0 1 3.6 5.5"/></svg><span class="lab">Clients</span></a>
-      <a href="#work" data-sec="work"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg><span class="lab">Work</span></a>
-      <a href="#results" data-sec="results"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M4 20h16"/></svg><span class="lab">Results</span></a>
-      <a href="#what" data-sec="what"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.6 5.3 5.9.9-4.3 4.1 1 5.9L12 16.9 6.8 19.2l1-5.9L3.5 9.2l5.9-.9z"/></svg><span class="lab">What I do</span></a>
-      <a href="#posts" data-sec="posts"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 2H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h4l4 4 4-4h4a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg><span class="lab">Posts</span></a>
-      <a href="#personal" data-sec="personal"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span class="lab">Personal</span></a>
-      <a href="#words" data-sec="words"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="lab">Words</span></a>
+<!-- ============================================================ NAV ============================================================ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top">Kunal Raut<span class="dot">.</span></a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="#clients">Clients</a>
+      <a href="#work">Work</a>
+      <a href="#results">Results</a>
+      <a href="#what">What I do</a>
+      <a href="#posts">Posts</a>
+      <a href="#personal">Personal</a>
+      <a href="#words">Words</a>
     </nav>
-    <a class="post-btn" href="#contact">
-      <span class="pb-lab">Work with me</span>
-      <span class="pb-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#0f1419" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span>
-    </a>
-    <a class="side-me" href="#contact">
-      <div class="av tile">K</div>
-      <div class="mi"><div class="n">Kunal Raut</div><div class="h">@DementorHere</div></div>
-      <span class="dots">···</span>
-    </a>
-  </header>
+    <div class="nav-cta">
+      <a class="btn btn-primary magnetic" href="#contact">Work with me</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
 
-  <!-- ============================================================ CENTER COLUMN ============================================================ -->
-  <main class="main">
-    <div class="col-head">
-      <a class="back" href="#top" aria-label="Back to top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
-      <div>
-        <div class="ch-name">Kunal Raut</div>
-        <div class="ch-sub">19 brands · Web3 social</div>
+<main id="top">
+
+<!-- ============================================================ HERO ============================================================ -->
+<section class="sec hero">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="live">Web3 Social · X &amp; LinkedIn</span>
+      <h1>
+        <span class="line">I turn crypto</span>
+        <span class="line">brands into brands</span>
+        <span class="line">people <span class="c-blue">follow</span><span class="c-pink">.</span></span>
+      </h1>
+      <p class="sub">
+        Social lead for <strong>18 Web3 brands</strong>, from degen memecoins to institutional RWA.
+        Strategy, content systems, and a memetic edge in images &amp; video that actually moves the timeline.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary magnetic" href="#contact">Work with me →</a>
+        <a class="btn btn-ghost magnetic" href="#work">See the work</a>
+      </div>
+      <div class="stickers" aria-hidden="false">
+        <span class="sticker">19 brands</span>
+        <span class="sticker">X + LinkedIn</span>
+        <span class="sticker">degen → institutional</span>
+        <span class="sticker">memetic</span>
       </div>
     </div>
+  </div>
+</section>
 
-    <!-- profile header -->
-    <section aria-label="Profile">
-      <div class="banner" role="img" aria-label="Kunal Raut banner"></div>
-      <div class="p-top">
-        <div class="p-actions">
-          <div class="p-avatar tile" style="background:var(--blue);color:#fff;" aria-hidden="true">K</div>
-          <button class="p-btn icon" type="button" aria-label="More"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/></svg></button>
-          <a class="p-btn icon" href="mailto:kunalvijayraut@gmail.com" aria-label="Email Kunal"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
-          <a class="p-btn solid" href="#contact">Follow</a>
-        </div>
-        <div class="p-id">
-          <div class="nm">Kunal Raut
-            <svg class="verified" viewBox="0 0 22 22" aria-label="Verified"><path fill="currentColor" d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.636.132 1.294.084 1.902-.14.274.586.7 1.084 1.24 1.439.54.354 1.16.552 1.813.57.647-.018 1.276-.216 1.817-.57.541-.354.972-.853 1.245-1.439.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z"/></svg>
-          </div>
-          <div class="hd">@DementorHere</div>
-        </div>
-        <p class="p-bio">Web3 Social Media Manager · X &amp; LinkedIn. I turn crypto brands into brands people <strong>follow</strong>. Social lead for 19 Web3 brands, degen&nbsp;→&nbsp;institutional. Part strategist, part memelord.</p>
-        <div class="p-meta">
-          <span><svg viewBox="0 0 24 24"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="2.6"/></svg>Degen ↔ Institutional</span>
-          <span><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><a href="mailto:kunalvijayraut@gmail.com">kunalvijayraut@gmail.com</a></span>
-          <span><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>Managing 19 Web3 brands</span>
-        </div>
-        <div class="p-counts">
-          <span><b>19</b> Following</span>
-          <span><b>700K+</b> Community reached</span>
-          <span><b>10M+</b> Impressions</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- tabs -->
-    <nav class="tabs" id="tabs" aria-label="Sections">
-      <a class="tab active" href="#top" data-sec="top">Posts</a>
-      <a class="tab" href="#clients" data-sec="clients">Clients</a>
-      <a class="tab" href="#work" data-sec="work">Work</a>
-      <a class="tab" href="#results" data-sec="results">Results</a>
-      <a class="tab" href="#posts" data-sec="posts">Highlights</a>
-      <a class="tab" href="#personal" data-sec="personal">Personal</a>
-      <a class="tab" href="#words" data-sec="words">Words</a>
-    </nav>
-
-    <!-- ===== PINNED HERO POST ===== -->
-    <article class="post pinned reveal">
-      <div class="p-pin"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4h6l-1 7 4 3H6l4-3z"/><path d="M12 14v6"/></svg>Pinned</div>
-      <div class="p-av tile" style="background:var(--blue);color:#fff;" aria-hidden="true">K</div>
-      <div class="p-body">
-        <div class="p-head">
-          <a class="nm" href="#top">Kunal Raut</a>
-          <svg class="verified" viewBox="0 0 22 22" aria-hidden="true"><path fill="currentColor" d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.636.132 1.294.084 1.902-.14.274.586.7 1.084 1.24 1.439.54.354 1.16.552 1.813.57.647-.018 1.276-.216 1.817-.57.541-.354.972-.853 1.245-1.439.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z"/></svg>
-          <span class="hd">@DementorHere</span><span class="dot">·</span><span class="tm">Web3 Social</span>
-          <span class="grow"></span><span class="more">···</span>
-        </div>
-        <p class="p-text big">I turn crypto brands into brands people <span style="color:var(--blue)">follow</span>.</p>
-        <p class="p-text">Social lead for <strong>18 Web3 brands</strong>, from degen memecoins to institutional RWA. Strategy, content systems, and a memetic edge in images &amp; video that actually moves the timeline.</p>
-        <div class="chips">
-          <span class="chip">19 brands</span><span class="chip">X + LinkedIn</span>
-          <span class="chip">degen → institutional</span><span class="chip">memetic</span>
-        </div>
-        <div class="p-act" aria-hidden="true">
-          <button class="reply" type="button"><span class="ic"><svg viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h4l4 4 4-4h4a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg></span></button>
-          <button class="rt" type="button"><span class="ic"><svg viewBox="0 0 24 24"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span></button>
-          <button class="lk" type="button"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 21C5 14.5 3 11 3 8a4.5 4.5 0 0 1 9-1 4.5 4.5 0 0 1 9 1c0 3-2 6.5-9 13z"/></svg></span></button>
-          <button class="vw" type="button"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7"/></svg></span></button>
-          <button class="sh" type="button"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M16 6l-4-4-4 4M12 2v14"/></svg></span></button>
-        </div>
-      </div>
-    </article>
-
-    <!-- ===== STATS POST ===== -->
-    <article class="post reveal">
-      <div class="p-av tile" style="background:var(--blue);color:#fff;" aria-hidden="true">K</div>
-      <div class="p-body">
-        <div class="p-head">
-          <a class="nm" href="#top">Kunal Raut</a>
-          <svg class="verified" viewBox="0 0 22 22" aria-hidden="true"><path fill="currentColor" d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.636.132 1.294.084 1.902-.14.274.586.7 1.084 1.24 1.439.54.354 1.16.552 1.813.57.647-.018 1.276-.216 1.817-.57.541-.354.972-.853 1.245-1.439.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z"/></svg>
-          <span class="hd">@DementorHere</span><span class="dot">·</span><span class="tm">The numbers</span>
-          <span class="grow"></span><span class="more">···</span>
-        </div>
-        <p class="p-text">Where things stand across the accounts I run — the receipts are further down the timeline.</p>
-        <div class="qcard">
-          <div class="qc-grid">
-            <div class="qc-stat"><div class="qc-num"><span data-count="19">0</span></div><div class="qc-lab">Web3 brands managed</div><span class="qc-tag">real</span></div>
-            <div class="qc-stat"><div class="qc-num"><span data-count="700" data-suffix="K+">0</span></div><div class="qc-lab">Combined community</div><span class="qc-tag">across managed X accounts</span></div>
-            <div class="qc-stat"><div class="qc-num"><span data-count="10" data-suffix="M+">0</span></div><div class="qc-lab">Impressions driven</div><span class="qc-tag">across documented clients</span></div>
-            <div class="qc-stat"><div class="qc-num"><span data-count="2">0</span></div><div class="qc-lab">Core platforms</div><span class="qc-tag">X &amp; LinkedIn</span></div>
-          </div>
-        </div>
-      </div>
-    </article>
-
-    <!-- ===== CLIENTS: roster as a Following list ===== -->
-    <section id="clients">
-      <div class="feed-head reveal">
-        <h2>19 brands. Degen to institutional.</h2>
-        <p>One operator across the full spectrum of Web3, from rare-earth magnets to memecoins, CEO ghostwriting to mascot satire.</p>
-      </div>
-      <div class="reveal">
-        <a class="follow-row" href="https://x.com/realloys" target="_blank" rel="noopener">
-          <div class="fr-av tile" aria-hidden="true">RE<img src="assets/realloys.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div class="fr-id"><div class="fr-top"><span class="fr-name">REalloys</span></div><span class="fr-handle">@realloys · LinkedIn + X</span><p class="fr-bio">Rare-earth &amp; defense magnets. B2B thought leadership + CEO ghostwriting.</p></div>
-          <span class="fr-btn">Follow</span>
-        </a>
-        <a class="follow-row" href="https://x.com/FindTheParagon" target="_blank" rel="noopener">
-          <div class="fr-av tile" aria-hidden="true">PX<img src="assets/paragon.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div class="fr-id"><div class="fr-top"><span class="fr-name">Paragon Exchange</span></div><span class="fr-handle">@FindTheParagon · X</span><p class="fr-bio">Structured token products. Brand transition + teaser-to-reveal strategy.</p></div>
-          <span class="fr-btn">Follow</span>
-        </a>
-        <a class="follow-row" href="https://x.com/Americanfort_io" target="_blank" rel="noopener">
-          <div class="fr-av tile" aria-hidden="true">AF<img src="assets/american-fortress.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div class="fr-id"><div class="fr-top"><span class="fr-name">American Fortress</span></div><span class="fr-handle">@Americanfort_io · X</span><p class="fr-bio">Crypto privacy &amp; security infra. Same-day reactive threat-intel content.</p></div>
-          <span class="fr-btn">Follow</span>
-        </a>
-        <div class="follow-row">
-          <div class="fr-av tile" aria-hidden="true">DH<img src="assets/datahaven.png" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div class="fr-id"><div class="fr-top"><span class="fr-name">DataHaven</span><span class="fr-badge">archived</span></div><span class="fr-handle">X</span><p class="fr-bio">Decentralized AI data storage. Mascot-led narrative + UGC.</p></div>
-          <span class="fr-btn archived">Archived</span>
-        </div>
-        <a class="follow-row" href="https://x.com/LauncherEco" target="_blank" rel="noopener">
-          <div class="fr-av tile" aria-hidden="true">LA<img src="assets/launcher.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div class="fr-id"><div class="fr-top"><span class="fr-name">Launcher</span></div><span class="fr-handle">@LauncherEco · X</span><p class="fr-bio">Fair token-launch platform. Analogy-driven explainers.</p></div>
-          <span class="fr-btn">Follow</span>
-        </a>
-        <a class="follow-row" href="https://x.com/trize_io" target="_blank" rel="noopener">
-          <div class="fr-av tile" aria-hidden="true">TR<img src="assets/t-rize.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div class="fr-id"><div class="fr-top"><span class="fr-name">T-Rize</span></div><span class="fr-handle">@trize_io · X</span><p class="fr-bio">RWA tokenization. Institutional + degen dual-audience content.</p></div>
-          <span class="fr-btn">Follow</span>
-        </a>
-        <a class="follow-row" href="https://x.com/gifthorse_hub" target="_blank" rel="noopener">
-          <div class="fr-av tile" aria-hidden="true">GH<img src="assets/gift-horse.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div class="fr-id"><div class="fr-top"><span class="fr-name">Gift Horse</span></div><span class="fr-handle">@gifthorse_hub · X</span><p class="fr-bio">$GHT ecosystem — app, Tycoon game &amp; task center. GiftHorse mascot &amp; Riders.</p></div>
-          <span class="fr-btn">Follow</span>
-        </a>
-        <a class="follow-row" href="https://x.com/5th_Kingdom" target="_blank" rel="noopener">
-          <div class="fr-av tile" aria-hidden="true">5K<img src="assets/5th-kingdom.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div class="fr-id"><div class="fr-top"><span class="fr-name">5th Kingdom</span></div><span class="fr-handle">@5th_Kingdom · X</span><p class="fr-bio">Web3 persistent-world gaming. Slow-burn narrative voice.</p></div>
-          <span class="fr-btn">Follow</span>
-        </a>
-        <a class="follow-row" href="https://x.com/FFGcoin" target="_blank" rel="noopener">
-          <div class="fr-av tile" aria-hidden="true">FF<img src="assets/film3.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div class="fr-id"><div class="fr-top"><span class="fr-name">FFG / FameWeaver</span></div><span class="fr-handle">@FFGcoin · X</span><p class="fr-bio">Story-first creator token for FameWeaver. Felix the fox mascot.</p></div>
-          <span class="fr-btn">Follow</span>
-        </a>
-        <a class="follow-row" href="https://x.com/originalgtc" target="_blank" rel="noopener">
-          <div class="fr-av tile" aria-hidden="true">GT<img src="assets/gtc.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div class="fr-id"><div class="fr-top"><span class="fr-name">GTC</span></div><span class="fr-handle">@originalgtc · X</span><p class="fr-bio">GTA-themed memecoin. High-energy degen voice + meme engine.</p></div>
-          <span class="fr-btn">Follow</span>
-        </a>
-        <a class="follow-row" href="https://x.com/lfg_land" target="_blank" rel="noopener">
-          <div class="fr-av tile" aria-hidden="true">LF<img src="assets/lfg.png" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div class="fr-id"><div class="fr-top"><span class="fr-name">LFG</span><span class="fr-badge">archived</span></div><span class="fr-handle">@lfg_land · X</span><p class="fr-bio">Decentralized quant terminal by Oraichain. Trader-native memes.</p></div>
-          <span class="fr-btn">Follow</span>
-        </a>
-        <a class="follow-row" href="https://x.com/impaktofficial" target="_blank" rel="noopener">
-          <div class="fr-av tile" aria-hidden="true">IM<img src="assets/impakt.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div class="fr-id"><div class="fr-top"><span class="fr-name">IMPAKT</span></div><span class="fr-handle">@impaktofficial · X</span><p class="fr-bio">AI-powered fitness &amp; health app. Kaikai the robot mascot.</p></div>
-          <span class="fr-btn">Follow</span>
-        </a>
-        <a class="follow-row" href="https://x.com/ICEDCoin" target="_blank" rel="noopener">
-          <div class="fr-av tile" aria-hidden="true">IC<img src="assets/iced.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div class="fr-id"><div class="fr-top"><span class="fr-name">ICED</span></div><span class="fr-handle">@ICEDCoin · X</span><p class="fr-bio">Hold-to-earn thematic memecoin. Shadow, the recurring character.</p></div>
-          <span class="fr-btn">Follow</span>
-        </a>
-        <a class="follow-row" href="https://x.com/Locklyio" target="_blank" rel="noopener">
-          <div class="fr-av tile" aria-hidden="true">LO<img src="assets/lockly.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div class="fr-id"><div class="fr-top"><span class="fr-name">Lockly</span></div><span class="fr-handle">@Locklyio · X</span><p class="fr-bio">Online casino &amp; sportsbook. Football &amp; UFC hype content.</p></div>
-          <span class="fr-btn">Follow</span>
-        </a>
-        <a class="follow-row" href="https://x.com/multibank_io" target="_blank" rel="noopener">
-          <div class="fr-av tile" aria-hidden="true">MB<img src="assets/multibank.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div class="fr-id"><div class="fr-top"><span class="fr-name">MultiBank</span></div><span class="fr-handle">@multibank_io · X</span><p class="fr-bio">Regulated multi-asset financial group, now in Web3. X brand voice &amp; content.</p></div>
-          <span class="fr-btn">Follow</span>
-        </a>
-        <a class="follow-row" href="https://x.com/oraichain" target="_blank" rel="noopener">
-          <div class="fr-av tile" aria-hidden="true">OR<img src="assets/oraichain.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div class="fr-id"><div class="fr-top"><span class="fr-name">Oraichain</span></div><span class="fr-handle">@oraichain · X</span><p class="fr-bio">AI Layer-1 &amp; oracle infrastructure. Technical content made legible.</p></div>
-          <span class="fr-btn">Follow</span>
-        </a>
-        <a class="follow-row" href="https://x.com/WhaleSquares" target="_blank" rel="noopener">
-          <div class="fr-av tile" aria-hidden="true">WS<img src="assets/whalesquares.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div class="fr-id"><div class="fr-top"><span class="fr-name">WhaleSquares</span></div><span class="fr-handle">@WhaleSquares · X</span><p class="fr-bio">On-chain football-squares game. Community + culture content.</p></div>
-          <span class="fr-btn">Follow</span>
-        </a>
-        <a class="follow-row" href="https://x.com/valinitydefi" target="_blank" rel="noopener">
-          <div class="fr-av tile" aria-hidden="true">VL<img src="assets/valinity.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div class="fr-id"><div class="fr-top"><span class="fr-name">Valinity DeFi</span></div><span class="fr-handle">@valinitydefi · X</span><p class="fr-bio">DeFi protocol. X content, narrative &amp; community growth.</p></div>
-          <span class="fr-btn">Follow</span>
-        </a>
-        <a class="follow-row" href="https://x.com/realsocialai" target="_blank" rel="noopener">
-          <div class="fr-av tile" aria-hidden="true">SA<img src="assets/social-ai.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-          <div class="fr-id"><div class="fr-top"><span class="fr-name">Social AI</span></div><span class="fr-handle">@realsocialai · X</span><p class="fr-bio">Digital identity, AI couture &amp; blockchain. Victoria, the AI mascot.</p></div>
-          <span class="fr-btn">Follow</span>
-        </a>
-      </div>
-    </section>
-
-    <!-- ===== WORK: case studies as posts ===== -->
-    <section id="work">
-      <div class="feed-head reveal">
-        <h2>How I move the numbers</h2>
-        <p>Every brand I run, across the full spectrum: the brand, what I actually did, and the result. Verified analytics where I have the receipts; current audience on the rest.</p>
-      </div>
-
-      <article class="post reveal">
-        <a class="p-av tile" href="https://x.com/multibank_io" target="_blank" rel="noopener" aria-hidden="true">MB<img src="assets/multibank.jpg" alt="" loading="lazy" onerror="this.remove()" /></a>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="https://x.com/multibank_io" target="_blank" rel="noopener">MultiBank</a><span class="hd">@multibank_io</span><span class="dot">·</span><span class="tm">Institutional · X</span><span class="grow"></span><span class="more">···</span></div>
-          <div class="p-kicker">Regulated multi-asset financial group</div>
-          <p class="p-text">A regulated multi-asset financial group stepping into Web3, needing a native X voice without losing institutional credibility.</p>
-          <p class="p-text">Shaped the X brand voice and content, bridging regulated finance and a crypto-native audience.</p>
-          <div class="chips"><span class="chip"><b>Brand</b> voice</span><span class="chip">RegFi <b>→</b> Web3</span><span class="chip"><b>156.8K</b> community</span></div>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <a class="p-av tile" href="https://x.com/Americanfort_io" target="_blank" rel="noopener" aria-hidden="true">AF<img src="assets/american-fortress.jpg" alt="" loading="lazy" onerror="this.remove()" /></a>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="https://x.com/Americanfort_io" target="_blank" rel="noopener">American Fortress</a><span class="hd">@Americanfort_io</span><span class="dot">·</span><span class="tm">Security infra · X</span><span class="grow"></span><span class="more">···</span></div>
-          <div class="p-kicker">Crypto privacy &amp; security infra</div>
-          <p class="p-text">A privacy-first transaction layer where relevance is measured in hours. The news cycle moves, the brand has to move with it.</p>
-          <p class="p-text">Stood up a same-day reactive newsjacking engine — threat-intel monitoring → on-brand take → published while the story was hot — voiced through the brand's dog mascot.</p>
-          <div class="chips"><span class="chip"><b>1.4M</b> impressions</span><span class="chip"><b>69.4%</b> engagement</span><span class="chip"><b>152K</b> new follows</span></div>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <a class="p-av tile" href="https://x.com/oraichain" target="_blank" rel="noopener" aria-hidden="true">OR<img src="assets/oraichain.jpg" alt="" loading="lazy" onerror="this.remove()" /></a>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="https://x.com/oraichain" target="_blank" rel="noopener">Oraichain</a><span class="hd">@oraichain</span><span class="dot">·</span><span class="tm">AI Layer-1 · X</span><span class="grow"></span><span class="more">···</span></div>
-          <div class="p-kicker">AI Layer-1 &amp; oracle infrastructure</div>
-          <p class="p-text">An AI Layer-1 and oracle-infrastructure project whose technology was hard for most readers to parse.</p>
-          <p class="p-text">Turned dense technical material into legible, followable content that non-engineers could actually read.</p>
-          <div class="chips"><span class="chip">Technical <b>→</b> legible</span><span class="chip"><b>AI</b> Layer-1</span><span class="chip"><b>77.6K</b> community</span></div>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <a class="p-av tile" href="https://x.com/FFGcoin" target="_blank" rel="noopener" aria-hidden="true">FF<img src="assets/film3.jpg" alt="" loading="lazy" onerror="this.remove()" /></a>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="https://x.com/FFGcoin" target="_blank" rel="noopener">FFG / FameWeaver</a><span class="hd">@FFGcoin</span><span class="dot">·</span><span class="tm">Creator token · X</span><span class="grow"></span><span class="more">···</span></div>
-          <div class="p-kicker">Story-first creator token</div>
-          <p class="p-text">A creator utility token powering FameWeaver — a story-first dApp for creators, discovery and entertainment.</p>
-          <p class="p-text">Built the account almost from zero and gave it a voice around Felix, the fox mascot: storytelling, discovery and ecosystem content.</p>
-          <div class="chips"><span class="chip"><b>372 → 22.3K</b> followers</span><span class="chip"><b>604.7K</b> impressions</span><span class="chip"><b>34.9%</b> engagement</span></div>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <a class="p-av tile" href="https://x.com/5th_Kingdom" target="_blank" rel="noopener" aria-hidden="true">5K<img src="assets/5th-kingdom.jpg" alt="" loading="lazy" onerror="this.remove()" /></a>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="https://x.com/5th_Kingdom" target="_blank" rel="noopener">5th Kingdom</a><span class="hd">@5th_Kingdom</span><span class="dot">·</span><span class="tm">GameFi · X</span><span class="grow"></span><span class="more">···</span></div>
-          <div class="p-kicker">Web3 persistent-world gaming</div>
-          <p class="p-text">A persistent-world Web3 game that called for a slow-burn narrative voice, not hype spikes.</p>
-          <p class="p-text">Built an ongoing narrative voice layering lore, world-building and community over time.</p>
-          <div class="chips"><span class="chip"><b>788.7K</b> impressions</span><span class="chip"><b>Slow-burn</b> narrative</span><span class="chip"><b>50.1K</b> community</span></div>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <a class="p-av tile" href="https://x.com/FindTheParagon" target="_blank" rel="noopener" aria-hidden="true">PX<img src="assets/paragon.jpg" alt="" loading="lazy" onerror="this.remove()" /></a>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="https://x.com/FindTheParagon" target="_blank" rel="noopener">Paragon Exchange</a><span class="hd">@FindTheParagon</span><span class="dot">·</span><span class="tm">Structured products · X</span><span class="grow"></span><span class="more">···</span></div>
-          <div class="p-kicker">Structured token products</div>
-          <p class="p-text">A structured-products platform mid-rebrand that needed continuity of audience through the transition, without losing momentum.</p>
-          <p class="p-text">Ran the brand transition on a 10-bucket content platform and built a teaser → reveal arc that turned the rebrand into an event.</p>
-          <div class="chips"><span class="chip"><b>10</b>-bucket platform</span><span class="chip">Teaser <b>→</b> reveal</span><span class="chip"><b>43.2K</b> community</span></div>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <a class="p-av tile" href="https://x.com/trize_io" target="_blank" rel="noopener" aria-hidden="true">TR<img src="assets/t-rize.jpg" alt="" loading="lazy" onerror="this.remove()" /></a>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="https://x.com/trize_io" target="_blank" rel="noopener">T-Rize</a><span class="hd">@trize_io</span><span class="dot">·</span><span class="tm">RWA · X</span><span class="grow"></span><span class="more">···</span></div>
-          <div class="p-kicker">RWA tokenization</div>
-          <p class="p-text">A real-world-asset tokenization platform speaking to institutions and degens at the same time.</p>
-          <p class="p-text">Built dual-audience content that held institutional credibility without flattening the degen feed.</p>
-          <div class="chips"><span class="chip"><b>Dual</b>-audience</span><span class="chip">RWA <b>tokenization</b></span><span class="chip"><b>31.5K</b> community</span></div>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <a class="p-av tile" href="https://x.com/impaktofficial" target="_blank" rel="noopener" aria-hidden="true">IM<img src="assets/impakt.jpg" alt="" loading="lazy" onerror="this.remove()" /></a>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="https://x.com/impaktofficial" target="_blank" rel="noopener">IMPAKT</a><span class="hd">@impaktofficial</span><span class="dot">·</span><span class="tm">AI fitness · X</span><span class="grow"></span><span class="more">···</span></div>
-          <div class="p-kicker">AI-powered fitness &amp; health app</div>
-          <p class="p-text">An AI-powered fitness &amp; health app with an AI coach for workouts, meal logging and progress tracking.</p>
-          <p class="p-text">Ran app-promo content, workout tips and AI-coach features, building recognition around Kaikai, the robot mascot.</p>
-          <div class="chips"><span class="chip"><b>Kaikai</b> mascot</span><span class="chip"><b>AI</b> coach</span><span class="chip"><b>29.1K</b> community</span></div>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <a class="p-av tile" href="https://x.com/realsocialai" target="_blank" rel="noopener" aria-hidden="true">SA<img src="assets/social-ai.jpg" alt="" loading="lazy" onerror="this.remove()" /></a>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="https://x.com/realsocialai" target="_blank" rel="noopener">Social AI</a><span class="hd">@realsocialai</span><span class="dot">·</span><span class="tm">AI · fashion · X</span><span class="grow"></span><span class="more">···</span></div>
-          <div class="p-kicker">Digital identity + AI couture</div>
-          <p class="p-text">A digital-identity platform fusing AI, high-fashion couture and blockchain, built around premium digital collectibles and provenance.</p>
-          <p class="p-text">Ran launch content — Snippets Protocol, Genesis mints and culture posts — built around Victoria, the AI mascot.</p>
-          <div class="chips"><span class="chip"><b>Victoria</b> mascot</span><span class="chip">Digital <b>collectibles</b></span><span class="chip"><b>29.4K</b> community</span></div>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <a class="p-av tile" href="https://x.com/gifthorse_hub" target="_blank" rel="noopener" aria-hidden="true">GH<img src="assets/gift-horse.jpg" alt="" loading="lazy" onerror="this.remove()" /></a>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="https://x.com/gifthorse_hub" target="_blank" rel="noopener">Gift Horse</a><span class="hd">@gifthorse_hub</span><span class="dot">·</span><span class="tm">SocialFi · X</span><span class="grow"></span><span class="more">···</span></div>
-          <div class="p-kicker">GiftHorse ecosystem · $GHT</div>
-          <p class="p-text">The GiftHorse ecosystem — app, Tycoon game and task center, powered by $GHT, with a community it calls Riders.</p>
-          <p class="p-text">Designed a 4-layer content-bucket system (narrative, product, community, meme) around GiftHorse, the horse mascot, so the feed stayed varied and scalable.</p>
-          <div class="chips"><span class="chip"><b>4</b>-layer buckets</span><span class="chip">Narrative <b>+</b> meme</span><span class="chip"><b>14.3K</b> community</span></div>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <a class="p-av tile" href="https://x.com/WhaleSquares" target="_blank" rel="noopener" aria-hidden="true">WS<img src="assets/whalesquares.jpg" alt="" loading="lazy" onerror="this.remove()" /></a>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="https://x.com/WhaleSquares" target="_blank" rel="noopener">Whale Squares</a><span class="hd">@WhaleSquares</span><span class="dot">·</span><span class="tm">GameFi · X</span><span class="grow"></span><span class="more">···</span></div>
-          <div class="p-kicker">On-chain football-squares game</div>
-          <p class="p-text">An on-chain football-squares game played on NFT boards.</p>
-          <p class="p-text">Ran content and community engagement around the boards, driving a high interaction rate on the feed.</p>
-          <div class="chips"><span class="chip"><b>416.8K</b> impressions</span><span class="chip"><b>20.2%</b> engagement</span><span class="chip"><b>84.5K</b> engagements</span></div>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <a class="p-av tile" href="https://x.com/ICEDCoin" target="_blank" rel="noopener" aria-hidden="true">IC<img src="assets/iced.jpg" alt="" loading="lazy" onerror="this.remove()" /></a>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="https://x.com/ICEDCoin" target="_blank" rel="noopener">ICED</a><span class="hd">@ICEDCoin</span><span class="dot">·</span><span class="tm">Memecoin · X</span><span class="grow"></span><span class="more">···</span></div>
-          <div class="p-kicker">Hold-to-earn thematic memecoin</div>
-          <p class="p-text">A hold-to-earn thematic memecoin built on topical, event-driven humor and a recurring character, Shadow.</p>
-          <p class="p-text">Built character-led meme storytelling around Shadow that turned live moments into a recurring narrative.</p>
-          <div class="chips"><span class="chip"><b>7M</b> impressions</span><span class="chip"><b>+61.8K</b> follows driven</span><span class="chip"><b>190.9K</b> likes</span></div>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <a class="p-av tile" href="https://x.com/originalgtc" target="_blank" rel="noopener" aria-hidden="true">GT<img src="assets/gtc.jpg" alt="" loading="lazy" onerror="this.remove()" /></a>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="https://x.com/originalgtc" target="_blank" rel="noopener">GTC</a><span class="hd">@originalgtc</span><span class="dot">·</span><span class="tm">Memecoin · X</span><span class="grow"></span><span class="more">···</span></div>
-          <div class="p-kicker">GTA-themed memecoin</div>
-          <p class="p-text">A GTA-themed memecoin that lived or died on energy and meme velocity.</p>
-          <p class="p-text">Ran a high-energy degen voice and a meme engine that kept the feed fast and native.</p>
-          <div class="chips"><span class="chip"><b>Meme</b> engine</span><span class="chip"><b>Degen</b> voice</span><span class="chip"><b>8K</b> community</span></div>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <a class="p-av tile" href="https://x.com/LauncherEco" target="_blank" rel="noopener" aria-hidden="true">LA<img src="assets/launcher.jpg" alt="" loading="lazy" onerror="this.remove()" /></a>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="https://x.com/LauncherEco" target="_blank" rel="noopener">Launcher</a><span class="hd">@LauncherEco</span><span class="dot">·</span><span class="tm">Token launch · X</span><span class="grow"></span><span class="more">···</span></div>
-          <div class="p-kicker">Permissionless EVM infrastructure</div>
-          <p class="p-text">Permissionless EVM infrastructure for launching tokens and DAOs — a technical mechanism that needed to feel simple.</p>
-          <p class="p-text">Wrote analogy-driven explainers that translated launch mechanics into plain, shareable posts.</p>
-          <div class="chips"><span class="chip"><b>Analogy</b> explainers</span><span class="chip">Tokens <b>+</b> DAOs</span><span class="chip"><b>5.8K</b> community</span></div>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <a class="p-av tile" href="https://x.com/lfg_land" target="_blank" rel="noopener" aria-hidden="true">LF<img src="assets/lfg.png" alt="" loading="lazy" onerror="this.remove()" /></a>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="https://x.com/lfg_land" target="_blank" rel="noopener">LFG</a><span class="hd">@lfg_land</span><span class="dot">·</span><span class="tm">Trading · X</span><span class="grow"></span><span class="more">···</span></div>
-          <div class="p-kicker">Decentralized quant terminal</div>
-          <p class="p-text">A decentralized quant terminal built by Oraichain, needing a trader-native voice, not a marketer's.</p>
-          <p class="p-text">Wrote campaign updates, community messages and GM content tuned to the quant and perps crowd.</p>
-          <div class="chips"><span class="chip"><b>Quant</b> terminal</span><span class="chip">By <b>Oraichain</b></span><span class="chip"><b>6.1K</b> community</span></div>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <a class="p-av tile" href="https://x.com/Locklyio" target="_blank" rel="noopener" aria-hidden="true">LO<img src="assets/lockly.jpg" alt="" loading="lazy" onerror="this.remove()" /></a>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="https://x.com/Locklyio" target="_blank" rel="noopener">Lockly</a><span class="hd">@Locklyio</span><span class="dot">·</span><span class="tm">Betting · X</span><span class="grow"></span><span class="more">···</span></div>
-          <div class="p-kicker">Online casino &amp; sportsbook</div>
-          <p class="p-text">An online casino &amp; sportsbook that lives on matchday hype and event timing.</p>
-          <p class="p-text">Ran sports-betting promos and football &amp; UFC hype content built on dramatic matchday visuals.</p>
-          <div class="chips"><span class="chip">Casino <b>+</b> sportsbook</span><span class="chip">Football <b>·</b> UFC</span><span class="chip"><b>5.3K</b> community</span></div>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <a class="p-av tile" href="https://x.com/realloys" target="_blank" rel="noopener" aria-hidden="true">RE<img src="assets/realloys.jpg" alt="" loading="lazy" onerror="this.remove()" /></a>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="https://x.com/realloys" target="_blank" rel="noopener">REalloys</a><span class="hd">@realloys</span><span class="dot">·</span><span class="tm">B2B · LinkedIn + X</span><span class="grow"></span><span class="more">···</span></div>
-          <div class="p-kicker">Rare-earth &amp; defense magnets</div>
-          <p class="p-text">An institutional rare-earth &amp; defense-magnet maker that needed a credible, founder-forward voice in a noisy geopolitical moment.</p>
-          <p class="p-text">Built a B2B thought-leadership engine, ghostwrote the CEO on LinkedIn &amp; X, and ran reactive content on supply-chain &amp; policy news.</p>
-          <div class="chips"><span class="chip"><b>CEO</b> ghostwriting</span><span class="chip">LinkedIn <b>+</b> X</span><span class="chip"><b>4.1K</b> community</span></div>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <a class="p-av tile" href="https://x.com/valinitydefi" target="_blank" rel="noopener" aria-hidden="true">VL<img src="assets/valinity.jpg" alt="" loading="lazy" onerror="this.remove()" /></a>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="https://x.com/valinitydefi" target="_blank" rel="noopener">Valinity</a><span class="hd">@valinitydefi</span><span class="dot">·</span><span class="tm">DeFi · X</span><span class="grow"></span><span class="more">···</span></div>
-          <div class="p-kicker">DeFi protocol</div>
-          <p class="p-text">A DeFi protocol for trading and borrowing backed by BTC, ETH and gold.</p>
-          <p class="p-text">Ran content, narrative and community growth on X.</p>
-          <div class="chips"><span class="chip"><b>Narrative</b> build</span><span class="chip">Community <b>growth</b></span><span class="chip"><b>2.3K</b> community</span></div>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <div class="p-av tile" aria-hidden="true">DH<img src="assets/datahaven.png" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div class="p-body">
-          <div class="p-head"><span class="nm">DataHaven</span><span class="fr-badge">archived</span><span class="dot">·</span><span class="tm">Storage · X</span><span class="grow"></span><span class="more">···</span></div>
-          <div class="p-kicker">Decentralized AI data storage</div>
-          <p class="p-text">A decentralized AI data-storage project built around a mascot-led narrative.</p>
-          <p class="p-text">Ran mascot-led narrative and UGC campaigns to give the protocol a face.</p>
-          <div class="chips"><span class="chip"><b>Mascot</b>-led</span><span class="chip"><b>UGC</b> engine</span><span class="chip"><b>Archived</b></span></div>
-        </div>
-      </article>
-    </section>
-
-    <!-- ===== RESULTS / RECEIPTS: posts with screenshot proof ===== -->
-    <section id="results">
-      <div class="feed-head reveal">
-        <h2>Numbers, with the screenshots to back them</h2>
-        <p>Real X analytics from accounts I run. Before→after where I have both snapshots; strongest headline metric otherwise.</p>
-      </div>
-
-      <article class="post reveal">
-        <div class="p-av tile" aria-hidden="true">IC<img src="assets/iced.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div class="p-body">
-          <div class="p-head"><span class="nm">ICED</span><span class="hd">@ICEDCoin</span><span class="dot">·</span><span class="tm">receipts</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text"><strong>7M</strong> impressions.</p>
-          <div class="chips"><span class="chip"><b>+61.8K</b> follows driven</span><span class="chip"><b>190.9K</b> likes</span><span class="chip"><b>11.1K</b> community</span></div>
-          <button class="p-media" type="button" data-full="assets/rec-iced.jpg" data-alt="ICED (@ICEDCoin) X analytics: 7M impressions, 61.8K new follows, 190.9K likes">
-            <img src="assets/rec-iced.jpg" alt="ICED X analytics screenshot showing 7M impressions" loading="lazy" />
-            <span class="cap">View proof ↗</span>
-          </button>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <div class="p-av tile" aria-hidden="true">AF<img src="assets/american-fortress.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div class="p-body">
-          <div class="p-head"><span class="nm">American Fortress</span><span class="hd">@Americanfort_io</span><span class="dot">·</span><span class="tm">receipts</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text"><strong>1.4M</strong> impressions.</p>
-          <div class="chips"><span class="chip"><b>69.4%</b> engagement rate</span><span class="chip"><b>152K</b> new follows</span><span class="chip"><b>213.2K</b> likes</span></div>
-          <button class="p-media" type="button" data-full="assets/rec-americanfortress.jpg" data-alt="American Fortress (@Americanfort_io) X analytics: 1.4M impressions, 69.4% engagement, 152K new follows">
-            <img src="assets/rec-americanfortress.jpg" alt="American Fortress X analytics screenshot showing 1.4M impressions and 69.4% engagement" loading="lazy" />
-            <span class="cap">View proof ↗</span>
-          </button>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <div class="p-av tile" aria-hidden="true">FF<img src="assets/film3.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div class="p-body">
-          <div class="p-head"><span class="nm">FFG / FameWeaver</span><span class="hd">@FFGcoin</span><span class="dot">·</span><span class="tm">receipts</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text"><strong>372 → 26.6K</strong> followers.</p>
-          <div class="chips"><span class="chip"><b>604.7K</b> impressions</span><span class="chip"><b>34.9%</b> engagement rate</span><span class="chip"><b>120.7K</b> likes</span></div>
-          <button class="p-media" type="button" data-full="assets/rec-ffg.jpg" data-alt="FFG (@FFGcoin) profile before and after: 372 followers grew to 26.6K">
-            <img src="assets/rec-ffg.jpg" alt="FFG profile before and after screenshot: 372 followers grew to 26.6K" loading="lazy" />
-            <span class="cap">Before → after ↗</span>
-          </button>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <div class="p-av tile" aria-hidden="true">5K<img src="assets/5th-kingdom.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div class="p-body">
-          <div class="p-head"><span class="nm">5th Kingdom</span><span class="hd">@5th_Kingdom</span><span class="dot">·</span><span class="tm">receipts</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text"><strong>788.7K</strong> impressions.</p>
-          <div class="chips"><span class="chip"><b>+28K</b> new follows</span><span class="chip"><b>6.4K</b> likes</span><span class="chip"><b>+228%</b> impressions</span></div>
-          <button class="p-media" type="button" data-full="assets/rec-5thkingdom.jpg" data-alt="5th Kingdom (@5th_Kingdom) X analytics: 788.7K impressions, 28K new follows">
-            <img src="assets/rec-5thkingdom.jpg" alt="5th Kingdom X analytics screenshot showing 788.7K impressions" loading="lazy" />
-            <span class="cap">View proof ↗</span>
-          </button>
-        </div>
-      </article>
-
-      <article class="post reveal">
-        <div class="p-av tile" aria-hidden="true">WS<img src="assets/whalesquares.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div class="p-body">
-          <div class="p-head"><span class="nm">Whale Squares</span><span class="hd">@WhaleSquares</span><span class="dot">·</span><span class="tm">receipts</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text"><strong>416.8K</strong> impressions.</p>
-          <div class="chips"><span class="chip"><b>20.2%</b> engagement rate</span><span class="chip"><b>84.5K</b> engagements</span><span class="chip"><b>22.1K</b> community</span></div>
-          <button class="p-media" type="button" data-full="assets/rec-whalesquares.jpg" data-alt="Whale Squares (@WhaleSquares) X analytics: 416.8K impressions, 20.2% engagement, 84.5K engagements">
-            <img src="assets/rec-whalesquares.jpg" alt="Whale Squares X analytics screenshot showing 416.8K impressions and 20.2% engagement" loading="lazy" />
-            <span class="cap">View proof ↗</span>
-          </button>
-          <p class="p-lede" style="margin-top:12px;font-size:.85rem;">Source: account-level X analytics &amp; Fedica reports. Reporting windows vary by account.</p>
-        </div>
-      </article>
-    </section>
-
-    <!-- ===== WHAT I DO ===== -->
-    <section id="what">
-      <div class="feed-head reveal">
-        <h2>Six things, done end to end</h2>
-      </div>
-      <article class="post reveal">
-        <div class="p-av tile" style="background:var(--blue);color:#fff;" aria-hidden="true">K</div>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="#top">Kunal Raut</a>
-            <svg class="verified" viewBox="0 0 22 22" aria-hidden="true"><path fill="currentColor" d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.636.132 1.294.084 1.902-.14.274.586.7 1.084 1.24 1.439.54.354 1.16.552 1.813.57.647-.018 1.276-.216 1.817-.57.541-.354.972-.853 1.245-1.439.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z"/></svg>
-            <span class="hd">@DementorHere</span><span class="dot">·</span><span class="tm">services</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text">What I actually run for a brand, end to end:</p>
-          <p class="p-text"><strong>1. Brand platform &amp; voice</strong> — define the positioning, tone, and rules so every post sounds unmistakably like the brand.</p>
-          <p class="p-text"><strong>2. Content strategy</strong> — map goals to a posting cadence and narrative arc that compounds over weeks, not days.</p>
-          <p class="p-text"><strong>3. Content buckets</strong> — repeatable bucket systems that keep the feed varied, on-message, and easy to scale.</p>
-          <p class="p-text"><strong>4. Reactive engagement</strong> — same-day newsjacking and replies that put the brand inside the conversation in real time.</p>
-          <p class="p-text"><strong>5. Targeted audience</strong> — find and grow the right followers (founders, traders, hiring managers), not vanity numbers.</p>
-          <p class="p-text"><strong>6. Memetic content</strong> — original images &amp; video built to travel. The format that earns the algorithm’s reach.</p>
-        </div>
-      </article>
-    </section>
-
-    <!-- ===== HIGHLIGHTS: lines that landed ===== -->
-    <section id="posts">
-      <div class="feed-head reveal">
-        <h2>The writing does the work</h2>
-        <p>Real hooks from real posts, across degen, institutional, and everything between.</p>
-      </div>
-
-      <a class="post reveal" href="https://x.com/realloys" target="_blank" rel="noopener">
-        <div class="p-av tile" aria-hidden="true">RE<img src="assets/realloys.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div class="p-body">
-          <div class="p-head"><span class="nm">REalloys</span><span class="hd">@realloys</span><span class="dot">·</span><span class="tm">LinkedIn</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text big">The deposits get the headlines. The midstream gets the contracts.</p>
-        </div>
-      </a>
-      <a class="post reveal" href="https://x.com/LauncherEco" target="_blank" rel="noopener">
-        <div class="p-av tile" aria-hidden="true">LA<img src="assets/launcher.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div class="p-body">
-          <div class="p-head"><span class="nm">Launcher</span><span class="hd">@LauncherEco</span><span class="dot">·</span><span class="tm">X</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text big">If insiders got a better price than you, it wasn’t a launch. It was a heist.</p>
-        </div>
-      </a>
-      <a class="post reveal" href="https://x.com/FindTheParagon" target="_blank" rel="noopener">
-        <div class="p-av tile" aria-hidden="true">PX<img src="assets/paragon.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div class="p-body">
-          <div class="p-head"><span class="nm">Paragon Exchange</span><span class="hd">@FindTheParagon</span><span class="dot">·</span><span class="tm">X</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text big">Crypto doesn’t need more tokens. It needs more ___.</p>
-        </div>
-      </a>
-      <a class="post reveal" href="https://x.com/gifthorse_hub" target="_blank" rel="noopener">
-        <div class="p-av tile" aria-hidden="true">GH<img src="assets/gift-horse.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div class="p-body">
-          <div class="p-head"><span class="nm">Gift Horse</span><span class="hd">@gifthorse_hub</span><span class="dot">·</span><span class="tm">X</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text big">The oldest currency in the world wasn’t gold. It was kindness.</p>
-        </div>
-      </a>
-      <a class="post reveal" href="https://x.com/FFGcoin" target="_blank" rel="noopener">
-        <div class="p-av tile" aria-hidden="true">FF<img src="assets/film3.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div class="p-body">
-          <div class="p-head"><span class="nm">FFG / FameWeaver</span><span class="hd">@FFGcoin</span><span class="dot">·</span><span class="tm">X</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text big">Crypto broke the banks. Now we’re breaking Hollywood.</p>
-        </div>
-      </a>
-      <a class="post reveal" href="https://x.com/Americanfort_io" target="_blank" rel="noopener">
-        <div class="p-av tile" aria-hidden="true">AF<img src="assets/american-fortress.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div class="p-body">
-          <div class="p-head"><span class="nm">American Fortress</span><span class="hd">@Americanfort_io</span><span class="dot">·</span><span class="tm">X</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text big">Sending money still doesn’t feel like sending money. The infrastructure that fixes that wins.</p>
-        </div>
-      </a>
-    </section>
-
-    <!-- ===== PERSONAL: native X embeds ===== -->
-    <section id="personal">
-      <div class="feed-head reveal">
-        <h2>My own timeline</h2>
-        <p>Personal X, <strong>@DementorHere</strong>. Hooks and memes I write for fun and for brands, in the same voice I bring to client work.</p>
-      </div>
-      <div class="embed-wrap reveal">
-        <div class="embed-grid">
-          <blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">If you&#39;re tired of RPGs calling basic combat &#39;tactical&#39;...<br><br>I found something that humbled me in 10 minutes. <br><br>How to experience battles that punish every mistake: <a href="https://t.co/6WwNk79O1e">pic.twitter.com/6WwNk79O1e</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1872280910508486862?ref_src=twsrc%5Etfw">December 26, 2024</a></blockquote>
-          <blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">Last time I made like 50 bucks off <a href="https://x.com/search?q=%24KAITO&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$KAITO</a> for literally doing nothing. <br><br>Didn’t even bother saying a word about it. <br><br>Big L on my part.<br><br>But this time? Nah, I’m locked in. <br><br>Hub’s out here building the FIRST AI layer that hooks up brands, creators, and their communities. <br><br>And… <a href="https://t.co/8LoPCJpqZt">pic.twitter.com/8LoPCJpqZt</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1893651255576100982?ref_src=twsrc%5Etfw">February 23, 2025</a></blockquote>
-          <blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">Easy gaming revolution<br><br>Free-to-play + No wallet needed = Mass adoption<br><br>Thread👇 <a href="https://t.co/0Oxmu0CZ2C">pic.twitter.com/0Oxmu0CZ2C</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1871846400125972777?ref_src=twsrc%5Etfw">December 25, 2024</a></blockquote>
-          <blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr"><a href="https://x.com/search?q=%24XBG&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$XBG</a> holders have the power to shape <a href="https://x.com/XBorgHQ?ref_src=twsrc%5Etfw">@XBorgHQ</a>&#39;s future <br><br>But many don&#39;t know where to start<br><br> A guide to making your vote count: <a href="https://t.co/CIkynG1JpO">pic.twitter.com/CIkynG1JpO</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1870099082540130626?ref_src=twsrc%5Etfw">December 20, 2024</a></blockquote>
-          <blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">I don&#39;t think the gaming world<br><br>has realized the force that <a href="https://x.com/XBorgHQ?ref_src=twsrc%5Etfw">@XBorgHQ</a> is becoming.<br><br>from Team Liquid partnership &amp; MyBlue, <br><br>to 5 new esports apps + SwissBorg listing,<br><br>from Fan SDK to NFT Paris IRL event,<br><br>from creator tools to on-chain esports teams,<br><br>from AI products to Player… <a href="https://t.co/vj43qqMGuT">pic.twitter.com/vj43qqMGuT</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1869332504617848946?ref_src=twsrc%5Etfw">December 18, 2024</a></blockquote>
-          <blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">Every time I open twitter there&#39;s a new cryptocurrency<br><br>And I see them ignoring their community<br><br>But <a href="https://x.com/XBorgHQ?ref_src=twsrc%5Etfw">@XBorgHQ</a> is different,<br><br>They always think about community First: <br><br>-Only 5% token increase (protecting your value)<br>-$4M liquidity locked (your funds are safe)<br>-YOU vote on… <a href="https://t.co/NPwYDlI3NK">pic.twitter.com/NPwYDlI3NK</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1864606217995251798?ref_src=twsrc%5Etfw">December 5, 2024</a></blockquote>
-          <blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">You get tested the most when it&#39;s time to rise.<br><br>Stay strong.<br><br>In @Blastroyale&#39;s Loot to Airdrop Final Season:<br>-SILVER <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a> = 10 <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a><br>-GOLDEN <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a> = 50 <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a><br><br>No need for endless grinding—just one lucky drop can change everything.<br><br>Day 11 Update:<br>-Total <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a>: 1472<br>-Playtime:… <a href="https://t.co/oAj8fEmkTR">https://t.co/oAj8fEmkTR</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1847304893251424359?ref_src=twsrc%5Etfw">October 18, 2024</a></blockquote>
-          <blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">Born too late to witness the dawn of gaming.<br><br>Born too early to see virtual reality become the norm.<br><br>Born just in time to watch <a href="https://x.com/search?q=%24XBG&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$XBG</a> redefine the future of gaming with <a href="https://x.com/XBorgHQ?ref_src=twsrc%5Etfw">@XBorgHQ</a>.<a href="https://x.com/hashtag/XBorgCreator?src=hash&amp;ref_src=twsrc%5Etfw">#XBorgCreator</a> <a href="https://t.co/41WGlbl6jH">pic.twitter.com/41WGlbl6jH</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1846489364236304420?ref_src=twsrc%5Etfw">October 16, 2024</a></blockquote>
-          <blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">The <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a> Challenge is ON!<br><br>Join my 7-day journey collecting <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a> daily until October 14th in @Blastroyale&#39;s Loot to Airdrop Campaign<br><br>PLUS<br><br>Day 1: Earned 116 <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a> in 3.5 hours without using Corpos (100% boost) or Plague Doctor (20% boost) NFTs.<br><br>PLUS<br><br>Achieved a personal best… <a href="https://t.co/XwYQc6keAu">https://t.co/XwYQc6keAu</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1843660749282894325?ref_src=twsrc%5Etfw">October 8, 2024</a></blockquote>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== ABOUT ===== -->
-    <section id="about">
-      <article class="post reveal">
-        <div class="p-av tile" style="background:var(--blue);color:#fff;" aria-hidden="true">K</div>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="#top">Kunal Raut</a>
-            <svg class="verified" viewBox="0 0 22 22" aria-hidden="true"><path fill="currentColor" d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.636.132 1.294.084 1.902-.14.274.586.7 1.084 1.24 1.439.54.354 1.16.552 1.813.57.647-.018 1.276-.216 1.817-.57.541-.354.972-.853 1.245-1.439.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z"/></svg>
-            <span class="hd">@DementorHere</span><span class="dot">·</span><span class="tm">about</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text">Part strategist, <span style="color:var(--like)">part memelord.</span></p>
-          <p class="p-text">I run social for <strong>19 Web3 brands</strong> across X and LinkedIn, building the <strong>brand platform &amp; voice</strong>, the <strong>content strategy</strong>, and the <strong>bucket systems</strong> that keep feeds sharp, then wiring up <strong>reactive engagement</strong> and <strong>targeted growth</strong> on top.</p>
-          <p class="p-text">The edge is <strong>memetic</strong>: original images and video that travel, equally at home writing CEO thought leadership for a defense-magnet firm and running a high-energy meme engine for a GTA-themed coin. Degen to institutional, same operator.</p>
-          <div class="chips">
-            <span class="chip">X / Twitter</span><span class="chip">LinkedIn</span><span class="chip">Figma</span><span class="chip">CapCut</span><span class="chip">Photoshop</span><span class="chip">Notion</span><span class="chip">Typefully</span><span class="chip">Analytics</span>
-          </div>
-          <div class="chips">
-            <span class="chip"><b>Brand voice</b></span><span class="chip"><b>Ghostwriting</b></span><span class="chip"><b>Memetic content</b></span><span class="chip"><b>Newsjacking</b></span><span class="chip"><b>Content systems</b></span><span class="chip"><b>Short-form video</b></span><span class="chip"><b>Community growth</b></span><span class="chip"><b>Degen ↔ institutional</b></span>
-          </div>
-        </div>
-      </article>
-    </section>
-
-    <!-- ===== WORDS: testimonials as replies ===== -->
-    <section id="words">
-      <div class="feed-head reveal">
-        <h2>Signed off, in their words</h2>
-        <p>Straight from the client chats. Brand names only.</p>
-      </div>
-
-      <article class="post reveal">
-        <div class="p-av tile" aria-hidden="true">PX<img src="assets/paragon.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div class="p-body">
-          <div class="p-head"><span class="nm">Paragon Exchange</span><span class="hd">@FindTheParagon</span><span class="dot">·</span><span class="tm">client</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text">These are great — you nailed the messaging shift.</p>
-          <button class="p-media" style="height:auto" type="button" data-full="assets/feedback-paragon.jpg" data-alt="Client message from Paragon Exchange praising the content calendar and messaging shift"><img src="assets/feedback-paragon.jpg" alt="Client message from Paragon Exchange" loading="lazy" /><span class="cap">View proof ↗</span></button>
-        </div>
-      </article>
-      <article class="post reveal">
-        <div class="p-av tile" aria-hidden="true">FF<img src="assets/film3.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div class="p-body">
-          <div class="p-head"><span class="nm">FFG</span><span class="hd">on a produced anthem</span><span class="dot">·</span><span class="tm">client</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text">Who is singing? The voice is fantastic!</p>
-          <button class="p-media" style="height:auto" type="button" data-full="assets/feedback-ffg.jpg" data-alt="Client message from FFG praising a produced anthem"><img src="assets/feedback-ffg.jpg" alt="Client message from FFG" loading="lazy" /><span class="cap">View proof ↗</span></button>
-        </div>
-      </article>
-      <article class="post reveal">
-        <div class="p-av tile" aria-hidden="true">VI</div>
-        <div class="p-body">
-          <div class="p-head"><span class="nm">Client, via Vis IBC</span><span class="dot">·</span><span class="tm">client</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text">Whoever created that content is a really smart person.</p>
-          <button class="p-media" style="height:auto" type="button" data-full="assets/feedback-visibc.jpg" data-alt="Client message relayed via Vis IBC praising the content"><img src="assets/feedback-visibc.jpg" alt="Client message via Vis IBC" loading="lazy" /><span class="cap">View proof ↗</span></button>
-        </div>
-      </article>
-      <article class="post reveal">
-        <div class="p-av tile" aria-hidden="true">WS<img src="assets/whalesquares.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div class="p-body">
-          <div class="p-head"><span class="nm">Whale Squares</span><span class="hd">@WhaleSquares</span><span class="dot">·</span><span class="tm">client</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text">Very funny stuff — yes, it’s good to go.</p>
-          <button class="p-media" style="height:auto" type="button" data-full="assets/feedback-whale.jpg" data-alt="Client message from Whale Squares approving the content"><img src="assets/feedback-whale.jpg" alt="Client message from Whale Squares" loading="lazy" /><span class="cap">View proof ↗</span></button>
-        </div>
-      </article>
-      <article class="post reveal">
-        <div class="p-av tile" aria-hidden="true">CO</div>
-        <div class="p-body">
-          <div class="p-head"><span class="nm">Cocos</span><span class="dot">·</span><span class="tm">client</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text">Is perfect — please go ahead.</p>
-          <button class="p-media" style="height:auto" type="button" data-full="assets/feedback-cocos.jpg" data-alt="Client message from Cocos approving the work"><img src="assets/feedback-cocos.jpg" alt="Client message from Cocos" loading="lazy" /><span class="cap">View proof ↗</span></button>
-        </div>
-      </article>
-      <article class="post reveal">
-        <div class="p-av tile" aria-hidden="true">5K<img src="assets/5th-kingdom.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div class="p-body">
-          <div class="p-head"><span class="nm">5th Kingdom</span><span class="hd">calendar approved</span><span class="dot">·</span><span class="tm">client</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text">Looks good.</p>
-          <button class="p-media" style="height:auto" type="button" data-full="assets/feedback-5thkingdom.jpg" data-alt="Client message from 5th Kingdom approving the content calendar"><img src="assets/feedback-5thkingdom.jpg" alt="Client message from 5th Kingdom" loading="lazy" /><span class="cap">View proof ↗</span></button>
-        </div>
-      </article>
-    </section>
-
-    <!-- ===== CONTACT ===== -->
-    <section id="contact">
-      <div class="feed-head reveal">
-        <h2>Let’s grow your Web3 brand</h2>
-        <p>Founders &amp; hiring managers: if you want your brand to be one people actually follow, let’s talk.</p>
-      </div>
-      <article class="post reveal">
-        <div class="p-av tile" style="background:var(--blue);color:#fff;" aria-hidden="true">K</div>
-        <div class="p-body">
-          <div class="p-head"><a class="nm" href="#top">Kunal Raut</a>
-            <svg class="verified" viewBox="0 0 22 22" aria-hidden="true"><path fill="currentColor" d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.636.132 1.294.084 1.902-.14.274.586.7 1.084 1.24 1.439.54.354 1.16.552 1.813.57.647-.018 1.276-.216 1.817-.57.541-.354.972-.853 1.245-1.439.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z"/></svg>
-            <span class="hd">@DementorHere</span><span class="dot">·</span><span class="tm">DMs open</span><span class="grow"></span><span class="more">···</span></div>
-          <p class="p-text">Want your brand to be one people actually follow? Let’s talk.</p>
-          <div class="chips" style="gap:10px;">
-            <a class="fr-btn" href="mailto:kunalvijayraut@gmail.com">Email me</a>
-            <a class="chip" href="https://x.com/DementorHere" target="_blank" rel="noopener" style="padding:8px 16px;font-weight:700;">X / Twitter</a>
-            <a class="chip" href="https://t.me/martiandementor" target="_blank" rel="noopener" style="padding:8px 16px;font-weight:700;">Telegram</a>
-          </div>
-        </div>
-      </article>
-      <footer style="padding:20px 16px 90px;color:var(--muted);font-size:.85rem;">
-        © <span id="year"></span> Kunal Raut · Built and hosted on GitHub Pages
-      </footer>
-    </section>
-
-  </main>
-
-  <!-- ============================================================ RIGHT ASIDE ============================================================ -->
-  <aside class="aside" aria-label="Related">
-    <div class="search">
-      <label class="box">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="search" placeholder="Search" aria-label="Search (decorative)" />
-      </label>
+<!-- ============================================================ SIGNATURE: KINETIC MARQUEES ============================================================ -->
+<div class="mq" aria-hidden="true">
+  <div class="mq-row">
+    <div class="mq-track" data-dir="left">
+      <span class="mq-item">REalloys</span><span class="mq-item mq-sep">✦</span>
+      <span class="mq-item">Paragon Exchange</span><span class="mq-item mq-sep">✦</span>
+      <span class="mq-item">American Fortress</span><span class="mq-item mq-sep">✦</span>
+      <span class="mq-item">DataHaven</span><span class="mq-item mq-sep">✦</span>
+      <span class="mq-item">Launcher</span><span class="mq-item mq-sep">✦</span>
+      <span class="mq-item">T-Rize</span><span class="mq-item mq-sep">✦</span>
+      <span class="mq-item">Gift Horse</span><span class="mq-item mq-sep">✦</span>
+      <span class="mq-item">5th Kingdom</span><span class="mq-item mq-sep">✦</span>
+      <span class="mq-item">FFG / FameWeaver</span><span class="mq-item mq-sep">✦</span>
+      <span class="mq-item">GTC</span><span class="mq-item mq-sep">✦</span>
+      <span class="mq-item">LFG</span><span class="mq-item mq-sep">✦</span>
+      <span class="mq-item">IMPAKT</span><span class="mq-item mq-sep">✦</span>
+      <span class="mq-item">ICED</span><span class="mq-item mq-sep">✦</span>
+      <span class="mq-item">Lockly</span><span class="mq-item mq-sep">✦</span>
+      <span class="mq-item">MultiBank</span><span class="mq-item mq-sep">✦</span>
+      <span class="mq-item">Oraichain</span><span class="mq-item mq-sep">✦</span>
+      <span class="mq-item">WhaleSquares</span><span class="mq-item mq-sep">✦</span>
+      <span class="mq-item">Valinity DeFi</span><span class="mq-item mq-sep">✦</span>
+      <span class="mq-item">Social AI</span><span class="mq-item mq-sep">✦</span>
     </div>
-
-    <div class="box-card">
-      <h3>Work with me</h3>
-      <p class="bc-sub">Web3 social, degen to institutional. Strategy, content systems, and a memetic edge.</p>
-      <a class="box-more" href="mailto:kunalvijayraut@gmail.com">Email kunalvijayraut@gmail.com</a>
-      <a class="box-more" href="https://x.com/DementorHere" target="_blank" rel="noopener">DM @DementorHere on X</a>
-      <a class="box-more" href="https://t.me/martiandementor" target="_blank" rel="noopener">Message on Telegram</a>
+  </div>
+  <div class="mq-row alt">
+    <div class="mq-track" data-dir="right">
+      <span class="mq-item">Brand voice</span><span class="mq-item mq-sep">/</span>
+      <span class="mq-item">Ghostwriting</span><span class="mq-item mq-sep">/</span>
+      <span class="mq-item">Content systems</span><span class="mq-item mq-sep">/</span>
+      <span class="mq-item">Newsjacking</span><span class="mq-item mq-sep">/</span>
+      <span class="mq-item">Memetic content</span><span class="mq-item mq-sep">/</span>
+      <span class="mq-item">Short-form video</span><span class="mq-item mq-sep">/</span>
+      <span class="mq-item">Community growth</span><span class="mq-item mq-sep">/</span>
+      <span class="mq-item">Degen ↔ institutional</span><span class="mq-item mq-sep">/</span>
     </div>
-
-    <div class="box-card">
-      <h3>Who to follow</h3>
-      <a class="wtf-row" href="https://x.com/ICEDCoin" target="_blank" rel="noopener">
-        <div class="wa tile" aria-hidden="true">IC<img src="assets/iced.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div class="wtf-id"><div class="wn"><span>ICED</span></div><div class="wh">@ICEDCoin · 7M impressions</div></div>
-        <span class="wtf-btn">Follow</span>
-      </a>
-      <a class="wtf-row" href="https://x.com/Americanfort_io" target="_blank" rel="noopener">
-        <div class="wa tile" aria-hidden="true">AF<img src="assets/american-fortress.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div class="wtf-id"><div class="wn"><span>American Fortress</span></div><div class="wh">@Americanfort_io · 1.4M impressions</div></div>
-        <span class="wtf-btn">Follow</span>
-      </a>
-      <a class="wtf-row" href="https://x.com/multibank_io" target="_blank" rel="noopener">
-        <div class="wa tile" aria-hidden="true">MB<img src="assets/multibank.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
-        <div class="wtf-id"><div class="wn"><span>MultiBank</span></div><div class="wh">@multibank_io · 156.8K community</div></div>
-        <span class="wtf-btn">Follow</span>
-      </a>
-      <a class="box-more" href="#clients">Show more</a>
-    </div>
-
-    <div class="box-card">
-      <h3>What I do</h3>
-      <a class="trend" href="#what"><div class="tc">Voice · Trending</div><div class="tt">Brand platform &amp; voice</div><div class="tv">Positioning, tone &amp; rules</div></a>
-      <a class="trend" href="#what"><div class="tc">Strategy · Trending</div><div class="tt">Content strategy</div><div class="tv">Cadence that compounds</div></a>
-      <a class="trend" href="#what"><div class="tc">System · Trending</div><div class="tt">Content buckets</div><div class="tv">Varied, on-message, scalable</div></a>
-      <a class="trend" href="#what"><div class="tc">Reactive · Trending</div><div class="tt">Reactive engagement</div><div class="tv">Same-day newsjacking</div></a>
-      <a class="trend" href="#what"><div class="tc">Memetic · Trending</div><div class="tt">Memetic content</div><div class="tv">Images &amp; video built to travel</div></a>
-      <a class="box-more" href="#what">Show more</a>
-    </div>
-
-    <nav class="aside-foot" aria-label="Links">
-      <a href="mailto:kunalvijayraut@gmail.com">Email</a>
-      <a href="https://x.com/DementorHere" target="_blank" rel="noopener">X</a>
-      <a href="https://t.me/martiandementor" target="_blank" rel="noopener">Telegram</a>
-      <a href="#top">Top</a>
-      <span>© <span id="year2"></span> Kunal Raut</span>
-    </nav>
-  </aside>
-
+  </div>
 </div>
 
-<!-- Mobile bottom tab bar -->
-<nav class="botbar" id="botbar" aria-label="Mobile navigation">
-  <a href="#top" class="active" data-sec="top" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z"/></svg></a>
-  <a href="#work" data-sec="work" aria-label="Work"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></a>
-  <a href="#results" data-sec="results" aria-label="Results"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M4 20h16"/></svg></a>
-  <a href="#personal" data-sec="personal" aria-label="Personal"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></a>
-</nav>
-<a class="fab" href="#contact" aria-label="Work with me"><svg viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h4l4 4 4-4h4a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/><path d="M9 10h6M9 13h4" stroke-width="1.6"/></svg></a>
+<!-- ============================================================ STATS ============================================================ -->
+<section class="sec blue" id="stats">
+  <div class="wrap">
+    <div class="stats stagger reveal">
+      <div class="stat">
+        <div class="num pop" data-count="19">0</div>
+        <div class="lab">Web3 brands managed</div>
+        <span class="tg real">real</span>
+      </div>
+      <div class="stat">
+        <!-- Combined community across managed X accounts. Last itemized roster snapshot (18 accounts):
+             AmericanFortress 112,575 + REalloys 4,151 + 5th Kingdom 50,132 + Grand Theft Coin 8,036
+             + ICED 11,096 + Paragon 43,223 + GiftHorse 14,329 + FFG 22,340 + Impakt 29,104
+             + MultiBank 156,760 + T-RIZE 31,547 + Lockly 5,295 + Oraichain 77,558 + Whale Squares 22,139
+             + Valinity 2,337 + Launcher 5,780 + LFG 6,097 + Social AI 29,371 = 631,870. Displayed 700K+
+             per owner, accounting for growth/accounts beyond this snapshot. -->
+        <div class="num pop" data-count="700" data-suffix="K+">0</div>
+        <div class="lab">Combined community</div>
+        <span class="tg real">across managed X accounts</span>
+      </div>
+      <div class="stat">
+        <!-- Impressions across the 5 accounts with screenshot-backed X analytics:
+             FFG 604.7K + ICED 7M + 5th Kingdom 788.7K + American Fortress 1.4M + Whale Squares 416.8K ≈ 10.2M -->
+        <div class="num pop" data-count="10" data-suffix="M+">0</div>
+        <div class="lab">Impressions driven</div>
+        <span class="tg real">across documented clients</span>
+      </div>
+      <div class="stat">
+        <div class="num pop" data-count="2">0</div>
+        <div class="lab">Core platforms</div>
+        <span class="tg real">X &amp; LinkedIn</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CLIENT ROSTER ============================================================
+     Each tile is a gradient-free monogram by default. An <img> sits on top and
+     self-removes via onerror, falling back to the monogram. Drop real logos at
+     assets/<brand>.png to light them up.
+     ============================================================ -->
+<section class="sec" id="clients">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="label">// the roster</span>
+      <h2>19 brands. Degen to institutional.</h2>
+      <p class="lede">One operator across the full spectrum of Web3, from rare-earth magnets to memecoins, CEO ghostwriting to mascot satire.</p>
+    </div>
+
+    <div class="roster stagger reveal">
+      <a class="card brand-card" href="https://x.com/realloys" target="_blank" rel="noopener">
+        <div class="bc-top"><div class="logo-tile" aria-hidden="true">RE<img src="assets/realloys.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+        <div><h3>REalloys <span class="arr">↗</span></h3><div class="plat">LinkedIn + X</div></div></div>
+        <p>Rare-earth &amp; defense magnets. B2B thought leadership + CEO ghostwriting.</p>
+      </a>
+      <a class="card brand-card" href="https://x.com/FindTheParagon" target="_blank" rel="noopener">
+        <div class="bc-top"><div class="logo-tile" aria-hidden="true">PX<img src="assets/paragon.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+        <div><h3>Paragon Exchange <span class="arr">↗</span></h3><div class="plat">X</div></div></div>
+        <p>Structured token products. Brand transition + teaser-to-reveal strategy.</p>
+      </a>
+      <a class="card brand-card" href="https://x.com/Americanfort_io" target="_blank" rel="noopener">
+        <div class="bc-top"><div class="logo-tile" aria-hidden="true">AF<img src="assets/american-fortress.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+        <div><h3>American Fortress <span class="arr">↗</span></h3><div class="plat">X</div></div></div>
+        <p>Crypto privacy &amp; security infra. Same-day reactive threat-intel content.</p>
+      </a>
+      <article class="card brand-card archived">
+        <div class="bc-top"><div class="logo-tile" aria-hidden="true">DH<img src="assets/datahaven.png" alt="" loading="lazy" onerror="this.remove()" /></div>
+        <div><h3>DataHaven</h3><div class="plat">X · archived</div></div></div>
+        <p>Decentralized AI data storage. Mascot-led narrative + UGC.</p>
+      </article>
+      <a class="card brand-card" href="https://x.com/LauncherEco" target="_blank" rel="noopener">
+        <div class="bc-top"><div class="logo-tile" aria-hidden="true">LA<img src="assets/launcher.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+        <div><h3>Launcher <span class="arr">↗</span></h3><div class="plat">X</div></div></div>
+        <p>Fair token-launch platform. Analogy-driven explainers.</p>
+      </a>
+      <a class="card brand-card" href="https://x.com/trize_io" target="_blank" rel="noopener">
+        <div class="bc-top"><div class="logo-tile" aria-hidden="true">TR<img src="assets/t-rize.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+        <div><h3>T-Rize <span class="arr">↗</span></h3><div class="plat">X</div></div></div>
+        <p>RWA tokenization. Institutional + degen dual-audience content.</p>
+      </a>
+      <a class="card brand-card" href="https://x.com/gifthorse_hub" target="_blank" rel="noopener">
+        <div class="bc-top"><div class="logo-tile" aria-hidden="true">GH<img src="assets/gift-horse.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+        <div><h3>Gift Horse <span class="arr">↗</span></h3><div class="plat">X</div></div></div>
+        <p>$GHT ecosystem — app, Tycoon game &amp; task center. GiftHorse mascot &amp; Riders.</p>
+      </a>
+      <a class="card brand-card" href="https://x.com/5th_Kingdom" target="_blank" rel="noopener">
+        <div class="bc-top"><div class="logo-tile" aria-hidden="true">5K<img src="assets/5th-kingdom.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+        <div><h3>5th Kingdom <span class="arr">↗</span></h3><div class="plat">X</div></div></div>
+        <p>Web3 persistent-world gaming. Slow-burn narrative voice.</p>
+      </a>
+      <a class="card brand-card" href="https://x.com/FFGcoin" target="_blank" rel="noopener">
+        <div class="bc-top"><div class="logo-tile" aria-hidden="true">FF<img src="assets/film3.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+        <div><h3>FFG / FameWeaver <span class="arr">↗</span></h3><div class="plat">X</div></div></div>
+        <p>Story-first creator token for FameWeaver. Felix the fox mascot.</p>
+      </a>
+      <a class="card brand-card" href="https://x.com/originalgtc" target="_blank" rel="noopener">
+        <div class="bc-top"><div class="logo-tile" aria-hidden="true">GT<img src="assets/gtc.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+        <div><h3>GTC <span class="arr">↗</span></h3><div class="plat">X</div></div></div>
+        <p>GTA-themed memecoin. High-energy degen voice + meme engine.</p>
+      </a>
+      <a class="card brand-card archived" href="https://x.com/lfg_land" target="_blank" rel="noopener">
+        <div class="bc-top"><div class="logo-tile" aria-hidden="true">LF<img src="assets/lfg.png" alt="" loading="lazy" onerror="this.remove()" /></div>
+        <div><h3>LFG <span class="arr">↗</span></h3><div class="plat">X · archived</div></div></div>
+        <p>Decentralized quant terminal by Oraichain. Trader-native memes.</p>
+      </a>
+      <a class="card brand-card" href="https://x.com/impaktofficial" target="_blank" rel="noopener">
+        <div class="bc-top"><div class="logo-tile" aria-hidden="true">IM<img src="assets/impakt.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+        <div><h3>IMPAKT <span class="arr">↗</span></h3><div class="plat">X</div></div></div>
+        <p>AI-powered fitness &amp; health app. Kaikai the robot mascot.</p>
+      </a>
+      <a class="card brand-card" href="https://x.com/ICEDCoin" target="_blank" rel="noopener">
+        <div class="bc-top"><div class="logo-tile" aria-hidden="true">IC<img src="assets/iced.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+        <div><h3>ICED <span class="arr">↗</span></h3><div class="plat">X</div></div></div>
+        <p>Hold-to-earn thematic memecoin. Shadow, the recurring character.</p>
+      </a>
+      <a class="card brand-card" href="https://x.com/Locklyio" target="_blank" rel="noopener">
+        <div class="bc-top"><div class="logo-tile" aria-hidden="true">LO<img src="assets/lockly.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+        <div><h3>Lockly <span class="arr">↗</span></h3><div class="plat">X</div></div></div>
+        <p>Online casino &amp; sportsbook. Football &amp; UFC hype content.</p>
+      </a>
+      <a class="card brand-card" href="https://x.com/multibank_io" target="_blank" rel="noopener">
+        <div class="bc-top"><div class="logo-tile" aria-hidden="true">MB<img src="assets/multibank.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+        <div><h3>MultiBank <span class="arr">↗</span></h3><div class="plat">X</div></div></div>
+        <p>Regulated multi-asset financial group, now in Web3. X brand voice &amp; content.</p>
+      </a>
+      <a class="card brand-card" href="https://x.com/oraichain" target="_blank" rel="noopener">
+        <div class="bc-top"><div class="logo-tile" aria-hidden="true">OR<img src="assets/oraichain.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+        <div><h3>Oraichain <span class="arr">↗</span></h3><div class="plat">X</div></div></div>
+        <p>AI Layer-1 &amp; oracle infrastructure. Technical content made legible.</p>
+      </a>
+      <a class="card brand-card" href="https://x.com/WhaleSquares" target="_blank" rel="noopener">
+        <div class="bc-top"><div class="logo-tile" aria-hidden="true">WS<img src="assets/whalesquares.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+        <div><h3>WhaleSquares <span class="arr">↗</span></h3><div class="plat">X</div></div></div>
+        <p>On-chain football-squares game. Community + culture content.</p>
+      </a>
+      <a class="card brand-card" href="https://x.com/valinitydefi" target="_blank" rel="noopener">
+        <div class="bc-top"><div class="logo-tile" aria-hidden="true">VL<img src="assets/valinity.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+        <div><h3>Valinity DeFi <span class="arr">↗</span></h3><div class="plat">X</div></div></div>
+        <p>DeFi protocol. X content, narrative &amp; community growth.</p>
+      </a>
+      <a class="card brand-card" href="https://x.com/realsocialai" target="_blank" rel="noopener">
+        <div class="bc-top"><div class="logo-tile" aria-hidden="true">SA<img src="assets/social-ai.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+        <div><h3>Social AI <span class="arr">↗</span></h3><div class="plat">X</div></div></div>
+        <p>Digital identity, AI couture &amp; blockchain. Victoria, the AI mascot.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ SELECTED WORK ============================================================ -->
+<section class="sec dark" id="work">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="label">// selected work</span>
+      <h2>How I move the numbers.</h2>
+      <p class="lede">Every brand I run, across the full spectrum: the brand, what I actually did, and the result. Verified analytics where I have the receipts; current audience on the rest.</p>
+    </div>
+    <div class="work stagger reveal">
+      <article class="card case">
+        <div class="kick">Institutional · X</div>
+        <h3>MultiBank</h3>
+        <div class="role">Regulated multi-asset financial group</div>
+        <div class="blk"><div class="lbl">The brand</div><p>A regulated multi-asset financial group stepping into Web3, needing a native X voice without losing institutional credibility.</p></div>
+        <div class="blk"><div class="lbl">What I did</div><p>Shaped the X brand voice and content, bridging regulated finance and a crypto-native audience.</p></div>
+        <div class="pills"><span class="pill"><b>Brand</b> voice</span><span class="pill">RegFi <b>→</b> Web3</span><span class="pill"><b>156.8K</b> community</span></div>
+      </article>
+      <article class="card case">
+        <div class="kick">Security infra · X</div>
+        <h3>American Fortress</h3>
+        <div class="role">Crypto privacy &amp; security infra</div>
+        <div class="blk"><div class="lbl">The brand</div><p>A privacy-first transaction layer where relevance is measured in hours. The news cycle moves, the brand has to move with it.</p></div>
+        <div class="blk"><div class="lbl">What I did</div><p>Stood up a same-day reactive newsjacking engine — threat-intel monitoring → on-brand take → published while the story was hot — voiced through the brand's dog mascot.</p></div>
+        <div class="pills"><span class="pill"><b>1.4M</b> impressions</span><span class="pill"><b>69.4%</b> engagement</span><span class="pill"><b>152K</b> new follows</span></div>
+      </article>
+      <article class="card case">
+        <div class="kick">AI Layer-1 · X</div>
+        <h3>Oraichain</h3>
+        <div class="role">AI Layer-1 &amp; oracle infrastructure</div>
+        <div class="blk"><div class="lbl">The brand</div><p>An AI Layer-1 and oracle-infrastructure project whose technology was hard for most readers to parse.</p></div>
+        <div class="blk"><div class="lbl">What I did</div><p>Turned dense technical material into legible, followable content that non-engineers could actually read.</p></div>
+        <div class="pills"><span class="pill">Technical <b>→</b> legible</span><span class="pill"><b>AI</b> Layer-1</span><span class="pill"><b>77.6K</b> community</span></div>
+      </article>
+      <article class="card case">
+        <div class="kick">Creator token · X</div>
+        <h3>FFG / FameWeaver</h3>
+        <div class="role">Story-first creator token</div>
+        <div class="blk"><div class="lbl">The brand</div><p>A creator utility token powering FameWeaver — a story-first dApp for creators, discovery and entertainment.</p></div>
+        <div class="blk"><div class="lbl">What I did</div><p>Built the account almost from zero and gave it a voice around Felix, the fox mascot: storytelling, discovery and ecosystem content.</p></div>
+        <div class="pills"><span class="pill"><b>372 → 22.3K</b> followers</span><span class="pill"><b>604.7K</b> impressions</span><span class="pill"><b>34.9%</b> engagement</span></div>
+      </article>
+      <article class="card case">
+        <div class="kick">GameFi · X</div>
+        <h3>5th Kingdom</h3>
+        <div class="role">Web3 persistent-world gaming</div>
+        <div class="blk"><div class="lbl">The brand</div><p>A persistent-world Web3 game that called for a slow-burn narrative voice, not hype spikes.</p></div>
+        <div class="blk"><div class="lbl">What I did</div><p>Built an ongoing narrative voice layering lore, world-building and community over time.</p></div>
+        <div class="pills"><span class="pill"><b>788.7K</b> impressions</span><span class="pill"><b>Slow-burn</b> narrative</span><span class="pill"><b>50.1K</b> community</span></div>
+      </article>
+      <article class="card case">
+        <div class="kick">Structured products · X</div>
+        <h3>Paragon Exchange</h3>
+        <div class="role">Structured token products</div>
+        <div class="blk"><div class="lbl">The brand</div><p>A structured-products platform mid-rebrand that needed continuity of audience through the transition, without losing momentum.</p></div>
+        <div class="blk"><div class="lbl">What I did</div><p>Ran the brand transition on a 10-bucket content platform and built a teaser → reveal arc that turned the rebrand into an event.</p></div>
+        <div class="pills"><span class="pill"><b>10</b>-bucket platform</span><span class="pill">Teaser <b>→</b> reveal</span><span class="pill"><b>43.2K</b> community</span></div>
+      </article>
+      <article class="card case">
+        <div class="kick">RWA · X</div>
+        <h3>T-Rize</h3>
+        <div class="role">RWA tokenization</div>
+        <div class="blk"><div class="lbl">The brand</div><p>A real-world-asset tokenization platform speaking to institutions and degens at the same time.</p></div>
+        <div class="blk"><div class="lbl">What I did</div><p>Built dual-audience content that held institutional credibility without flattening the degen feed.</p></div>
+        <div class="pills"><span class="pill"><b>Dual</b>-audience</span><span class="pill">RWA <b>tokenization</b></span><span class="pill"><b>31.5K</b> community</span></div>
+      </article>
+      <article class="card case">
+        <div class="kick">AI fitness · X</div>
+        <h3>IMPAKT</h3>
+        <div class="role">AI-powered fitness &amp; health app</div>
+        <div class="blk"><div class="lbl">The brand</div><p>An AI-powered fitness &amp; health app with an AI coach for workouts, meal logging and progress tracking.</p></div>
+        <div class="blk"><div class="lbl">What I did</div><p>Ran app-promo content, workout tips and AI-coach features, building recognition around Kaikai, the robot mascot.</p></div>
+        <div class="pills"><span class="pill"><b>Kaikai</b> mascot</span><span class="pill"><b>AI</b> coach</span><span class="pill"><b>29.1K</b> community</span></div>
+      </article>
+      <article class="card case">
+        <div class="kick">AI · fashion · X</div>
+        <h3>Social AI</h3>
+        <div class="role">Digital identity + AI couture</div>
+        <div class="blk"><div class="lbl">The brand</div><p>A digital-identity platform fusing AI, high-fashion couture and blockchain, built around premium digital collectibles and provenance.</p></div>
+        <div class="blk"><div class="lbl">What I did</div><p>Ran launch content — Snippets Protocol, Genesis mints and culture posts — built around Victoria, the AI mascot.</p></div>
+        <div class="pills"><span class="pill"><b>Victoria</b> mascot</span><span class="pill">Digital <b>collectibles</b></span><span class="pill"><b>29.4K</b> community</span></div>
+      </article>
+      <article class="card case">
+        <div class="kick">SocialFi · X</div>
+        <h3>Gift Horse</h3>
+        <div class="role">GiftHorse ecosystem · $GHT</div>
+        <div class="blk"><div class="lbl">The brand</div><p>The GiftHorse ecosystem — app, Tycoon game and task center, powered by $GHT, with a community it calls Riders.</p></div>
+        <div class="blk"><div class="lbl">What I did</div><p>Designed a 4-layer content-bucket system (narrative, product, community, meme) around GiftHorse, the horse mascot, so the feed stayed varied and scalable.</p></div>
+        <div class="pills"><span class="pill"><b>4</b>-layer buckets</span><span class="pill">Narrative <b>+</b> meme</span><span class="pill"><b>14.3K</b> community</span></div>
+      </article>
+      <article class="card case">
+        <div class="kick">GameFi · X</div>
+        <h3>Whale Squares</h3>
+        <div class="role">On-chain football-squares game</div>
+        <div class="blk"><div class="lbl">The brand</div><p>An on-chain football-squares game played on NFT boards.</p></div>
+        <div class="blk"><div class="lbl">What I did</div><p>Ran content and community engagement around the boards, driving a high interaction rate on the feed.</p></div>
+        <div class="pills"><span class="pill"><b>416.8K</b> impressions</span><span class="pill"><b>20.2%</b> engagement</span><span class="pill"><b>84.5K</b> engagements</span></div>
+      </article>
+      <article class="card case">
+        <div class="kick">Memecoin · X</div>
+        <h3>ICED</h3>
+        <div class="role">Hold-to-earn thematic memecoin</div>
+        <div class="blk"><div class="lbl">The brand</div><p>A hold-to-earn thematic memecoin built on topical, event-driven humor and a recurring character, Shadow.</p></div>
+        <div class="blk"><div class="lbl">What I did</div><p>Built character-led meme storytelling around Shadow that turned live moments into a recurring narrative.</p></div>
+        <div class="pills"><span class="pill"><b>7M</b> impressions</span><span class="pill"><b>+61.8K</b> follows driven</span><span class="pill"><b>190.9K</b> likes</span></div>
+      </article>
+      <article class="card case">
+        <div class="kick">Memecoin · X</div>
+        <h3>GTC</h3>
+        <div class="role">GTA-themed memecoin</div>
+        <div class="blk"><div class="lbl">The brand</div><p>A GTA-themed memecoin that lived or died on energy and meme velocity.</p></div>
+        <div class="blk"><div class="lbl">What I did</div><p>Ran a high-energy degen voice and a meme engine that kept the feed fast and native.</p></div>
+        <div class="pills"><span class="pill"><b>Meme</b> engine</span><span class="pill"><b>Degen</b> voice</span><span class="pill"><b>8K</b> community</span></div>
+      </article>
+      <article class="card case">
+        <div class="kick">Token launch · X</div>
+        <h3>Launcher</h3>
+        <div class="role">Permissionless EVM infrastructure</div>
+        <div class="blk"><div class="lbl">The brand</div><p>Permissionless EVM infrastructure for launching tokens and DAOs — a technical mechanism that needed to feel simple.</p></div>
+        <div class="blk"><div class="lbl">What I did</div><p>Wrote analogy-driven explainers that translated launch mechanics into plain, shareable posts.</p></div>
+        <div class="pills"><span class="pill"><b>Analogy</b> explainers</span><span class="pill">Tokens <b>+</b> DAOs</span><span class="pill"><b>5.8K</b> community</span></div>
+      </article>
+      <article class="card case">
+        <div class="kick">Trading · X</div>
+        <h3><a href="https://x.com/lfg_land" target="_blank" rel="noopener">LFG <span class="arr">↗</span></a></h3>
+        <div class="role">Decentralized quant terminal</div>
+        <div class="blk"><div class="lbl">The brand</div><p>A decentralized quant terminal built by Oraichain, needing a trader-native voice, not a marketer's.</p></div>
+        <div class="blk"><div class="lbl">What I did</div><p>Wrote campaign updates, community messages and GM content tuned to the quant and perps crowd.</p></div>
+        <div class="pills"><span class="pill"><b>Quant</b> terminal</span><span class="pill">By <b>Oraichain</b></span><span class="pill"><b>6.1K</b> community</span></div>
+      </article>
+      <article class="card case">
+        <div class="kick">Betting · X</div>
+        <h3>Lockly</h3>
+        <div class="role">Online casino &amp; sportsbook</div>
+        <div class="blk"><div class="lbl">The brand</div><p>An online casino &amp; sportsbook that lives on matchday hype and event timing.</p></div>
+        <div class="blk"><div class="lbl">What I did</div><p>Ran sports-betting promos and football &amp; UFC hype content built on dramatic matchday visuals.</p></div>
+        <div class="pills"><span class="pill">Casino <b>+</b> sportsbook</span><span class="pill">Football <b>·</b> UFC</span><span class="pill"><b>5.3K</b> community</span></div>
+      </article>
+      <article class="card case">
+        <div class="kick">B2B · LinkedIn + X</div>
+        <h3>REalloys</h3>
+        <div class="role">Rare-earth &amp; defense magnets</div>
+        <div class="blk"><div class="lbl">The brand</div><p>An institutional rare-earth &amp; defense-magnet maker that needed a credible, founder-forward voice in a noisy geopolitical moment.</p></div>
+        <div class="blk"><div class="lbl">What I did</div><p>Built a B2B thought-leadership engine, ghostwrote the CEO on LinkedIn &amp; X, and ran reactive content on supply-chain &amp; policy news.</p></div>
+        <div class="pills"><span class="pill"><b>CEO</b> ghostwriting</span><span class="pill">LinkedIn <b>+</b> X</span><span class="pill"><b>4.1K</b> community</span></div>
+      </article>
+      <article class="card case">
+        <div class="kick">DeFi · X</div>
+        <h3>Valinity</h3>
+        <div class="role">DeFi protocol</div>
+        <div class="blk"><div class="lbl">The brand</div><p>A DeFi protocol for trading and borrowing backed by BTC, ETH and gold.</p></div>
+        <div class="blk"><div class="lbl">What I did</div><p>Ran content, narrative and community growth on X.</p></div>
+        <div class="pills"><span class="pill"><b>Narrative</b> build</span><span class="pill">Community <b>growth</b></span><span class="pill"><b>2.3K</b> community</span></div>
+      </article>
+      <article class="card case archived">
+        <div class="kick">Storage · X · archived</div>
+        <h3>DataHaven</h3>
+        <div class="role">Decentralized AI data storage</div>
+        <div class="blk"><div class="lbl">The brand</div><p>A decentralized AI data-storage project built around a mascot-led narrative.</p></div>
+        <div class="blk"><div class="lbl">What I did</div><p>Ran mascot-led narrative and UGC campaigns to give the protocol a face.</p></div>
+        <div class="pills"><span class="pill"><b>Mascot</b>-led</span><span class="pill"><b>UGC</b> engine</span><span class="pill"><b>Archived</b></span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ RESULTS / RECEIPTS ============================================================
+     Real X analytics from accounts Kunal runs. Numbers are transcribed from
+     account-level X analytics + Fedica reports (screenshots on file).
+     Before→after shown where both snapshots exist; headline metric otherwise.
+     ============================================================ -->
+<section class="sec blue" id="results">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="label">// receipts</span>
+      <h2>Numbers, with the screenshots to back them.</h2>
+      <p class="lede">Real X analytics from accounts I run. Before&rarr;after where I have both snapshots; strongest headline metric otherwise.</p>
+    </div>
+    <div class="results stagger reveal">
+      <div class="card rcard">
+        <div class="r-head">
+          <div class="logo-tile" aria-hidden="true">IC<img src="assets/iced.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+          <div><div class="r-name">ICED</div><div class="r-handle">@ICEDCoin</div></div>
+        </div>
+        <div class="r-hero">
+          <div class="r-line"><span class="r-solo">7M</span></div>
+          <div class="r-cap">impressions</div>
+        </div>
+        <div class="r-rows"><div><b>+61.8K</b> follows driven</div><div><b>190.9K</b> likes</div><div><b>11.1K</b> community</div></div>
+        <button class="r-shot" type="button" data-full="assets/rec-iced.jpg" data-alt="ICED (@ICEDCoin) X analytics: 7M impressions, 61.8K new follows, 190.9K likes">
+          <img src="assets/rec-iced.jpg" alt="ICED X analytics screenshot showing 7M impressions" loading="lazy" />
+          <span class="r-shot-cap">View proof &#8599;</span>
+        </button>
+      </div>
+      <div class="card rcard">
+        <div class="r-head">
+          <div class="logo-tile" aria-hidden="true">AF<img src="assets/american-fortress.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+          <div><div class="r-name">American Fortress</div><div class="r-handle">@Americanfort_io</div></div>
+        </div>
+        <div class="r-hero">
+          <div class="r-line"><span class="r-solo">1.4M</span></div>
+          <div class="r-cap">impressions</div>
+        </div>
+        <div class="r-rows"><div><b>69.4%</b> engagement rate</div><div><b>152K</b> new follows</div><div><b>213.2K</b> likes</div></div>
+        <button class="r-shot" type="button" data-full="assets/rec-americanfortress.jpg" data-alt="American Fortress (@Americanfort_io) X analytics: 1.4M impressions, 69.4% engagement, 152K new follows">
+          <img src="assets/rec-americanfortress.jpg" alt="American Fortress X analytics screenshot showing 1.4M impressions and 69.4% engagement" loading="lazy" />
+          <span class="r-shot-cap">View proof &#8599;</span>
+        </button>
+      </div>
+      <div class="card rcard">
+        <div class="r-head">
+          <div class="logo-tile" aria-hidden="true">F3<img src="assets/film3.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+          <div><div class="r-name">FFG / FameWeaver</div><div class="r-handle">@FFGcoin</div></div>
+        </div>
+        <div class="r-hero">
+          <div class="r-line"><span class="r-from">372</span><span class="r-arr">&rarr;</span><span class="r-to">26.6K</span></div>
+          <div class="r-cap">followers</div>
+        </div>
+        <div class="r-rows"><div><b>604.7K</b> impressions</div><div><b>34.9%</b> engagement rate</div><div><b>120.7K</b> likes</div></div>
+        <button class="r-shot" type="button" data-full="assets/rec-ffg.jpg" data-alt="FFG (@FFGcoin) profile before and after: 372 followers grew to 26.6K">
+          <img src="assets/rec-ffg.jpg" alt="FFG profile before and after screenshot: 372 followers grew to 26.6K" loading="lazy" />
+          <span class="r-shot-cap">Before &rarr; after &#8599;</span>
+        </button>
+      </div>
+      <div class="card rcard">
+        <div class="r-head">
+          <div class="logo-tile" aria-hidden="true">5K<img src="assets/5th-kingdom.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+          <div><div class="r-name">5th Kingdom</div><div class="r-handle">@5th_Kingdom</div></div>
+        </div>
+        <div class="r-hero">
+          <div class="r-line"><span class="r-solo">788.7K</span></div>
+          <div class="r-cap">impressions</div>
+        </div>
+        <div class="r-rows"><div><b>+28K</b> new follows</div><div><b>6.4K</b> likes</div><div><b>+228%</b> impressions</div></div>
+        <button class="r-shot" type="button" data-full="assets/rec-5thkingdom.jpg" data-alt="5th Kingdom (@5th_Kingdom) X analytics: 788.7K impressions, 28K new follows">
+          <img src="assets/rec-5thkingdom.jpg" alt="5th Kingdom X analytics screenshot showing 788.7K impressions" loading="lazy" />
+          <span class="r-shot-cap">View proof &#8599;</span>
+        </button>
+      </div>
+      <div class="card rcard">
+        <div class="r-head">
+          <div class="logo-tile" aria-hidden="true">WS<img src="assets/whalesquares.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+          <div><div class="r-name">Whale Squares</div><div class="r-handle">@WhaleSquares</div></div>
+        </div>
+        <div class="r-hero">
+          <div class="r-line"><span class="r-solo">416.8K</span></div>
+          <div class="r-cap">impressions</div>
+        </div>
+        <div class="r-rows"><div><b>20.2%</b> engagement rate</div><div><b>84.5K</b> engagements</div><div><b>22.1K</b> community</div></div>
+        <button class="r-shot" type="button" data-full="assets/rec-whalesquares.jpg" data-alt="Whale Squares (@WhaleSquares) X analytics: 416.8K impressions, 20.2% engagement, 84.5K engagements">
+          <img src="assets/rec-whalesquares.jpg" alt="Whale Squares X analytics screenshot showing 416.8K impressions and 20.2% engagement" loading="lazy" />
+          <span class="r-shot-cap">View proof &#8599;</span>
+        </button>
+      </div>
+    </div>
+    <p class="r-note">Source: account-level X analytics &amp; Fedica reports. Reporting windows vary by account.</p>
+  </div>
+</section>
+
+<!-- ============================================================ WHAT I DO ============================================================ -->
+<section class="sec pink" id="what">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="label">// what I do</span>
+      <h2>Six things, done end to end.</h2>
+    </div>
+    <div class="pillars stagger reveal">
+      <div class="card pillar"><div class="tg">voice</div><h3>Brand platform &amp; voice</h3><p>Define the positioning, tone, and rules so every post sounds unmistakably like the brand.</p></div>
+      <div class="card pillar"><div class="tg">strategy</div><h3>Content strategy</h3><p>Map goals to a posting cadence and narrative arc that compounds over weeks, not days.</p></div>
+      <div class="card pillar"><div class="tg">system</div><h3>Content buckets</h3><p>Repeatable bucket systems that keep the feed varied, on-message, and easy to scale.</p></div>
+      <div class="card pillar"><div class="tg">reactive</div><h3>Reactive engagement</h3><p>Same-day newsjacking and replies that put the brand inside the conversation in real time.</p></div>
+      <div class="card pillar"><div class="tg">audience</div><h3>Targeted audience</h3><p>Find and grow the right followers (founders, traders, hiring managers), not vanity numbers.</p></div>
+      <div class="card pillar"><div class="tg">memetic</div><h3>Memetic content</h3><p>Original images &amp; video built to travel. The format that earns the algorithm’s reach.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ LINES THAT LANDED ============================================================
+     Real hooks from client posts. To link a card to its exact post,
+     set href to the full permalink (https://x.com/handle/status/123...).
+     ============================================================ -->
+<section class="sec lime" id="posts">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="label">// lines that landed</span>
+      <h2>The writing does the work.</h2>
+      <p class="lede">Real hooks from real posts, across degen, institutional, and everything between.</p>
+    </div>
+    <div class="quotes reveal">
+      <a class="card tweet" href="https://x.com/realloys" target="_blank" rel="noopener">
+        <div class="t-head">
+          <div class="logo-tile" aria-hidden="true">RE<img src="assets/realloys.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+          <div class="t-id"><span class="t-name">REalloys</span><span class="t-handle">@realloys</span></div>
+          <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </div>
+        <p class="t-text">The deposits get the headlines. The midstream gets the contracts.</p>
+        <div class="t-foot"><span class="t-plat">LinkedIn</span></div>
+      </a>
+      <a class="card tweet" href="https://x.com/LauncherEco" target="_blank" rel="noopener">
+        <div class="t-head">
+          <div class="logo-tile" aria-hidden="true">LA<img src="assets/launcher.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+          <div class="t-id"><span class="t-name">Launcher</span><span class="t-handle">@LauncherEco</span></div>
+          <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </div>
+        <p class="t-text">If insiders got a better price than you, it wasn’t a launch. It was a heist.</p>
+        <div class="t-foot"><span class="t-plat">X</span></div>
+      </a>
+      <a class="card tweet" href="https://x.com/FindTheParagon" target="_blank" rel="noopener">
+        <div class="t-head">
+          <div class="logo-tile" aria-hidden="true">PX<img src="assets/paragon.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+          <div class="t-id"><span class="t-name">Paragon Exchange</span><span class="t-handle">@FindTheParagon</span></div>
+          <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </div>
+        <p class="t-text">Crypto doesn’t need more tokens. It needs more ___.</p>
+        <div class="t-foot"><span class="t-plat">X</span></div>
+      </a>
+      <a class="card tweet" href="https://x.com/gifthorse_hub" target="_blank" rel="noopener">
+        <div class="t-head">
+          <div class="logo-tile" aria-hidden="true">GH<img src="assets/gift-horse.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+          <div class="t-id"><span class="t-name">Gift Horse</span><span class="t-handle">@gifthorse_hub</span></div>
+          <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </div>
+        <p class="t-text">The oldest currency in the world wasn’t gold. It was kindness.</p>
+        <div class="t-foot"><span class="t-plat">X</span></div>
+      </a>
+      <a class="card tweet" href="https://x.com/FFGcoin" target="_blank" rel="noopener">
+        <div class="t-head">
+          <div class="logo-tile" aria-hidden="true">F3<img src="assets/film3.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+          <div class="t-id"><span class="t-name">FFG / FameWeaver</span><span class="t-handle">@FFGcoin</span></div>
+          <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </div>
+        <p class="t-text">Crypto broke the banks. Now we’re breaking Hollywood.</p>
+        <div class="t-foot"><span class="t-plat">X</span></div>
+      </a>
+      <a class="card tweet" href="https://x.com/Americanfort_io" target="_blank" rel="noopener">
+        <div class="t-head">
+          <div class="logo-tile" aria-hidden="true">AF<img src="assets/american-fortress.jpg" alt="" loading="lazy" onerror="this.remove()" /></div>
+          <div class="t-id"><span class="t-name">American Fortress</span><span class="t-handle">@Americanfort_io</span></div>
+          <svg class="t-x" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </div>
+        <p class="t-text">Sending money still doesn’t feel like sending money. The infrastructure that fixes that wins.</p>
+        <div class="t-foot"><span class="t-plat">X</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ PERSONAL (@DementorHere) ============================================================
+     Personal X. Real tweets rendered natively via X's widgets.js
+     (loaded once before </body>). To add more: paste the tweet's
+     <blockquote class="twitter-tweet"> embed below; drop the per-embed
+     <script> (the global one renders them all).
+     ============================================================ -->
+<section class="sec orange" id="personal">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="label">// off the clock</span>
+      <h2>My own timeline.</h2>
+      <p class="lede">Personal X, <strong>@DementorHere</strong>. Hooks and memes I write for fun and for brands, in the same voice I bring to client work.</p>
+    </div>
+    <div class="embed-grid reveal">
+      <blockquote class="twitter-tweet"><p lang="en" dir="ltr">If you&#39;re tired of RPGs calling basic combat &#39;tactical&#39;...<br><br>I found something that humbled me in 10 minutes. <br><br>How to experience battles that punish every mistake: <a href="https://t.co/6WwNk79O1e">pic.twitter.com/6WwNk79O1e</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1872280910508486862?ref_src=twsrc%5Etfw">December 26, 2024</a></blockquote>
+      <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Last time I made like 50 bucks off <a href="https://x.com/search?q=%24KAITO&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$KAITO</a> for literally doing nothing. <br><br>Didn’t even bother saying a word about it. <br><br>Big L on my part.<br><br>But this time? Nah, I’m locked in. <br><br>Hub’s out here building the FIRST AI layer that hooks up brands, creators, and their communities. <br><br>And… <a href="https://t.co/8LoPCJpqZt">pic.twitter.com/8LoPCJpqZt</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1893651255576100982?ref_src=twsrc%5Etfw">February 23, 2025</a></blockquote>
+      <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Easy gaming revolution<br><br>Free-to-play + No wallet needed = Mass adoption<br><br>Thread👇 <a href="https://t.co/0Oxmu0CZ2C">pic.twitter.com/0Oxmu0CZ2C</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1871846400125972777?ref_src=twsrc%5Etfw">December 25, 2024</a></blockquote>
+      <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://x.com/search?q=%24XBG&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$XBG</a> holders have the power to shape <a href="https://x.com/XBorgHQ?ref_src=twsrc%5Etfw">@XBorgHQ</a>&#39;s future <br><br>But many don&#39;t know where to start<br><br> A guide to making your vote count: <a href="https://t.co/CIkynG1JpO">pic.twitter.com/CIkynG1JpO</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1870099082540130626?ref_src=twsrc%5Etfw">December 20, 2024</a></blockquote>
+      <blockquote class="twitter-tweet"><p lang="en" dir="ltr">I don&#39;t think the gaming world<br><br>has realized the force that <a href="https://x.com/XBorgHQ?ref_src=twsrc%5Etfw">@XBorgHQ</a> is becoming.<br><br>from Team Liquid partnership &amp; MyBlue, <br><br>to 5 new esports apps + SwissBorg listing,<br><br>from Fan SDK to NFT Paris IRL event,<br><br>from creator tools to on-chain esports teams,<br><br>from AI products to Player… <a href="https://t.co/vj43qqMGuT">pic.twitter.com/vj43qqMGuT</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1869332504617848946?ref_src=twsrc%5Etfw">December 18, 2024</a></blockquote>
+      <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Every time I open twitter there&#39;s a new cryptocurrency<br><br>And I see them ignoring their community<br><br>But <a href="https://x.com/XBorgHQ?ref_src=twsrc%5Etfw">@XBorgHQ</a> is different,<br><br>They always think about community First: <br><br>-Only 5% token increase (protecting your value)<br>-$4M liquidity locked (your funds are safe)<br>-YOU vote on… <a href="https://t.co/NPwYDlI3NK">pic.twitter.com/NPwYDlI3NK</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1864606217995251798?ref_src=twsrc%5Etfw">December 5, 2024</a></blockquote>
+      <blockquote class="twitter-tweet"><p lang="en" dir="ltr">You get tested the most when it&#39;s time to rise.<br><br>Stay strong.<br><br>In @Blastroyale&#39;s Loot to Airdrop Final Season:<br>-SILVER <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a> = 10 <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a><br>-GOLDEN <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a> = 50 <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a><br><br>No need for endless grinding—just one lucky drop can change everything.<br><br>Day 11 Update:<br>-Total <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a>: 1472<br>-Playtime:… <a href="https://t.co/oAj8fEmkTR">https://t.co/oAj8fEmkTR</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1847304893251424359?ref_src=twsrc%5Etfw">October 18, 2024</a></blockquote>
+      <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Born too late to witness the dawn of gaming.<br><br>Born too early to see virtual reality become the norm.<br><br>Born just in time to watch <a href="https://x.com/search?q=%24XBG&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$XBG</a> redefine the future of gaming with <a href="https://x.com/XBorgHQ?ref_src=twsrc%5Etfw">@XBorgHQ</a>.<a href="https://x.com/hashtag/XBorgCreator?src=hash&amp;ref_src=twsrc%5Etfw">#XBorgCreator</a> <a href="https://t.co/41WGlbl6jH">pic.twitter.com/41WGlbl6jH</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1846489364236304420?ref_src=twsrc%5Etfw">October 16, 2024</a></blockquote>
+      <blockquote class="twitter-tweet"><p lang="en" dir="ltr">The <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a> Challenge is ON!<br><br>Join my 7-day journey collecting <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a> daily until October 14th in @Blastroyale&#39;s Loot to Airdrop Campaign<br><br>PLUS<br><br>Day 1: Earned 116 <a href="https://x.com/search?q=%24NOOB&amp;src=ctag&amp;ref_src=twsrc%5Etfw">$NOOB</a> in 3.5 hours without using Corpos (100% boost) or Plague Doctor (20% boost) NFTs.<br><br>PLUS<br><br>Achieved a personal best… <a href="https://t.co/XwYQc6keAu">https://t.co/XwYQc6keAu</a></p>&mdash; Martian (@DementorHere) <a href="https://x.com/DementorHere/status/1843660749282894325?ref_src=twsrc%5Etfw">October 8, 2024</a></blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ ABOUT ============================================================ -->
+<section class="sec" id="about">
+  <div class="wrap">
+    <div class="about">
+      <div class="about-copy reveal">
+        <span class="label">// about</span>
+        <h2>Part strategist, <span class="c-pink">part memelord.</span></h2>
+        <p>I run social for <strong>19 Web3 brands</strong> across X and LinkedIn, building the
+          <strong>brand platform &amp; voice</strong>, the <strong>content strategy</strong>, and the
+          <strong>bucket systems</strong> that keep feeds sharp, then wiring up
+          <strong>reactive engagement</strong> and <strong>targeted growth</strong> on top.</p>
+        <p>The edge is <strong>memetic</strong>: original images and video that travel, equally at
+          home writing CEO thought leadership for a defense-magnet firm and running a high-energy
+          meme engine for a GTA-themed coin. Degen to institutional, same operator.</p>
+      </div>
+      <div class="tagrows reveal">
+        <div class="tagrow">
+          <div class="lbl">Tools</div>
+          <div class="tags">
+            <span class="tag-item">X / Twitter</span><span class="tag-item">LinkedIn</span>
+            <span class="tag-item">Figma</span><span class="tag-item">CapCut</span>
+            <span class="tag-item">Photoshop</span><span class="tag-item">Notion</span>
+            <span class="tag-item">Typefully</span><span class="tag-item">Analytics</span>
+          </div>
+        </div>
+        <div class="tagrow">
+          <div class="lbl">Strengths</div>
+          <div class="tags">
+            <span class="tag-item">Brand voice</span><span class="tag-item">Ghostwriting</span>
+            <span class="tag-item">Memetic content</span><span class="tag-item">Newsjacking</span>
+            <span class="tag-item">Content systems</span><span class="tag-item">Short-form video</span>
+            <span class="tag-item">Community growth</span><span class="tag-item">Degen ↔ institutional</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ TESTIMONIALS ============================================================
+     Real client feedback (Telegram). Attributed by brand only, no personal
+     names, per Kunal's instruction. Quotes trimmed for length, meaning intact.
+     ============================================================ -->
+<section class="sec" id="words" style="--pop:var(--pink);">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="label">// what clients say</span>
+      <h2>Signed off, in their words.</h2>
+      <p class="lede">Straight from the client chats. Brand names only.</p>
+    </div>
+    <div class="testis stagger reveal">
+      <figure class="card quote">
+        <div class="qm" aria-hidden="true">&ldquo;</div>
+        <p>These are great &mdash; you nailed the messaging shift.</p>
+        <figcaption class="qwho"><b>Paragon Exchange</b></figcaption>
+        <button class="q-shot" type="button" data-full="assets/feedback-paragon.jpg" data-alt="Client message from Paragon Exchange praising the content calendar and messaging shift">View proof &#8599;</button>
+      </figure>
+      <figure class="card quote">
+        <div class="qm" aria-hidden="true">&ldquo;</div>
+        <p>Who is singing? The voice is fantastic!</p>
+        <figcaption class="qwho"><b>FFG</b> &middot; on a produced anthem</figcaption>
+        <button class="q-shot" type="button" data-full="assets/feedback-ffg.jpg" data-alt="Client message from FFG praising a produced anthem">View proof &#8599;</button>
+      </figure>
+      <figure class="card quote">
+        <div class="qm" aria-hidden="true">&ldquo;</div>
+        <p>Whoever created that content is a really smart person.</p>
+        <figcaption class="qwho"><b>Client, via Vis IBC</b></figcaption>
+        <button class="q-shot" type="button" data-full="assets/feedback-visibc.jpg" data-alt="Client message relayed via Vis IBC praising the content">View proof &#8599;</button>
+      </figure>
+      <figure class="card quote">
+        <div class="qm" aria-hidden="true">&ldquo;</div>
+        <p>Very funny stuff &mdash; yes, it&rsquo;s good to go.</p>
+        <figcaption class="qwho"><b>Whale Squares</b></figcaption>
+        <button class="q-shot" type="button" data-full="assets/feedback-whale.jpg" data-alt="Client message from Whale Squares approving the content">View proof &#8599;</button>
+      </figure>
+      <figure class="card quote">
+        <div class="qm" aria-hidden="true">&ldquo;</div>
+        <p>Is perfect &mdash; please go ahead.</p>
+        <figcaption class="qwho"><b>Cocos</b></figcaption>
+        <button class="q-shot" type="button" data-full="assets/feedback-cocos.jpg" data-alt="Client message from Cocos approving the work">View proof &#8599;</button>
+      </figure>
+      <figure class="card quote">
+        <div class="qm" aria-hidden="true">&ldquo;</div>
+        <p>Looks good.</p>
+        <figcaption class="qwho"><b>5th Kingdom</b> &middot; calendar approved</figcaption>
+        <button class="q-shot" type="button" data-full="assets/feedback-5thkingdom.jpg" data-alt="Client message from 5th Kingdom approving the content calendar">View proof &#8599;</button>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CONTACT ============================================================ -->
+<section class="sec dark" id="contact">
+  <div class="wrap">
+    <div class="contact-inner reveal">
+      <span class="label">// work with me</span>
+      <h2>Let’s grow your <span class="c-lime">Web3 brand.</span></h2>
+      <p class="lede">Founders &amp; hiring managers: if you want your brand to be one people actually follow, let’s talk.</p>
+      <div class="contact-btns">
+        <a class="btn btn-primary magnetic" href="mailto:kunalvijayraut@gmail.com">Email me</a>
+        <a class="btn btn-ghost magnetic" href="https://x.com/DementorHere" target="_blank" rel="noopener">X / Twitter</a>
+        <a class="btn btn-ghost magnetic" href="https://t.me/martiandementor" target="_blank" rel="noopener">Telegram</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================ FOOTER ============================================================ -->
+<footer>
+  <div class="wrap foot-inner">
+    <span class="brand">Kunal Raut<span class="dot">.</span></span>
+    <span>© <span id="year"></span> Kunal Raut · Built and hosted on GitHub Pages</span>
+  </div>
+</footer>
 
 <!-- Lightbox overlay for screenshot proof (analytics + client feedback) -->
 <div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot viewer" hidden>
@@ -1134,24 +1093,55 @@
 
 <script>
 /* Vanilla JS, no libraries:
-   1. Footer year   2. Count-up stats   3. Scroll reveals (IntersectionObserver)
-   4. Active nav + tabs (scroll-spy)   5. Lightbox for screenshot proof.
+   1. Mobile nav   2. Footer year   3. Scroll progress bar
+   4. Scroll reveals + count-up (IntersectionObserver)
+   5. Velocity-reactive marquees   6. Pointer tilt on cards   7. Magnetic buttons
    All motion is skipped under prefers-reduced-motion. */
 (function(){
   "use strict";
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fine   = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
-  // 1. Footer year
-  var y = new Date().getFullYear();
-  ["year","year2"].forEach(function(id){ var el = document.getElementById(id); if (el) el.textContent = y; });
+  // 1. Mobile nav
+  var toggle = document.getElementById("navToggle");
+  var links  = document.getElementById("navLinks");
+  if (toggle && links){
+    toggle.addEventListener("click", function(){
+      var open = links.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    links.addEventListener("click", function(e){
+      if (e.target.tagName === "A"){ links.classList.remove("open"); toggle.setAttribute("aria-expanded","false"); }
+    });
+  }
 
-  // 2. Count-up
+  // 2. Footer year
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // 3. Scroll progress bar
+  var bar = document.getElementById("progress");
+  if (bar && !reduce){
+    var ticking = false;
+    window.addEventListener("scroll", function(){
+      if (ticking) return; ticking = true;
+      requestAnimationFrame(function(){
+        var h = document.documentElement;
+        var max = h.scrollHeight - h.clientHeight;
+        bar.style.transform = "scaleX(" + (max > 0 ? h.scrollTop / max : 0) + ")";
+        ticking = false;
+      });
+    }, {passive:true});
+  }
+
+  // 4. Count-up
   function countUp(el){
+    var ph = el.getAttribute("data-placeholder");
     var raw = parseFloat(el.getAttribute("data-count"));
+    if (ph && (isNaN(raw) || raw === 0)){ el.textContent = ph; return; }
     var target = isNaN(raw) ? 0 : raw;
     var suffix = el.getAttribute("data-suffix") || "";
     if (reduce || target === 0){ el.textContent = target + suffix; return; }
-    var dur = 1400, start = null;
+    var dur = 1500, start = null;
     function step(ts){
       if (!start) start = ts;
       var p = Math.min((ts - start) / dur, 1);
@@ -1162,7 +1152,7 @@
     requestAnimationFrame(step);
   }
 
-  // 3. Reveals + trigger counters
+  // 4. Reveals + trigger counters
   var revealEls = document.querySelectorAll(".reveal");
   if (!("IntersectionObserver" in window) || reduce){
     revealEls.forEach(function(el){ el.classList.add("in"); });
@@ -1176,34 +1166,72 @@
         if (el.querySelectorAll) el.querySelectorAll("[data-count]").forEach(countUp);
         obs.unobserve(el);
       });
-    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
     revealEls.forEach(function(el){ io.observe(el); });
   }
 
-  // 4. Active nav + tabs (scroll-spy)
-  var sections = ["top","clients","work","results","what","posts","personal","words","contact"];
-  var navGroups = [document.getElementById("nav"), document.getElementById("tabs"), document.getElementById("botbar")].filter(Boolean);
-  function setActive(id){
-    // tabs map "what"/"words"/"contact" to nearest visible tab where present
-    navGroups.forEach(function(g){
-      g.querySelectorAll("[data-sec]").forEach(function(a){
-        a.classList.toggle("active", a.getAttribute("data-sec") === id);
-      });
+  // 5. Velocity-reactive marquees (single rAF loop drives all rows)
+  if (!reduce){
+    var tracks = [];
+    document.querySelectorAll(".mq-track").forEach(function(el){
+      el.innerHTML += el.innerHTML;            // duplicate content for a seamless, gap-free loop
+      var dir = el.getAttribute("data-dir") === "right" ? 1 : -1;
+      var half = el.scrollWidth / 2;
+      tracks.push({ el: el, dir: dir, half: half, x: dir < 0 ? 0 : -half });
     });
-  }
-  if ("IntersectionObserver" in window){
-    var spy = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if (e.isIntersecting){
-          var id = e.target.id || "top";
-          setActive(id);
-        }
-      });
-    }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
-    sections.forEach(function(id){ var el = document.getElementById(id); if (el) spy.observe(el); });
+    window.addEventListener("resize", function(){
+      tracks.forEach(function(t){ t.half = t.el.scrollWidth / 2; });
+    }, {passive:true});
+
+    var extra = 0, lastY = window.scrollY || 0;
+    window.addEventListener("scroll", function(){
+      var y = window.scrollY || 0;
+      extra = Math.min(Math.abs(y - lastY) * 0.45, 26);
+      lastY = y;
+    }, {passive:true});
+
+    var base = 0.55;
+    function loop(){
+      extra *= 0.9;
+      var speed = base + extra;
+      for (var i = 0; i < tracks.length; i++){
+        var t = tracks[i];
+        t.x += t.dir * speed;
+        if (t.dir < 0 && t.x <= -t.half) t.x += t.half;
+        if (t.dir > 0 && t.x >= 0)       t.x -= t.half;
+        t.el.style.transform = "translateX(" + t.x.toFixed(2) + "px)";
+      }
+      requestAnimationFrame(loop);
+    }
+    if (tracks.length) requestAnimationFrame(loop);
   }
 
-  // 5. Lightbox for screenshot proof
+  // 6. Pointer tilt on cards (desktop, fine pointer only)
+  if (fine && !reduce){
+    document.querySelectorAll(".card").forEach(function(card){
+      card.addEventListener("pointermove", function(e){
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width  - 0.5;
+        var py = (e.clientY - r.top)  / r.height - 0.5;
+        card.style.transform = "perspective(800px) rotateX(" + (-py * 5).toFixed(2) +
+          "deg) rotateY(" + (px * 7).toFixed(2) + "deg) translateY(-4px)";
+      });
+      card.addEventListener("pointerleave", function(){ card.style.transform = ""; });
+    });
+
+    // 7. Magnetic buttons
+    document.querySelectorAll(".magnetic").forEach(function(btn){
+      btn.addEventListener("pointermove", function(e){
+        var r = btn.getBoundingClientRect();
+        var mx = e.clientX - r.left - r.width / 2;
+        var my = e.clientY - r.top  - r.height / 2;
+        btn.style.transform = "translate(" + (mx * 0.25).toFixed(2) + "px," + (my * 0.35).toFixed(2) + "px)";
+      });
+      btn.addEventListener("pointerleave", function(){ btn.style.transform = ""; });
+    });
+  }
+
+  // 8. Lightbox for screenshot proof (analytics + client feedback)
   var lb = document.getElementById("lightbox");
   if (lb){
     var lbImg = document.getElementById("lbImg");
@@ -1234,7 +1262,6 @@
   }
 })();
 </script>
-
 <!-- X (Twitter) embed widgets — renders the native tweet cards in the Personal section -->
 <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
 </body>
