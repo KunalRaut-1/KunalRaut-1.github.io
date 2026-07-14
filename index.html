@@ -88,6 +88,34 @@
   .c-lime{color:var(--lime);}
   .c-orange{color:var(--orange);}
 
+  /* ---------- PRELOADER (intro loading screen) ---------- */
+  #preloader{position:fixed;inset:0;z-index:9999;background:var(--ink);color:#fff;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:clamp(1.3rem,4vw,2.1rem);overflow:hidden;animation:pl-failsafe 0s linear 5s forwards;}
+  #preloader::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(125% 80% at 50% 0,rgba(43,39,255,.4),transparent 62%);}
+  .pl-word{position:relative;font-family:"Syne",sans-serif;font-weight:800;text-transform:uppercase;
+    letter-spacing:-.035em;line-height:.9;font-size:clamp(2.6rem,11vw,6rem);text-align:center;
+    animation:pl-rise .7s var(--ease) both;}
+  .pl-word .dot{color:var(--pink);}
+  .pl-track{position:relative;width:min(280px,64vw);height:13px;background:rgba(255,255,255,.14);
+    border:2.5px solid #fff;overflow:hidden;animation:pl-rise .7s var(--ease) .08s both;}
+  .pl-fill{position:absolute;inset:0;transform-origin:left;transform:scaleX(0);
+    background:var(--lime);animation:pl-load 1.15s var(--ease) .1s forwards;}
+  .pl-cap{position:relative;font-family:"Space Mono",monospace;font-size:.7rem;letter-spacing:.28em;
+    text-transform:uppercase;color:rgba(255,255,255,.58);animation:pl-rise .7s var(--ease) .16s both;}
+  @keyframes pl-rise{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:none;}}
+  @keyframes pl-load{from{transform:scaleX(0);}to{transform:scaleX(1);}}
+  @keyframes pl-failsafe{to{opacity:0;visibility:hidden;pointer-events:none;}}
+  #preloader.pl-done{opacity:0;visibility:hidden;transform:translateY(-4%);pointer-events:none;
+    transition:opacity .5s var(--ease),transform .6s var(--ease);}
+  body.pl-lock{overflow:hidden;}
+  @media (prefers-reduced-motion:reduce){
+    .pl-word,.pl-track,.pl-cap{animation:none;}
+    .pl-fill{animation:none;transform:scaleX(1);}
+    #preloader,#preloader.pl-done{transition:none;}
+  }
+
   /* ---------- LAYOUT / SECTION SYSTEM ---------- */
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,4vw,44px);position:relative;z-index:1;}
   .sec{background:var(--bg);color:var(--fg);padding:clamp(64px,9vw,128px) 0;position:relative;border-bottom:3px solid var(--ink);}
@@ -407,6 +435,11 @@
 <noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
 </head>
 <body>
+<div id="preloader" role="status" aria-label="Loading">
+  <div class="pl-word">Kunal Raut<span class="dot">.</span></div>
+  <div class="pl-track"><span class="pl-fill"></span></div>
+  <div class="pl-cap">Loading</div>
+</div>
 <div class="progress" id="progress" aria-hidden="true"></div>
 
 <!-- ============================================================ NAV ============================================================ -->
@@ -1288,6 +1321,28 @@
   "use strict";
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var fine   = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  // 0. Intro preloader: cover the page, then reveal once loaded
+  (function(){
+    var pre = document.getElementById("preloader");
+    if (!pre) return;
+    document.body.classList.add("pl-lock");
+    var start = Date.now();
+    var MIN = reduce ? 0 : 900; // hold long enough to avoid a flash
+    function remove(){ if (pre && pre.parentNode) pre.parentNode.removeChild(pre); }
+    function dismiss(){
+      var wait = Math.max(0, MIN - (Date.now() - start));
+      setTimeout(function(){
+        pre.classList.add("pl-done");
+        document.body.classList.remove("pl-lock");
+        if (reduce){ remove(); return; }
+        pre.addEventListener("transitionend", remove, { once:true });
+        setTimeout(remove, 800); // fallback if transitionend never fires
+      }, wait);
+    }
+    if (document.readyState === "complete") dismiss();
+    else window.addEventListener("load", dismiss);
+  })();
 
   // 1. Mobile nav
   var toggle = document.getElementById("navToggle");
