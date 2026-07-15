@@ -180,6 +180,19 @@
   .progress{position:fixed;top:0;left:0;height:5px;width:100%;transform:scaleX(0);transform-origin:0 50%;
     background:var(--pink);z-index:60;will-change:transform;}
 
+  /* ---------- DESKTOP-BEST NOTICE (mobile only) ---------- */
+  .desknote{display:none;}
+  @media(max-width:820px){
+    .desknote{display:flex;align-items:center;gap:.7rem;background:var(--ink);color:#fff;
+      padding:.7rem 1rem;font-family:"Space Mono",monospace;font-size:.72rem;line-height:1.4;letter-spacing:.02em;
+      border-bottom:3px solid var(--lime);position:relative;z-index:55;}
+    .desknote strong{color:var(--lime);font-weight:700;}
+    .desknote .dn-x{margin-left:auto;flex:0 0 auto;background:none;border:2px solid rgba(255,255,255,.4);color:#fff;
+      width:26px;height:26px;border-radius:999px;font-size:.9rem;line-height:1;cursor:pointer;display:grid;place-items:center;}
+    @media(hover:hover){.desknote .dn-x:hover{border-color:var(--lime);color:var(--lime);}}
+    .desknote.dn-hide{display:none;}
+  }
+
   /* ============================================================ NAV ============================================================ */
   header.nav{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:3px solid var(--ink);}
   .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;height:64px;}
@@ -461,6 +474,10 @@
   <div class="pl-word">Kunal Raut<span class="dot">.</span></div>
   <div class="pl-track"><span class="pl-fill"></span></div>
   <div class="pl-cap">Loading</div>
+</div>
+<div class="desknote" id="desknote" role="note">
+  <span><strong>Best on desktop.</strong> This site is built for a bigger screen. Open it on a desktop browser for the full experience.</span>
+  <button class="dn-x" type="button" id="desknoteClose" aria-label="Dismiss notice">&times;</button>
 </div>
 <div class="progress" id="progress" aria-hidden="true"></div>
 
@@ -1499,6 +1516,13 @@
     links.addEventListener("click", function(e){
       if (e.target.tagName === "A"){ links.classList.remove("open"); toggle.setAttribute("aria-expanded","false"); }
     });
+  }
+
+  // 1b. Desktop-best notice dismiss
+  var deskClose = document.getElementById("desknoteClose");
+  var deskNote  = document.getElementById("desknote");
+  if (deskClose && deskNote){
+    deskClose.addEventListener("click", function(){ deskNote.classList.add("dn-hide"); });
   }
 
   // 2. Footer year
